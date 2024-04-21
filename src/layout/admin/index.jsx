@@ -1,11 +1,15 @@
 import PropTypes from "prop-types";
 
+import NavbarUI from "../../components/admin/NavbarUI";
+import SidebarUI from "../../components/admin/SidebarUI";
+
 function AdminLayout({ children }) {
   return (
-    <>
-      <div>AdminLayout</div>
-      <div>{children}</div>
-    </>
+    <div className="antialiased bg-gray-50">
+      <NavbarUI />
+      <SidebarUI />
+      <main className="h-auto p-4 pt-20 md:ml-64">{children}</main>
+    </div>
   );
 }
 

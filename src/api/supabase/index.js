@@ -31,7 +31,7 @@ export async function findUserByUsername({ user: { username } }) {
     return;
   }
 
-  console.log("findUserByUsername: ", data);
+  // console.log("findUserByUsername: ", data);
   return data;
 }
 
@@ -58,6 +58,6 @@ export async function findUserByEmail({ user: { email } }) {
     return;
   }
 
-  console.log("findUserByEmail: ", data);
+  // console.log("findUserByEmail: ", data);
   return data;
 }

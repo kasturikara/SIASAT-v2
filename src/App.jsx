@@ -1,12 +1,20 @@
-//layout
+// react
 import { useEffect, useState } from "react";
+
+//layout
 import AdminLayout from "./layout/admin";
 
 // routes
 import AdminRoutes from "./routes/AdminRoutes";
+
+// pages
 import LoginPage from "./pages/auth";
 import LoadingPage from "./pages/loading";
+
+// api
 import { findUserByEmail, findUserByUsername } from "./api/supabase";
+
+// dependencies
 import Swal from "sweetalert2";
 
 function App() {
@@ -30,7 +38,6 @@ function App() {
   }, []);
 
   const handleLogin = async ({ user }) => {
-    console.log("handleLogin, user: ", user);
     if (!user) {
       console.error("Error handleLogin: user is null");
       setIsLoading(false);
@@ -44,8 +51,6 @@ function App() {
       } else {
         userData = await findUserByEmail({ user });
       }
-      console.log("userData: ", userData);
-      console.log("pass: ", userData.password, user.password);
 
       if (userData.password === user.password) {
         setIsLogin(true);
