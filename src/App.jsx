@@ -1,0 +1,95 @@
+//layout
+import { useEffect, useState } from "react";
+import AdminLayout from "./layout/admin";
+
+// routes
+import AdminRoutes from "./routes/AdminRoutes";
+import LoginPage from "./pages/auth";
+import LoadingPage from "./pages/loading";
+import { findUserByEmail, findUserByUsername } from "./api/supabase";
+import Swal from "sweetalert2";
+
+function App() {
+  const [isLoading, setIsLoading] = useState(!true);
+  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  useEffect(() => {
+    const loginData = localStorage.getItem("login");
+    if (loginData) {
+      const { user } = JSON.parse(loginData);
+      handleLogin({ user });
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleLogin = async ({ user }) => {
+    console.log("handleLogin, user: ", user);
+    if (!user) {
+      console.error("Error handleLogin: user is null");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      let userData;
+      if (user.username) {
+        userData = await findUserByUsername({ user });
+      } else {
+        userData = await findUserByEmail({ user });
+      }
+      console.log("userData: ", userData);
+      console.log("pass: ", userData.password, user.password);
+
+      if (userData.password === user.password) {
+        setIsLogin(true);
+        setUser(userData);
+        Swal.fire({
+          title: "Sukses",
+          text: "Login berhasil",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        // simpan local storage
+        localStorage.setItem("login", JSON.stringify({ user: userData }));
+      } else {
+        Swal.fire({
+          title: "Oops!",
+          text: "Password yang anda masukkan salah!",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        setIsLoading(false);
+        return;
+      }
+    } catch (error) {
+      console.error("handleLogin: ", error);
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return (
+    <div className="min-h-screen">
+      {isLogin ? (
+        <AdminLayout>
+          <AdminRoutes />
+        </AdminLayout>
+      ) : (
+        <LoginPage handleLogin={handleLogin} user={user} setUser={setUser} />
+      )}
+    </div>
+  );
+}
+
+export default App;
