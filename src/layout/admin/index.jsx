@@ -8,7 +8,7 @@ function AdminLayout({ children }) {
     <div className="antialiased bg-gray-50">
       <NavbarUI />
       <SidebarUI />
-      <main className="h-auto p-4 pt-20 md:ml-64">{children}</main>
+      <main className="h-auto p-4 pt-20 md:ml-56">{children}</main>
     </div>
   );
 }

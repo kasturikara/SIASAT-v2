@@ -15,7 +15,7 @@ function index() {
   const user = JSON.parse(localStorage.getItem("login"));
 
   return (
-    <Navbar className="fixed top-0 left-0 right-0 z-50 bg-teal-400">
+    <Navbar className="fixed top-0 left-0 right-0 z-50 bg-blue-500 ">
       <NavbarBrand as={Link} to="/">
         <img
           src="logo_siasat.png"

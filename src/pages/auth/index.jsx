@@ -9,8 +9,8 @@ function LoginPage({ user, setUser, handleLogin }) {
 
   return (
     <div className="flex h-screen">
-      <div className="flex items-center justify-end w-1/3 bg-teal-400">
-        <div className="flex flex-col items-center justify-center w-2/3 text-white bg-teal-400 rounded-tl-lg rounded-bl-lg shadow-2xl h-5/6">
+      <div className="flex items-center justify-end w-1/3 bg-blue-500">
+        <div className="flex flex-col items-center justify-center w-2/3 text-white bg-blue-500 rounded-tl-lg rounded-bl-lg shadow-2xl h-5/6">
           <img src="logo_siasat.png" alt="logo" className="w-32 h-32" />
           <p className="mt-2 text-2xl font-bold">SIASAT</p>
           <p className="text-sm font-light text-center">
@@ -56,7 +56,7 @@ function LoginPage({ user, setUser, handleLogin }) {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
           <Button
-            className="bg-teal-400 hover:bg-teal-400"
+            className="bg-blue-500 hover:bg-blue-600"
             fullSized
             pill
             type="submit"
