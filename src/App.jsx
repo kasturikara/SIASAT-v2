@@ -87,9 +87,36 @@ function App() {
   return (
     <div className="min-h-screen">
       {isLogin ? (
-        <AdminLayout>
-          <AdminRoutes />
-        </AdminLayout>
+        (() => {
+          switch (user.role) {
+            case "admin":
+              return (
+                <AdminLayout>
+                  <AdminRoutes />
+                </AdminLayout>
+              );
+            case "murid":
+              return (
+                <>
+                  <p>Role {user.role}</p>
+                </>
+              );
+            case "guru":
+              return (
+                <>
+                  <p>Role {user.role}</p>
+                </>
+              );
+            case "wali":
+              return (
+                <>
+                  <p>Role {user.role}</p>
+                </>
+              );
+            default:
+              return <div>Role tidak terdaftar</div>;
+          }
+        })()
       ) : (
         <LoginPage handleLogin={handleLogin} user={user} setUser={setUser} />
       )}
