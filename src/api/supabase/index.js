@@ -61,3 +61,23 @@ export async function findUserByEmail({ user: { email } }) {
   // console.log("findUserByEmail: ", data);
   return data;
 }
+
+export async function getPengumuman() {
+  const { data, error } = await supabase
+    .from("pengumuman")
+    .select("*")
+    .order("tanggal", { ascending: true });
+
+  if (error || !data) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Pengumuman tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getPengumuman: ", error);
+    return;
+  }
+  // console.log("getPengumuman: ", data);
+  return data;
+}
