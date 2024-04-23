@@ -1,18 +1,32 @@
 import {
   Button,
+  Modal,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeadCell,
   TableRow,
+  TextInput,
 } from "flowbite-react";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { getPengumuman } from "../../../api/supabase";
+import { AiFillEdit, AiFillDelete, AiOutlineSearch } from "react-icons/ai";
+import {
+  getPengumuman,
+  hapusPengumuman,
+  postNewPengumuman,
+} from "../../../api/supabase";
 import { useEffect, useState } from "react";
+import TambahPengumuman from "./TambahPengumuman";
+import Swal from "sweetalert2";
 
 function PengumumanPage() {
   const [pengumuman, setPengumuman] = useState([]);
+  const [openTambah, setOpenTambah] = useState(false);
+  const [newPengumuman, setNewPengumuman] = useState({
+    judul: "",
+    isi: "",
+    tanggal: "",
+  });
 
   useEffect(() => {
     getDataPengumuman();
@@ -23,11 +37,42 @@ function PengumumanPage() {
     setPengumuman(data);
   }
 
+  async function onCloseTambah() {
+    setOpenTambah(false);
+    if (newPengumuman) {
+      try {
+        await postNewPengumuman({ newPengumuman });
+      } catch (error) {
+        console.error("onCloseTambah: postNewPengumuman", error);
+      }
+    }
+    getDataPengumuman();
+    // console.log("onCloseTambah: ", newPengumuman);
+  }
+
+  const handleHapus = async (id) => {
+    if (id === null || id === undefined) {
+      console.error("handleHapus: id is null or undefined");
+      return;
+    }
+
+    try {
+      await hapusPengumuman(id);
+      getDataPengumuman();
+    } catch (error) {
+      console.error("handleHapus: hapusPengumuman", error);
+    }
+  };
+
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between mb-8">
-        <p className="my-2 text-2xl font-semibold">List Pengumuman</p>
-        <button className="px-4 my-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-400">
+      <p className="my-2 text-2xl font-semibold">List Pengumuman</p>
+      <div className="flex justify-between mt-2 mb-8">
+        <TextInput id="search" placeholder="Search" icon={AiOutlineSearch} />
+        <button
+          className="px-4 my-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-400"
+          onClick={() => setOpenTambah(true)}
+        >
           + Tambah
         </button>
       </div>
@@ -42,12 +87,6 @@ function PengumumanPage() {
             <TableHeadCell className="bg-blue-200">Action</TableHeadCell>
           </TableHead>
           <TableBody className="text-center divide-y">
-            {/* <TableRow>
-              <TableCell>tes</TableCell>
-              <TableCell>tes</TableCell>
-              <TableCell>tes</TableCell>
-              <TableCell>tes</TableCell>
-            </TableRow> */}
             {pengumuman.map((data, index) => {
               return (
                 <TableRow key={index}>
@@ -62,7 +101,11 @@ function PengumumanPage() {
                       <Button size="xs" color="success">
                         <AiFillEdit className="mr-2" /> Edit
                       </Button>
-                      <Button size="xs" color="failure">
+                      <Button
+                        size="xs"
+                        color="failure"
+                        onClick={() => handleHapus(data.id)}
+                      >
                         <AiFillDelete className="mr-2" /> Hapus
                       </Button>
                     </div>
@@ -72,6 +115,17 @@ function PengumumanPage() {
             })}
           </TableBody>
         </Table>
+      </div>
+
+      <div>
+        <Modal show={openTambah} size="lg" onClose={onCloseTambah}>
+          <TambahPengumuman
+            newPengumuman={newPengumuman}
+            setNewPengumuman={setNewPengumuman}
+            setOpenTambah={setOpenTambah}
+            onCloseTambah={onCloseTambah}
+          />
+        </Modal>
       </div>
     </div>
   );

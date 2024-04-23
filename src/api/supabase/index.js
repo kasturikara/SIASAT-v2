@@ -81,3 +81,39 @@ export async function getPengumuman() {
   // console.log("getPengumuman: ", data);
   return data;
 }
+
+export const postNewPengumuman = async (pengumuman) => {
+  if (!pengumuman) {
+    throw new Error("postNewPengumuman: pengumuman is null or undefined");
+  }
+
+  const { judul, isi, tanggal } = pengumuman.newPengumuman;
+
+  const { data, error } = await supabase
+    .from("pengumuman")
+    .insert([{ judul, isi, tanggal }], { returning: "minimal" });
+
+  if (error || !data) {
+    throw error || new Error("postNewPengumuman: insert failed");
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "Pengumuman berhasil ditambahkan.",
+    icon: "success",
+    showCloseButton: false,
+    timer: 750,
+  });
+  console.log("postNewPengumuman: ", judul, isi, tanggal);
+
+  return pengumuman.newPengumuman;
+};
+
+export async function hapusPengumuman(id) {
+  const { error } = await supabase.from("pengumuman").delete().eq("id", id);
+  if (error) {
+    console.error("HapusPengumuman: ", error);
+    return;
+  }
+  console.log("HapusPengumuman: ", id);
+}
