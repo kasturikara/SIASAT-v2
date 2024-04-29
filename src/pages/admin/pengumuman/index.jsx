@@ -10,13 +10,10 @@ import {
   TextInput,
 } from "flowbite-react";
 import { AiFillEdit, AiFillDelete, AiOutlineSearch } from "react-icons/ai";
-import {
-  getPengumuman,
-  hapusPengumuman,
-  postNewPengumuman,
-} from "../../../api/supabase";
+import { getPengumuman, hapusPengumuman } from "../../../api/supabase";
 import { useEffect, useState } from "react";
 import TambahPengumuman from "./TambahPengumuman";
+import EditPengumuman from "./EditPengumuman";
 
 function PengumumanPage() {
   const [pengumuman, setPengumuman] = useState([]);
@@ -26,6 +23,7 @@ function PengumumanPage() {
     isi: "",
     tanggal: "",
   });
+  const [openEdit, setOpenEdit] = useState(false);
 
   useEffect(() => {
     getDataPengumuman();
@@ -34,19 +32,6 @@ function PengumumanPage() {
   async function getDataPengumuman() {
     const data = await getPengumuman();
     setPengumuman(data);
-  }
-
-  async function onCloseTambah() {
-    setOpenTambah(false);
-    if (newPengumuman) {
-      try {
-        await postNewPengumuman({ newPengumuman });
-      } catch (error) {
-        console.error("onCloseTambah: postNewPengumuman", error);
-      }
-    }
-    getDataPengumuman();
-    // console.log("onCloseTambah: ", newPengumuman);
   }
 
   const handleHapus = async (id) => {
@@ -65,7 +50,7 @@ function PengumumanPage() {
 
   return (
     <div className="flex flex-col">
-      <div className="p-4 mb-4 rounded bg-slate-200">
+      <div className="p-4 mb-4 rounded-lg bg-slate-200">
         <p className="text-2xl font-semibold ">List Pengumuman</p>
         <div className="flex justify-between mt-4">
           <TextInput id="search" placeholder="Search" icon={AiOutlineSearch} />
@@ -78,8 +63,8 @@ function PengumumanPage() {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <Table striped hoverable>
+      <div className="p-8 overflow-x-auto rounded-lg bg-slate-200">
+        <Table striped hoverable key={pengumuman}>
           <TableHead className="text-center">
             <TableHeadCell className="bg-teal-200">No.</TableHeadCell>
             <TableHeadCell className="bg-teal-200">Judul</TableHeadCell>
@@ -118,16 +103,23 @@ function PengumumanPage() {
         </Table>
       </div>
 
-      <div>
-        <Modal show={openTambah} size="lg" onClose={onCloseTambah}>
-          <TambahPengumuman
-            newPengumuman={newPengumuman}
-            setNewPengumuman={setNewPengumuman}
-            setOpenTambah={setOpenTambah}
-            onCloseTambah={onCloseTambah}
-          />
-        </Modal>
-      </div>
+      <Modal show={openTambah} size="lg">
+        <TambahPengumuman
+          newPengumuman={newPengumuman}
+          setNewPengumuman={setNewPengumuman}
+          setOpenTambah={setOpenTambah}
+          getDataPengumuman={getDataPengumuman}
+        />
+      </Modal>
+
+      <Modal show={openEdit} size="lg">
+        <EditPengumuman
+          newPengumuman={newPengumuman}
+          setNewPengumuman={setNewPengumuman}
+          setOpenTambah={setOpenTambah}
+          getDataPengumuman={getDataPengumuman}
+        />
+      </Modal>
     </div>
   );
 }

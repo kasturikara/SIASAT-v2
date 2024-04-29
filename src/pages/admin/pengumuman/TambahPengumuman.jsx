@@ -1,20 +1,45 @@
 import PropTypes from "prop-types";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { postNewPengumuman } from "../../../api/supabase";
 
 function TambahPengumuman({
   newPengumuman,
   setNewPengumuman,
   setOpenTambah,
-  onCloseTambah,
+  getDataPengumuman,
 }) {
-  const handleNewPengumuman = (event) => {
+  const handleNewPengumuman = async (event) => {
     event.preventDefault();
     setNewPengumuman({
       ...newPengumuman,
       [event.target.id]: event.target.value,
     });
+
     // console.log("handleNewPengumuman", newPengumuman);
   };
+
+  async function handleSubmit() {
+    setOpenTambah(false);
+    setNewPengumuman({
+      ...newPengumuman,
+      judul: newPengumuman.judul,
+      isi: newPengumuman.isi,
+      tanggal: newPengumuman.tanggal,
+    });
+
+    try {
+      await postNewPengumuman(newPengumuman);
+    } catch (error) {
+      console.error("handleNewPengumuman: ", error);
+    }
+    setNewPengumuman({
+      ...newPengumuman,
+      judul: "",
+      isi: "",
+      tanggal: "",
+    });
+    getDataPengumuman();
+  }
 
   return (
     <div>
@@ -62,13 +87,7 @@ function TambahPengumuman({
         <Button
           className="bg-blue-500 hover:bg-blue-600"
           onClick={() => {
-            setNewPengumuman({
-              ...newPengumuman,
-              judul: newPengumuman.judul,
-              isi: newPengumuman.isi,
-              tanggal: newPengumuman.tanggal,
-            });
-            onCloseTambah();
+            handleSubmit();
           }}
         >
           Tambah
@@ -79,6 +98,7 @@ function TambahPengumuman({
           onClick={() => {
             setOpenTambah(false);
             setNewPengumuman({
+              ...newPengumuman,
               judul: "",
               isi: "",
               tanggal: "",
@@ -96,7 +116,7 @@ TambahPengumuman.propTypes = {
   newPengumuman: PropTypes.object,
   setNewPengumuman: PropTypes.func,
   setOpenTambah: PropTypes.func,
-  onCloseTambah: PropTypes.func,
+  getDataPengumuman: PropTypes.func,
 };
 
 export default TambahPengumuman;
