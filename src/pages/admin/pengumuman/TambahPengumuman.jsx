@@ -57,6 +57,7 @@ function TambahPengumuman({
               required
               value={newPengumuman.judul}
               onChange={handleNewPengumuman}
+              autoComplete="off"
             />
             <Label htmlFor="isi" value="Isi" className="block mt-4 mb-2" />
             <TextInput
@@ -66,6 +67,7 @@ function TambahPengumuman({
               required
               value={newPengumuman.isi}
               onChange={handleNewPengumuman}
+              autoComplete="off"
             />
             <Label
               htmlFor="tanggal"
@@ -90,7 +92,7 @@ function TambahPengumuman({
             handleSubmit();
           }}
         >
-          Tambah
+          Simpan
         </Button>
         <Button
           className="bg-gray-300 hover:bg-blue-600"
