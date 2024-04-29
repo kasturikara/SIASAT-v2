@@ -1,5 +1,5 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import PropTypes from "prop-type";
+import PropTypes from "prop-types";
 
 /**
  * Komponen LoginPage untuk login ke sistem

@@ -15,7 +15,7 @@ function index() {
   const user = JSON.parse(localStorage.getItem("login"));
 
   return (
-    <Navbar className="fixed top-0 left-0 right-0 z-50 bg-blue-500 ">
+    <Navbar className="fixed top-0 left-0 right-0 z-50 bg-teal-500">
       <NavbarBrand as={Link} to="/">
         <img
           src="logo_siasat.png"
@@ -30,7 +30,12 @@ function index() {
         <Dropdown
           arrowIcon={false}
           inline
-          label={<Avatar alt="avatar user" img="hacker.png" rounded />}
+          label={
+            <>
+              <p className="mr-2 text-white">{user.user.role}</p>
+              <Avatar alt="avatar user" img="hacker.png" rounded />
+            </>
+          }
         >
           <DropdownHeader>
             <span className="block text-sm">{user.user.username}</span>
@@ -43,7 +48,7 @@ function index() {
           <DropdownItem
             onClick={() => {
               localStorage.clear();
-              window.location.reload();
+              window.location.href = "/";
             }}
           >
             Sign Out
