@@ -62,6 +62,7 @@ export async function findUserByEmail({ user: { email } }) {
   return data;
 }
 
+// pengumuman
 export async function getPengumuman() {
   const { data, error } = await supabase
     .from("pengumuman")
@@ -149,4 +150,26 @@ export async function updatePengumuman(id, pengumuman) {
     timer: 1500,
   });
   console.log("updatePengumuman: ", id, pengumuman);
+}
+
+// kelas
+export async function getKelas() {
+  const { data, error } = await supabase
+    .from("kelas")
+    .select("*")
+    .order("nama", { ascending: true });
+
+  if (error || !data) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Kelas tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getKelas: ", error);
+    return;
+  }
+  // console.log("getKelas: ", data);
+
+  return data;
 }
