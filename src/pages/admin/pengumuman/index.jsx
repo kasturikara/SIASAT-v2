@@ -88,7 +88,7 @@ function PengumumanPage() {
               return (
                 <TableRow
                   key={index}
-                  className="hover:bg-teal-50 odd:bg-slate-300 "
+                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
                 >
                   <TableCell className=" whitespace-nowrap">
                     {index + 1}.
