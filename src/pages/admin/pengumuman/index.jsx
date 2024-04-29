@@ -50,8 +50,8 @@ function PengumumanPage() {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="p-4 mb-4 rounded-lg bg-slate-200">
+    <div className="flex flex-col ">
+      <div className="p-4 mb-4 rounded-lg bg-slate-50">
         <p className="text-2xl font-semibold ">List Pengumuman</p>
         <div className="flex justify-between mt-4">
           <TextInput id="search" placeholder="Search" icon={AiOutlineSearch} />
@@ -64,20 +64,33 @@ function PengumumanPage() {
         </div>
       </div>
 
-      <div className="p-8 overflow-x-auto rounded-lg bg-slate-200">
-        <Table striped hoverable key={pengumuman}>
+      <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
+        <Table striped key={pengumuman}>
           <TableHead className="text-center">
-            <TableHeadCell className="bg-teal-200">No.</TableHeadCell>
-            <TableHeadCell className="bg-teal-200">Judul</TableHeadCell>
-            <TableHeadCell className="bg-teal-200">Isi</TableHeadCell>
-            <TableHeadCell className="bg-teal-200">Tanggal</TableHeadCell>
-            <TableHeadCell className="bg-teal-200">Action</TableHeadCell>
+            <TableHeadCell className="text-white bg-teal-500">
+              No.
+            </TableHeadCell>
+            <TableHeadCell className="text-white bg-teal-500">
+              Judul
+            </TableHeadCell>
+            <TableHeadCell className="text-white bg-teal-500">
+              Isi
+            </TableHeadCell>
+            <TableHeadCell className="text-white bg-teal-500">
+              Tanggal
+            </TableHeadCell>
+            <TableHeadCell className="text-white bg-teal-500">
+              Action
+            </TableHeadCell>
           </TableHead>
           <TableBody className="text-center divide-y">
             {pengumuman.map((data, index) => {
               return (
-                <TableRow key={index}>
-                  <TableCell className="whitespace-nowrap">
+                <TableRow
+                  key={index}
+                  className="hover:bg-teal-50 odd:bg-slate-300 "
+                >
+                  <TableCell className=" whitespace-nowrap">
                     {index + 1}.
                   </TableCell>
                   <TableCell>{data.judul}</TableCell>
