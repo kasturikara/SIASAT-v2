@@ -24,6 +24,7 @@ function PengumumanPage() {
     tanggal: "",
   });
   const [openEdit, setOpenEdit] = useState(false);
+  const [idEdit, setIdEdit] = useState(0);
 
   useEffect(() => {
     getDataPengumuman();
@@ -84,7 +85,14 @@ function PengumumanPage() {
                   <TableCell>{data.tanggal}</TableCell>
                   <TableCell>
                     <div className="flex justify-center gap-4">
-                      <Button size="xs" color="success">
+                      <Button
+                        size="xs"
+                        color="success"
+                        onClick={() => {
+                          setOpenEdit(true);
+                          setIdEdit(data.id);
+                        }}
+                      >
                         <AiFillEdit className="mr-2" /> Edit
                       </Button>
                       <Button
@@ -103,7 +111,7 @@ function PengumumanPage() {
         </Table>
       </div>
 
-      <Modal show={openTambah} size="lg">
+      <Modal show={openTambah} size="lg" onClose={() => setOpenTambah(false)}>
         <TambahPengumuman
           newPengumuman={newPengumuman}
           setNewPengumuman={setNewPengumuman}
@@ -112,11 +120,10 @@ function PengumumanPage() {
         />
       </Modal>
 
-      <Modal show={openEdit} size="lg">
+      <Modal show={openEdit} size="lg" onClose={() => setOpenEdit(false)}>
         <EditPengumuman
-          newPengumuman={newPengumuman}
-          setNewPengumuman={setNewPengumuman}
-          setOpenTambah={setOpenTambah}
+          idEdit={idEdit}
+          setOpenEdit={setOpenEdit}
           getDataPengumuman={getDataPengumuman}
         />
       </Modal>

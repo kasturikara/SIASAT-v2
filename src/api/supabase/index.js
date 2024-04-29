@@ -90,7 +90,7 @@ export async function postNewPengumuman(pengumuman) {
   const { judul, isi, tanggal } = pengumuman;
   // console.log("postNewPengumuman: ", [{ judul, isi, tanggal }]);
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("pengumuman")
     .insert([{ judul, isi, tanggal }]);
 
@@ -102,11 +102,9 @@ export async function postNewPengumuman(pengumuman) {
     title: "Success!",
     text: "Pengumuman berhasil ditambahkan.",
     icon: "success",
-    showCloseButton: false,
+    showConfirmButton: false,
     timer: 1500,
   });
-
-  return data;
 }
 
 export async function hapusPengumuman(id) {
@@ -116,4 +114,39 @@ export async function hapusPengumuman(id) {
     return;
   }
   // console.log("HapusPengumuman: ", id);
+}
+
+export async function getPengumumanById(id) {
+  const { data, error } = await supabase
+    .from("pengumuman")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("getPengumumanById: ", error);
+    return;
+  }
+  // console.log("getPengumumanById: ", data);
+  return data;
+}
+
+export async function updatePengumuman(id, pengumuman) {
+  const { judul, isi, tanggal } = pengumuman;
+  const { error } = await supabase
+    .from("pengumuman")
+    .update([{ judul, isi, tanggal }])
+    .eq("id", id);
+  if (error) {
+    console.error("updatePengumuman: ", error);
+    return;
+  }
+  Swal.fire({
+    title: "Success!",
+    text: "Pengumuman berhasil diperbarui.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+  console.log("updatePengumuman: ", id, pengumuman);
 }
