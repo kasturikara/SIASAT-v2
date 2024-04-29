@@ -17,7 +17,6 @@ import {
 } from "../../../api/supabase";
 import { useEffect, useState } from "react";
 import TambahPengumuman from "./TambahPengumuman";
-import Swal from "sweetalert2";
 
 function PengumumanPage() {
   const [pengumuman, setPengumuman] = useState([]);
@@ -66,25 +65,27 @@ function PengumumanPage() {
 
   return (
     <div className="flex flex-col">
-      <p className="my-2 text-2xl font-semibold">List Pengumuman</p>
-      <div className="flex justify-between mt-2 mb-8">
-        <TextInput id="search" placeholder="Search" icon={AiOutlineSearch} />
-        <button
-          className="px-4 my-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-400"
-          onClick={() => setOpenTambah(true)}
-        >
-          + Tambah
-        </button>
+      <div className="p-4 mb-4 rounded bg-slate-200">
+        <p className="text-2xl font-semibold ">List Pengumuman</p>
+        <div className="flex justify-between mt-4">
+          <TextInput id="search" placeholder="Search" icon={AiOutlineSearch} />
+          <button
+            className="px-4 my-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-400"
+            onClick={() => setOpenTambah(true)}
+          >
+            + Tambah
+          </button>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
         <Table striped hoverable>
           <TableHead className="text-center">
-            <TableHeadCell className="bg-blue-200">No.</TableHeadCell>
-            <TableHeadCell className="bg-blue-200">Judul</TableHeadCell>
-            <TableHeadCell className="bg-blue-200">Isi</TableHeadCell>
-            <TableHeadCell className="bg-blue-200">Tanggal</TableHeadCell>
-            <TableHeadCell className="bg-blue-200">Action</TableHeadCell>
+            <TableHeadCell className="bg-teal-200">No.</TableHeadCell>
+            <TableHeadCell className="bg-teal-200">Judul</TableHeadCell>
+            <TableHeadCell className="bg-teal-200">Isi</TableHeadCell>
+            <TableHeadCell className="bg-teal-200">Tanggal</TableHeadCell>
+            <TableHeadCell className="bg-teal-200">Action</TableHeadCell>
           </TableHead>
           <TableBody className="text-center divide-y">
             {pengumuman.map((data, index) => {
