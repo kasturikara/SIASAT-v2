@@ -266,3 +266,25 @@ export async function getJadwalByFilter(filter) {
 
   return jadwal;
 }
+
+// absensi
+export async function getAbsensiByFilter(filter) {
+  const { data: absensi, error } = await supabase
+    .from("absensi")
+    .select("*, murid (nama)")
+    .eq("tanggal", filter);
+
+  if (error || !absensi) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Absensi tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getAbsensiByFilter: ", error);
+    return;
+  }
+  // console.log("getAbsensiByFilter: ", absensi);
+
+  return absensi;
+}
