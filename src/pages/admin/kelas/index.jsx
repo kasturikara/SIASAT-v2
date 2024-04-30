@@ -49,7 +49,10 @@ function KelasPage() {
             <TableHeadCell className="text-white bg-teal-500">
               Nama Kelas
             </TableHeadCell>
-            <TableHeadCell className="w-1/3 text-white bg-teal-500">
+            <TableHeadCell className="text-white bg-teal-500">
+              Jumlah Murid
+            </TableHeadCell>
+            <TableHeadCell className="text-white bg-teal-500 ">
               Action
             </TableHeadCell>
           </TableHead>
@@ -61,7 +64,8 @@ function KelasPage() {
                   className=" text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
                 >
                   <TableCell className="w-16">{index + 1}</TableCell>
-                  <TableCell>{data.nama}</TableCell>
+                  <TableCell>{data.kelas}</TableCell>
+                  <TableCell>{data.jml_murid}</TableCell>
                   <TableCell className="w-1/3">
                     <div className="flex justify-center gap-4">
                       <Button

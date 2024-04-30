@@ -154,24 +154,52 @@ export async function updatePengumuman(id, pengumuman) {
 
 // kelas
 export async function getKelas() {
-  const { data, error } = await supabase
-    .from("kelas")
-    .select("*")
-    .order("nama", { ascending: true });
+  // const { data, error } = await supabase
+  // .from("kelas")
+  // .select("*")
+  // .order("nama", { ascending: true });
 
-  if (error || !data) {
-    Swal.fire({
-      title: "Oops!",
-      text: "Kelas tidak ditemukan.",
-      icon: "error",
-      confirmButtonText: "OK",
-    });
-    console.error("getKelas: ", error);
-    return;
-  }
+  // if (error || !data) {
+  //   Swal.fire({
+  //     title: "Oops!",
+  //     text: "Kelas tidak ditemukan.",
+  //     icon: "error",
+  //     confirmButtonText: "OK",
+  //   });
+  //   console.error("getKelas: ", error);
+  //   return;
+  // }
   // console.log("getKelas: ", data);
 
-  return data;
+  // return data;
+
+  try {
+    const { data: kelasData, error: kelasError } = await supabase
+      .from("kelas")
+      .select("id,nama");
+
+    if (kelasError) throw kelasError;
+    const res = [];
+
+    for (const kelas of kelasData) {
+      const { data: muridData, error: muridError } = await supabase
+        .from("murid")
+        .select("*")
+        .eq("id_kelas", kelas.id);
+
+      if (muridError) throw muridError;
+
+      res.push({
+        id: kelas.id,
+        kelas: kelas.nama,
+        jml_murid: muridData ? muridData.length : 0,
+      });
+    }
+
+    return res;
+  } catch (error) {
+    console.error("Gagal mengambil data kelas: ", error.message);
+  }
 }
 
 // murid

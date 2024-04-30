@@ -18,7 +18,7 @@ import { findUserByEmail, findUserByUsername } from "./api/supabase";
 import Swal from "sweetalert2";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(!true);
+  const [isLoading, setIsLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({
     username: "",
@@ -64,6 +64,7 @@ function App() {
         });
         // simpan local storage
         localStorage.setItem("login", JSON.stringify({ user: userData }));
+        setIsLoading(false);
       } else {
         Swal.fire({
           title: "Oops!",
