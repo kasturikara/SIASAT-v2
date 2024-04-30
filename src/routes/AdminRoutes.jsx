@@ -11,6 +11,8 @@ import AbsensiPage from "../pages/admin/murid/absensi";
 import NilaiPage from "../pages/admin/murid/nilai";
 import PengumumanPage from "../pages/admin/pengumuman";
 import UserPage from "../pages/admin/user";
+import MuridPage from "../pages/admin/murid";
+import GuruPage from "../pages/admin/guru";
 
 function AdminRoutes() {
   return (
@@ -24,6 +26,8 @@ function AdminRoutes() {
       <Route path="/nilai" element={<NilaiPage />} />
       <Route path="/pengumuman" element={<PengumumanPage />} />
       <Route path="/user" element={<UserPage />} />
+      <Route path="/murid" element={<MuridPage />} />
+      <Route path="/guru" element={<GuruPage />} />
     </Routes>
   );
 }

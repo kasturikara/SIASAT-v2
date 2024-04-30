@@ -8,14 +8,18 @@ import {
   FaChartBar,
   FaFileAlt,
   FaFolderOpen,
+  FaIdBadge,
   FaRegBell,
   FaRegBuilding,
   FaRegCalendarCheck,
   FaRegChartBar,
   FaRegFileAlt,
   FaRegFolderOpen,
+  FaRegIdBadge,
   FaRegUser,
+  FaRegUserCircle,
   FaUser,
+  FaUserCircle,
 } from "react-icons/fa";
 import { HiOutlineUserGroup, HiOutlineUsers } from "react-icons/hi";
 
@@ -41,6 +45,18 @@ function SidebarUI() {
             Dashboard
           </Sidebar.Item>
           <Sidebar.Collapse icon={HiOutlineUserGroup} label="Guru">
+            <Sidebar.Item
+              as={Link}
+              to="/guru"
+              icon={location.pathname !== "/guru" ? FaRegIdBadge : FaIdBadge}
+              active={location.pathname === "/guru"}
+              className={`hover:bg-slate-200 hover:text-gray-500 ${
+                location.pathname === "/guru" &&
+                "bg-slate-300 text-gray-700 font-medium"
+              } `}
+            >
+              Guru
+            </Sidebar.Item>
             <Sidebar.Item
               as={Link}
               to="/mapel"
@@ -73,6 +89,20 @@ function SidebarUI() {
             label="Murid"
             className="hover:bg-slate-200 hover:text-gray-500"
           >
+            <Sidebar.Item
+              as={Link}
+              to="/murid"
+              icon={
+                location.pathname !== "/murid" ? FaRegUserCircle : FaUserCircle
+              }
+              active={location.pathname === "/murid"}
+              className={`hover:bg-slate-200 hover:text-gray-500 ${
+                location.pathname === "/murid" &&
+                "bg-slate-300 text-gray-700 font-medium"
+              } `}
+            >
+              Murid
+            </Sidebar.Item>
             <Sidebar.Item
               as={Link}
               to="/absensi"
