@@ -196,6 +196,7 @@ export async function getKelas() {
       });
     }
 
+    console.log("res: ", res);
     return res;
   } catch (error) {
     console.error("Gagal mengambil data kelas: ", error.message);
@@ -222,4 +223,46 @@ export async function getMurid() {
   // console.log("getMurid: ", murid);
 
   return murid;
+}
+
+// jadwal
+export async function getJadwal() {
+  const { data: jadwal, error } = await supabase
+    .from("jadwal")
+    .select("*, kelas (nama), mapel (nama, materi(deskripsi))");
+
+  if (error || !jadwal) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Jadwal tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getJadwal: ", error);
+    return;
+  }
+  console.log("getJadwal: ", jadwal);
+
+  return jadwal;
+}
+
+export async function getJadwalByFilter(filter) {
+  const { data: jadwal, error } = await supabase
+    .from("jadwal")
+    .select("*, kelas (nama), mapel (nama, materi(deskripsi))")
+    .eq("id_kelas", filter);
+
+  if (error || !jadwal) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Jadwal tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getJadwalByFilter: ", error);
+    return;
+  }
+  console.log("getJadwalByFilter: ", jadwal);
+
+  return jadwal;
 }
