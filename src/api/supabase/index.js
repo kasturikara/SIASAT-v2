@@ -173,3 +173,25 @@ export async function getKelas() {
 
   return data;
 }
+
+// murid
+export async function getMurid() {
+  const { data: murid, error } = await supabase
+    .from("murid")
+    .select("*, kelas (nama)")
+    .order("nama", { ascending: true });
+
+  if (error || !murid) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Murid tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getMurid: ", error);
+    return;
+  }
+  // console.log("getMurid: ", murid);
+
+  return murid;
+}
