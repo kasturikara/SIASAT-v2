@@ -288,3 +288,25 @@ export async function getAbsensiByFilter(filter) {
 
   return absensi;
 }
+
+// nilai
+export async function getNilaiByMurid(murid) {
+  const { data: nilai, error } = await supabase
+    .from("nilai")
+    .select("*, murid (id,nama), mapel (nama)")
+    .eq("id_murid", murid);
+
+  if (error || !nilai) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Nilai tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getNilaiByMurid: ", error);
+    return;
+  }
+  console.log("getNilaiByMurid: ", nilai);
+
+  return nilai;
+}
