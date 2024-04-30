@@ -310,3 +310,25 @@ export async function getNilaiByMurid(murid) {
 
   return nilai;
 }
+
+// guru
+export async function getGuru() {
+  const { data: guru, error } = await supabase
+    .from("guru")
+    .select("*, mapel(nama)")
+    .order("nama", { ascending: true });
+
+  if (error || !guru) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Guru tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getGuru: ", error);
+    return;
+  }
+  console.log("getGuru: ", guru);
+
+  return guru;
+}
