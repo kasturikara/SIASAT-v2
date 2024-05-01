@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { supabase } from "./SupabaseClient";
 
+//  ------------------user------------------
 export async function getUser() {
   const { data } = await supabase.from("user").select("*");
   if (!data) return console.error("Gagal mengambil data user dari supabase");
@@ -8,11 +9,6 @@ export async function getUser() {
   return data;
 }
 
-/**
- * Mencari user berdasarkan username yang diberikan.
- * Jika user ditemukan, maka akan mengembalikan data user tersebut.
- * Jika user tidak ditemukan, maka akan menampilkan pesan error dan mengembalikan nilai undefined.
- */
 export async function findUserByUsername({ user: { username } }) {
   const { data, error } = await supabase
     .from("user")
@@ -35,11 +31,6 @@ export async function findUserByUsername({ user: { username } }) {
   return data;
 }
 
-/**
- * Mencari user berdasarkan email yang diberikan.
- * Jika user ditemukan, maka akan mengembalikan data user tersebut.
- * Jika user tidak ditemukan, maka akan menampilkan pesan error dan mengembalikan nilai undefined.
- */
 export async function findUserByEmail({ user: { email } }) {
   const { data, error } = await supabase
     .from("user")
@@ -62,7 +53,7 @@ export async function findUserByEmail({ user: { email } }) {
   return data;
 }
 
-// pengumuman
+// ------------------pengumuman------------------
 export async function getPengumuman() {
   const { data, error } = await supabase
     .from("pengumuman")
@@ -152,27 +143,8 @@ export async function updatePengumuman(id, pengumuman) {
   console.log("updatePengumuman: ", id, pengumuman);
 }
 
-// kelas
+// ------------------kelas------------------
 export async function getKelas() {
-  // const { data, error } = await supabase
-  // .from("kelas")
-  // .select("*")
-  // .order("nama", { ascending: true });
-
-  // if (error || !data) {
-  //   Swal.fire({
-  //     title: "Oops!",
-  //     text: "Kelas tidak ditemukan.",
-  //     icon: "error",
-  //     confirmButtonText: "OK",
-  //   });
-  //   console.error("getKelas: ", error);
-  //   return;
-  // }
-  // console.log("getKelas: ", data);
-
-  // return data;
-
   try {
     const { data: kelasData, error: kelasError } = await supabase
       .from("kelas")
@@ -203,7 +175,7 @@ export async function getKelas() {
   }
 }
 
-// murid
+// ------------------murid------------------
 export async function getMurid() {
   const { data: murid, error } = await supabase
     .from("murid")
@@ -225,7 +197,7 @@ export async function getMurid() {
   return murid;
 }
 
-// jadwal
+// ------------------jadwal------------------
 export async function getJadwal() {
   const { data: jadwal, error } = await supabase
     .from("jadwal")
@@ -241,7 +213,7 @@ export async function getJadwal() {
     console.error("getJadwal: ", error);
     return;
   }
-  console.log("getJadwal: ", jadwal);
+  // console.log("getJadwal: ", jadwal);
 
   return jadwal;
 }
@@ -262,12 +234,12 @@ export async function getJadwalByFilter(filter) {
     console.error("getJadwalByFilter: ", error);
     return;
   }
-  console.log("getJadwalByFilter: ", jadwal);
+  // console.log("getJadwalByFilter: ", jadwal);
 
   return jadwal;
 }
 
-// absensi
+// ------------------absensi------------------
 export async function getAbsensiByFilter(filter) {
   const { data: absensi, error } = await supabase
     .from("absensi")
@@ -289,7 +261,7 @@ export async function getAbsensiByFilter(filter) {
   return absensi;
 }
 
-// nilai
+// ------------------nilai------------------
 export async function getNilaiByMurid(murid) {
   const { data: nilai, error } = await supabase
     .from("nilai")
@@ -306,12 +278,12 @@ export async function getNilaiByMurid(murid) {
     console.error("getNilaiByMurid: ", error);
     return;
   }
-  console.log("getNilaiByMurid: ", nilai);
+  // console.log("getNilaiByMurid: ", nilai);
 
   return nilai;
 }
 
-// guru
+// ------------------guru------------------
 export async function getGuru() {
   const { data: guru, error } = await supabase
     .from("guru")
@@ -328,12 +300,12 @@ export async function getGuru() {
     console.error("getGuru: ", error);
     return;
   }
-  console.log("getGuru: ", guru);
+  // console.log("getGuru: ", guru);
 
   return guru;
 }
 
-//mapel
+// ------------------mapel------------------
 export async function getMapel() {
   const { data: mapel, error } = await supabase
     .from("mapel")
@@ -350,12 +322,12 @@ export async function getMapel() {
     console.error("getMapel: ", error);
     return;
   }
-  console.log("getMapel: ", mapel);
+  // console.log("getMapel: ", mapel);
 
   return mapel;
 }
 
-// materi
+// ------------------materi------------------
 export async function getMateri() {
   const { data: materi, error } = await supabase
     .from("materi")
@@ -373,7 +345,7 @@ export async function getMateri() {
     console.error("getMateri: ", error);
     return;
   }
-  console.log("getMateri: ", materi);
+  // console.log("getMateri: ", materi);
 
   return materi;
 }
