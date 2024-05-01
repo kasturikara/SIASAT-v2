@@ -14,6 +14,7 @@ import { getPengumuman, hapusPengumuman } from "../../../api/supabase";
 import { useEffect, useState } from "react";
 import TambahPengumuman from "./TambahPengumuman";
 import EditPengumuman from "./EditPengumuman";
+import Swal from "sweetalert2";
 
 function PengumumanPage() {
   const [pengumuman, setPengumuman] = useState([]);
@@ -28,7 +29,7 @@ function PengumumanPage() {
 
   useEffect(() => {
     getDataPengumuman();
-  }, []);
+  }, [pengumuman]);
 
   async function getDataPengumuman() {
     const data = await getPengumuman();
@@ -42,7 +43,20 @@ function PengumumanPage() {
     }
 
     try {
-      await hapusPengumuman(id);
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          hapusPengumuman(id);
+          Swal.fire("Terhapus!", "Data telah dihapus.", "success");
+        }
+      });
       getDataPengumuman();
     } catch (error) {
       console.error("handleHapus: hapusPengumuman", error);
