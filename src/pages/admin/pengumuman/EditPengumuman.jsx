@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { Label, Modal, TextInput } from "flowbite-react";
 import { getPengumumanById, updatePengumuman } from "../../../api/supabase";
 import { useEffect, useState } from "react";
 
@@ -84,21 +84,20 @@ function EditPengumuman({ idEdit, setOpenEdit, getDataPengumuman }) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          className="bg-blue-500 hover:bg-blue-600"
+        <button
+          className="w-24 px-4 py-2 text-sm text-white bg-green-500 rounded hover:bg-green-800"
           onClick={() => handleSubmit()}
         >
-          Simpan
-        </Button>
-        <Button
-          className="bg-gray-300 hover:bg-blue-600"
-          outline
+          Update
+        </button>
+        <button
+          className="w-24 px-4 py-2 text-sm text-white bg-green-500 rounded hover:bg-green-800"
           onClick={() => {
             setOpenEdit(false);
           }}
         >
           Batal
-        </Button>
+        </button>
       </Modal.Footer>
     </div>
   );
