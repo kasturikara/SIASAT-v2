@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { Label, Modal, TextInput } from "flowbite-react";
 import { postNewPengumuman } from "../../../api/supabase";
 
 function TambahPengumuman({
@@ -44,7 +44,7 @@ function TambahPengumuman({
   return (
     <div>
       <Modal.Header>
-        <p className="text-xl font-medium">Tambah pengumuman baru</p>
+        <p className="text-xl font-medium">Tambah Pengumuman Baru</p>
       </Modal.Header>
       <Modal.Body>
         <div className="space-y-2">
@@ -86,17 +86,16 @@ function TambahPengumuman({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          className="bg-blue-500 hover:bg-blue-600"
+        <button
+          className="w-24 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-800"
           onClick={() => {
             handleSubmit();
           }}
         >
           Simpan
-        </Button>
-        <Button
-          className="bg-gray-300 hover:bg-blue-600"
-          outline
+        </button>
+        <button
+          className="w-24 px-4 py-2 text-sm border rounded border-slate-300 hover:border-red-500 hover:text-red-500 hover:bg-red-50"
           onClick={() => {
             setOpenTambah(false);
             setNewPengumuman({
@@ -108,7 +107,7 @@ function TambahPengumuman({
           }}
         >
           Batal
-        </Button>
+        </button>
       </Modal.Footer>
     </div>
   );
