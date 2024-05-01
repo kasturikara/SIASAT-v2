@@ -36,7 +36,7 @@ function JadwalPage() {
   return (
     <div className="flex flex-col">
       <div className="p-4 mb-8 rounded-lg bg-slate-50">
-        <p className="text-2xl font-semibold">List Kelas</p>
+        <p className="text-2xl font-semibold">List Jadwal per Kelas</p>
         <div className="flex justify-between mt-4">
           <TextInput
             id="search"
