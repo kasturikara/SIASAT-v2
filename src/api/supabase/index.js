@@ -354,3 +354,26 @@ export async function getMapel() {
 
   return mapel;
 }
+
+// materi
+export async function getMateri() {
+  const { data: materi, error } = await supabase
+    .from("materi")
+    .select("*, guru (nama), mapel (nama)")
+    .order("deskripsi", { ascending: true });
+
+  if (error || !materi) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Materi tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+
+    console.error("getMateri: ", error);
+    return;
+  }
+  console.log("getMateri: ", materi);
+
+  return materi;
+}
