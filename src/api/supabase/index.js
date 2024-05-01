@@ -332,3 +332,25 @@ export async function getGuru() {
 
   return guru;
 }
+
+//mapel
+export async function getMapel() {
+  const { data: mapel, error } = await supabase
+    .from("mapel")
+    .select("*")
+    .order("nama", { ascending: true });
+
+  if (error || !mapel) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Mapel tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getMapel: ", error);
+    return;
+  }
+  console.log("getMapel: ", mapel);
+
+  return mapel;
+}
