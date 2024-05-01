@@ -41,7 +41,6 @@ function PengumumanPage() {
       console.error("handleHapus: id is null or undefined");
       return;
     }
-
     try {
       Swal.fire({
         title: "Apakah anda yakin?",
