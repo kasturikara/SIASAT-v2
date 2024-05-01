@@ -22,7 +22,6 @@ function MuridPage() {
   async function getDataMurid() {
     const data = await getMurid();
     setMurid(data);
-    console.log("murid: ", murid);
   }
 
   return (
