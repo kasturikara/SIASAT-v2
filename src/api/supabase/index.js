@@ -305,6 +305,32 @@ export async function getGuru() {
   return guru;
 }
 
+export async function postNewGuru(data) {
+  if (!data) {
+    throw new Error("postNewGuru: data is null or undefined");
+  }
+
+  const { nama, jenis_kelamin, tanggal_lahir, umur, alamat, mapel } = data;
+
+  const { error } = await supabase
+    .from("guru")
+    .insert([
+      { nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_mapel: mapel },
+    ]);
+
+  if (error) {
+    throw error || new Error("postNewGuru: insert failed", error);
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "Guru baru telah ditambahkan.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+
 // ------------------mapel------------------
 export async function getMapel() {
   const { data: mapel, error } = await supabase
