@@ -11,7 +11,7 @@ import {
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getGuru } from "../../../api/supabase";
+import { getGuru, hapusGuru } from "../../../api/supabase";
 import Swal from "sweetalert2";
 import TambahGuru from "./TambahGuru";
 import EditGuru from "./EditGuru";
@@ -55,8 +55,14 @@ function GuruPage() {
         confirmButtonText: "Ya, hapus!",
       }).then((result) => {
         if (result.isConfirmed) {
-          // hapusGuru(id);
-          Swal.fire("Terhapus!", "Data telah dihapus.", "success");
+          hapusGuru(id);
+          Swal.fire({
+            title: "Terhapus!",
+            text: "Data telah dihapus.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       });
       getDataGuru();
@@ -164,11 +170,7 @@ function GuruPage() {
       </Modal>
 
       <Modal show={edit} onClose={() => setEdit(false)}>
-        <EditGuru
-          idEdit={idEdit}
-          setEdit={setEdit}
-          getDataPengumuman={getDataGuru}
-        />
+        <EditGuru idEdit={idEdit} setEdit={setEdit} getDataGuru={getDataGuru} />
       </Modal>
     </div>
   );
