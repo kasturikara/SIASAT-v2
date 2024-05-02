@@ -393,6 +393,66 @@ export async function getMapel() {
 
   return mapel;
 }
+export async function postNewMapel(data) {
+  if (!data) {
+    throw new Error("postNewMapel: data is null or undefined");
+  }
+
+  const { nama } = data;
+
+  const { error } = await supabase.from("mapel").insert([{ nama }]);
+
+  if (error) {
+    throw error || new Error("postNewMapel: insert failed", error);
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "Mapel baru telah ditambahkan.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function getMapelById(id) {
+  const { data: mapel, error } = await supabase
+    .from("mapel")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("getMapelById: ", error);
+  }
+
+  return mapel;
+}
+export async function updateMapel(id, data) {
+  const { nama } = data;
+  const { error } = await supabase
+    .from("mapel")
+    .update([{ nama }])
+    .eq("id", id);
+  if (error) {
+    console.error("updateMapel: ", error);
+    return;
+  }
+  Swal.fire({
+    title: "Success!",
+    text: "Mapel telah diperbarui.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+  console.log("updateMapel: ", data);
+}
+export async function hapusMapel(id) {
+  const { error } = await supabase.from("mapel").delete().eq("id", id);
+  if (error) {
+    console.error("deleteMapel: ", error);
+    return;
+  }
+}
 
 // ------------------materi------------------
 export async function getMateri() {
