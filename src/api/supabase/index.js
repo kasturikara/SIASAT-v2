@@ -190,6 +190,38 @@ export async function getMurid() {
 
   return murid;
 }
+export async function postMurid(data) {
+  if (!data) {
+    throw new Error("postMurid: data is null or undefined");
+  }
+
+  const { nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_kelas } = data;
+
+  const { error } = await supabase
+    .from("murid")
+    .insert([{ nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_kelas }]);
+
+  if (error) {
+    throw error || new Error("postMurid: insert failed", error);
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "Murid berhasil ditambahkan.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function getMuridById(id) {
+  console.log("getMuridById: ", id);
+}
+export async function updateMurid(id, data) {
+  console.log("updateMurid: ", id, data);
+}
+export async function hapusMurid(id) {
+  console.log("hapusMurid: ", id);
+}
 
 // ------------------jadwal------------------
 export async function getJadwal() {

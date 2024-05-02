@@ -1,5 +1,6 @@
 import {
   Button,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -10,19 +11,65 @@ import {
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getMurid } from "../../../api/supabase";
+import { getMurid, hapusMurid } from "../../../api/supabase";
+import Swal from "sweetalert2";
+import TambahMurid from "./TambahMurid";
+import EditMurid from "./EditMurid";
 
 function MuridPage() {
   const [murid, setMurid] = useState([]);
+  const [tambah, setTambah] = useState(false);
+  const [newMurid, setNewMurid] = useState({
+    nama: "",
+    jenis_kelamin: "",
+    tanggal_lahir: "",
+    umur: "",
+    alamat: "",
+    kelas: "",
+  });
+  const [edit, setEdit] = useState(false);
+  const [idEdit, setIdEdit] = useState(0);
 
   useEffect(() => {
     getDataMurid();
-  }, []);
+  }, [murid]);
 
   async function getDataMurid() {
     const data = await getMurid();
     setMurid(data);
   }
+
+  const handleHapus = async (id) => {
+    if (id === null || id === undefined) {
+      console.error("handleHapus: id is null or undefined");
+      return;
+    }
+    try {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          hapusMurid(id);
+          Swal.fire({
+            title: "Terhapus!",
+            text: "Data telah dihapus.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+      getDataMurid();
+    } catch (error) {
+      console.error("handleHapus: hapusMurid", error);
+    }
+  };
 
   return (
     <div className="flex flex-col ">
@@ -36,7 +83,7 @@ function MuridPage() {
           />
           <button
             className="px-4 my-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-400"
-            // onClick={() => setOpenTambah(true)}
+            onClick={() => setTambah(true)}
           >
             + Tambah
           </button>
@@ -92,17 +139,17 @@ function MuridPage() {
                       <Button
                         size="xs"
                         color="success"
-                        // onClick={() => {
-                        //   setOpenEdit(true);
-                        //   setIdEdit(data.id);
-                        // }}
+                        onClick={() => {
+                          setEdit(true);
+                          setIdEdit(data.id);
+                        }}
                       >
                         <AiFillEdit className="mr-2" /> Edit
                       </Button>
                       <Button
                         size="xs"
                         color="failure"
-                        // onClick={() => handleHapus(data.id)}
+                        onClick={() => handleHapus(data.id)}
                       >
                         <AiFillDelete className="mr-2" /> Hapus
                       </Button>
@@ -114,6 +161,23 @@ function MuridPage() {
           </TableBody>
         </Table>
       </div>
+
+      <Modal show={tambah} onClose={() => setTambah(false)}>
+        <TambahMurid
+          newMurid={newMurid}
+          setNewMurid={setNewMurid}
+          setTambah={setTambah}
+          getDataMurid={getDataMurid}
+        />
+      </Modal>
+
+      <Modal show={edit} onClose={() => setEdit(false)}>
+        <EditMurid
+          idEdit={idEdit}
+          setEdit={setEdit}
+          getDataMurid={getDataMurid}
+        />
+      </Modal>
     </div>
   );
 }
