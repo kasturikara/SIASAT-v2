@@ -18,13 +18,13 @@ import Swal from "sweetalert2";
 
 function PengumumanPage() {
   const [pengumuman, setPengumuman] = useState([]);
-  const [openTambah, setOpenTambah] = useState(false);
+  const [tambah, setTambah] = useState(false);
   const [newPengumuman, setNewPengumuman] = useState({
     judul: "",
     isi: "",
     tanggal: "",
   });
-  const [openEdit, setOpenEdit] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ function PengumumanPage() {
           <TextInput id="search" placeholder="Search" icon={AiOutlineSearch} />
           <button
             className="px-4 my-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-400"
-            onClick={() => setOpenTambah(true)}
+            onClick={() => setTambah(true)}
           >
             + Tambah
           </button>
@@ -115,7 +115,7 @@ function PengumumanPage() {
                         size="xs"
                         color="success"
                         onClick={() => {
-                          setOpenEdit(true);
+                          setEdit(true);
                           setIdEdit(data.id);
                         }}
                       >
@@ -137,19 +137,19 @@ function PengumumanPage() {
         </Table>
       </div>
 
-      <Modal show={openTambah} size="lg" onClose={() => setOpenTambah(false)}>
+      <Modal show={tambah} size="lg" onClose={() => setTambah(false)}>
         <TambahPengumuman
           newPengumuman={newPengumuman}
           setNewPengumuman={setNewPengumuman}
-          setOpenTambah={setOpenTambah}
+          setTambah={setTambah}
           getDataPengumuman={getDataPengumuman}
         />
       </Modal>
 
-      <Modal show={openEdit} size="lg" onClose={() => setOpenEdit(false)}>
+      <Modal show={edit} size="lg" onClose={() => setEdit(false)}>
         <EditPengumuman
           idEdit={idEdit}
-          setOpenEdit={setOpenEdit}
+          setEdit={setEdit}
           getDataPengumuman={getDataPengumuman}
         />
       </Modal>
