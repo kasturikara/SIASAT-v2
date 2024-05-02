@@ -162,7 +162,7 @@ export async function getKelas() {
       });
     }
 
-    console.log("res: ", res);
+    // console.log("res: ", res);
     return res;
   } catch (error) {
     console.error("Gagal mengambil data kelas: ", error.message);
@@ -444,7 +444,7 @@ export async function updateMapel(id, data) {
     showConfirmButton: false,
     timer: 1500,
   });
-  console.log("updateMapel: ", data);
+  // console.log("updateMapel: ", data);
 }
 export async function hapusMapel(id) {
   const { error } = await supabase.from("mapel").delete().eq("id", id);
@@ -475,4 +475,64 @@ export async function getMateri() {
   // console.log("getMateri: ", materi);
 
   return materi;
+}
+export async function postNewMateri(data) {
+  if (!data) {
+    throw new Error("postNewMateri: data is null or undefined");
+  }
+
+  const { deskripsi, id_guru, id_mapel } = data;
+  console.log("postNewMateri: ", deskripsi, id_guru, id_mapel);
+
+  if (!deskripsi || !id_guru || !id_mapel) {
+    throw new Error(
+      "postNewMateri: deskripsi, id_guru, dan id_mapel harus diisi"
+    );
+  } else {
+    const { error } = await supabase.from("materi").insert([
+      {
+        deskripsi,
+        id_guru,
+        id_mapel,
+      },
+    ]);
+
+    if (error) {
+      throw error || new Error("postNewMateri: insert failed", error);
+    }
+  }
+}
+export async function getMateriById(id) {
+  const { data: materi, error } = await supabase
+    .from("materi")
+    .select("*, guru (nama), mapel (nama)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("getMateriById: ", error);
+  }
+
+  return materi;
+}
+export async function updateMateri(id, data) {
+  const { deskripsi, id_guru, id_mapel } = data;
+
+  const { error } = await supabase
+    .from("materi")
+    .update([{ deskripsi, id_guru, id_mapel }])
+    .eq("id", id);
+
+  if (error) {
+    console.error("updateMateri: ", error);
+    return;
+  }
+  // console.log("updateMateri: ", data);
+}
+export async function hapusMateri(id) {
+  const { error } = await supabase.from("materi").delete().eq("id", id);
+  if (error) {
+    console.error("deleteMateri: ", error);
+    return;
+  }
 }

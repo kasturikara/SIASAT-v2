@@ -1,5 +1,6 @@
 import {
   Button,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -10,24 +11,68 @@ import {
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getMateri } from "../../../../api/supabase";
+import { getMateri, hapusMateri } from "../../../../api/supabase";
+import TambahMateri from "./TambahMateri";
+import EditMateri from "./EditMateri";
+import Swal from "sweetalert2";
 
 function MateriPage() {
   const [materi, setMateri] = useState([]);
+  const [tambah, setTambah] = useState(false);
+  const [newMateri, setNewMateri] = useState({
+    guru: "",
+    mapel: "",
+    deskripsi: "",
+  });
+  const [edit, setEdit] = useState(false);
+  const [idEdit, setIdEdit] = useState(0);
 
   useEffect(() => {
     getDataMateri();
-  }, []);
+  }, [materi]);
 
   async function getDataMateri() {
     const dataMateri = await getMateri();
     setMateri(dataMateri);
   }
 
+  const handleHapus = async (id) => {
+    if (id === null || id === undefined) {
+      console.error("handleHapus: id is null or undefined");
+      return;
+    }
+    try {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          hapusMateri(id);
+          Swal.fire({
+            title: "Terhapus!",
+            text: "Data telah dihapus.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+        getDataMateri();
+      });
+    } catch (error) {
+      console.error("handleHapus: hapusMateri", error);
+    }
+  };
+
   return (
     <div className="flex flex-col ">
       <div className="p-4 mb-4 rounded-lg bg-slate-50">
-        <p className="text-2xl font-semibold">List Murid</p>
+        <p className="text-2xl font-semibold">List Materi</p>
         <div className="flex justify-between mt-4">
           <TextInput
             id="search"
@@ -36,7 +81,7 @@ function MateriPage() {
           />
           <button
             className="px-4 my-1 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-400"
-            // onClick={() => setOpenTambah(true)}
+            onClick={() => setTambah(true)}
           >
             + Tambah
           </button>
@@ -81,17 +126,17 @@ function MateriPage() {
                       <Button
                         size="xs"
                         color="success"
-                        // onClick={() => {
-                        //   setOpenEdit(true);
-                        //   setIdEdit(data.id);
-                        // }}
+                        onClick={() => {
+                          setEdit(true);
+                          setIdEdit(data.id);
+                        }}
                       >
                         <AiFillEdit className="mr-2" /> Edit
                       </Button>
                       <Button
                         size="xs"
                         color="failure"
-                        // onClick={() => handleHapus(data.id)}
+                        onClick={() => handleHapus(data.id)}
                       >
                         <AiFillDelete className="mr-2" /> Hapus
                       </Button>
@@ -103,6 +148,23 @@ function MateriPage() {
           </TableBody>
         </Table>
       </div>
+
+      <Modal show={tambah} onClose={() => setTambah(false)} size="md">
+        <TambahMateri
+          newMateri={newMateri}
+          setNewMateri={setNewMateri}
+          setTambah={setTambah}
+          getDataMateri={getDataMateri}
+        />
+      </Modal>
+
+      <Modal show={edit} onClose={() => setEdit(false)} size="md">
+        <EditMateri
+          idEdit={idEdit}
+          setEdit={setEdit}
+          getDataMateri={getDataMateri}
+        />
+      </Modal>
     </div>
   );
 }
