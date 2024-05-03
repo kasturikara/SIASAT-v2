@@ -356,6 +356,63 @@ export async function getAbsensiByFilter(filter) {
 
   return absensi;
 }
+export async function postNewAbsensi(data) {
+  const { tanggal, id_murid, status } = data;
+
+  const { error } = await supabase
+    .from("absensi")
+    .insert({ tanggal, id_murid, status });
+
+  if (error) {
+    throw error || new Error("postNewAbsensi: insert failed", error);
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "Absensi berhasil ditambahkan.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function getAbsensiById(id) {
+  const { data: absensi, error } = await supabase
+    .from("absensi")
+    .select("*, murid (nama)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("getAbsensiById: ", error);
+    return;
+  }
+  return absensi;
+}
+export async function updateAbsensi(id, data) {
+  const { tanggal, id_murid, status } = data;
+  const { error } = await supabase
+    .from("absensi")
+    .update({ tanggal, id_murid, status })
+    .eq("id", id);
+  if (error) {
+    console.error("updateAbsensi: ", error);
+    return;
+  }
+  Swal.fire({
+    title: "Success!",
+    text: "Absensi berhasil diperbarui.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function hapusAbsensi(id) {
+  const { error } = await supabase.from("absensi").delete().eq("id", id);
+  if (error) {
+    console.error("HapusAbsensi: ", error);
+    return;
+  }
+}
 
 // ------------------nilai------------------
 export async function getNilaiByMurid(murid) {
