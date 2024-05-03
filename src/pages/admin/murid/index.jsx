@@ -26,6 +26,7 @@ function MuridPage() {
     umur: "",
     alamat: "",
     kelas: "",
+    user: "",
   });
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
@@ -90,7 +91,7 @@ function MuridPage() {
         </div>
       </div>
 
-      <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
+      <div className="px-4 py-8 overflow-x-auto rounded-lg bg-slate-50">
         <Table striped>
           <TableHead className="text-center">
             <TableHeadCell className="text-white bg-teal-500">
@@ -115,6 +116,9 @@ function MuridPage() {
               Kelas
             </TableHeadCell>
             <TableHeadCell className="text-white bg-teal-500">
+              Username / Email
+            </TableHeadCell>
+            <TableHeadCell className="text-white bg-teal-500">
               Action
             </TableHeadCell>
           </TableHead>
@@ -135,7 +139,10 @@ function MuridPage() {
                   <TableCell>{data.alamat}</TableCell>
                   <TableCell>{data.kelas.nama}</TableCell>
                   <TableCell>
-                    <div className="flex justify-center gap-4">
+                    {data.user.username} / {data.user.email}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex justify-center gap-2">
                       <Button
                         size="xs"
                         color="success"
@@ -144,14 +151,14 @@ function MuridPage() {
                           setIdEdit(data.id);
                         }}
                       >
-                        <AiFillEdit className="mr-2" /> Edit
+                        <AiFillEdit className="" />
                       </Button>
                       <Button
                         size="xs"
                         color="failure"
                         onClick={() => handleHapus(data.id)}
                       >
-                        <AiFillDelete className="mr-2" /> Hapus
+                        <AiFillDelete className="" />
                       </Button>
                     </div>
                   </TableCell>

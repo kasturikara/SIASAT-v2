@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { getKelas, postMurid } from "../../../api/supabase";
+import { getKelas, getUserByRole, postMurid } from "../../../api/supabase";
 import {
   Dropdown,
   DropdownItem,
@@ -13,14 +13,18 @@ function TambahMurid({ newMurid, setNewMurid, setTambah, getDataMurid }) {
   const [kelas, setKelas] = useState([]);
   const [labelKelas, setLabelKelas] = useState("Pilih Kelas");
   const [labelJK, setLabelJK] = useState("Pilih Jenis Kelamin");
+  const [user, setUser] = useState([]);
+  const [labelUser, setLabelUser] = useState("Pilih Username");
 
   useEffect(() => {
-    getDataKelas();
+    getDataKelasDanUser();
   }, []);
 
-  async function getDataKelas() {
+  async function getDataKelasDanUser() {
     const data = await getKelas();
     setKelas(data);
+    const dataUser = await getUserByRole("murid");
+    setUser(dataUser);
   }
 
   const handleNewMurid = (event) => {
@@ -183,6 +187,30 @@ function TambahMurid({ newMurid, setNewMurid, setTambah, getDataMurid }) {
                       className="border-y border-slate-100"
                     >
                       {data.kelas}
+                    </DropdownItem>
+                  );
+                })}
+              </Dropdown>
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="user" value="Username" className="block mb-2" />
+            <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
+              <Dropdown id="user" label={labelUser} inline className="w-64">
+                {user.map((data) => {
+                  return (
+                    <DropdownItem
+                      key={data.id}
+                      onClick={() => {
+                        setNewMurid({
+                          ...newMurid,
+                          id_user: data.id,
+                        });
+                        setLabelUser(data.username);
+                      }}
+                      className="border-y border-slate-100"
+                    >
+                      {data.username}
                     </DropdownItem>
                   );
                 })}

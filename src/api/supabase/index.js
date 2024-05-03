@@ -5,7 +5,7 @@ import { supabase } from "./SupabaseClient";
 export async function getUser() {
   const { data } = await supabase.from("user").select("*");
   if (!data) return console.error("Gagal mengambil data user dari supabase");
-  console.log(data);
+  // console.log(data);
   return data;
 }
 export async function findUserByUsername({ user: { username } }) {
@@ -48,6 +48,18 @@ export async function findUserByEmail({ user: { email } }) {
   }
 
   // console.log("findUserByEmail: ", data);
+  return data;
+}
+export async function getUserByRole(role) {
+  const { data, error } = await supabase
+    .from("user")
+    .select("*")
+    .eq("role", role);
+
+  if (error || !data) {
+    throw error || new Error("getUserByRole: select failed", error);
+  }
+
   return data;
 }
 
@@ -173,7 +185,7 @@ export async function getKelas() {
 export async function getMurid() {
   const { data: murid, error } = await supabase
     .from("murid")
-    .select("*, kelas (nama)")
+    .select("*, kelas (nama), user (username, email)")
     .order("nama", { ascending: true });
 
   if (error || !murid) {
@@ -195,11 +207,21 @@ export async function postMurid(data) {
     throw new Error("postMurid: data is null or undefined");
   }
 
-  const { nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_kelas } = data;
+  const {
+    nama,
+    jenis_kelamin,
+    tanggal_lahir,
+    umur,
+    alamat,
+    id_kelas,
+    id_user,
+  } = data;
 
   const { error } = await supabase
     .from("murid")
-    .insert([{ nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_kelas }]);
+    .insert([
+      { nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_kelas, id_user },
+    ]);
 
   if (error) {
     throw error || new Error("postMurid: insert failed", error);
@@ -214,13 +236,62 @@ export async function postMurid(data) {
   });
 }
 export async function getMuridById(id) {
-  console.log("getMuridById: ", id);
+  const { data: murid, error } = await supabase
+    .from("murid")
+    .select("*, kelas (nama), user (username)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("getMuridById: ", error);
+    return;
+  }
+  // console.log("getMuridById: ", murid);
+  return murid;
 }
 export async function updateMurid(id, data) {
-  console.log("updateMurid: ", id, data);
+  const {
+    nama,
+    jenis_kelamin,
+    tanggal_lahir,
+    umur,
+    alamat,
+    id_kelas,
+    id_user,
+  } = data;
+
+  const { error } = await supabase
+    .from("murid")
+    .update({
+      nama,
+      jenis_kelamin,
+      tanggal_lahir,
+      umur,
+      alamat,
+      id_kelas,
+      id_user,
+    })
+    .eq("id", id);
+  if (error) {
+    console.error("updateMurid: ", error);
+    return;
+  }
+  Swal.fire({
+    title: "Success!",
+    text: "Murid berhasil diperbarui.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+  // console.log("updateMurid: ", id, data);
 }
 export async function hapusMurid(id) {
-  console.log("hapusMurid: ", id);
+  const { error } = await supabase.from("murid").delete().eq("id", id);
+  if (error) {
+    console.error("HapusMurid: ", error);
+    return;
+  }
+  // console.log("HapusMurid: ", id);
 }
 
 // ------------------jadwal------------------
