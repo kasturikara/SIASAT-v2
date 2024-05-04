@@ -419,7 +419,8 @@ export async function getNilaiByMurid(murid) {
   const { data: nilai, error } = await supabase
     .from("nilai")
     .select("*, murid (id,nama), mapel (nama)")
-    .eq("id_murid", murid);
+    .eq("id_murid", murid)
+    .order("mapel (nama)", { ascending: true });
 
   if (error || !nilai) {
     Swal.fire({
@@ -434,6 +435,63 @@ export async function getNilaiByMurid(murid) {
   // console.log("getNilaiByMurid: ", nilai);
 
   return nilai;
+}
+export async function postNewNilai(data) {
+  const { id_murid, id_mapel, nilai, jenis, tanggal } = data;
+  const { error } = await supabase
+    .from("nilai")
+    .insert({ id_murid, id_mapel, nilai, jenis, tanggal });
+
+  if (error) {
+    throw error || new Error("postNewNilai: insert failed", error);
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "Nilai berhasil ditambahkan.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function getNilaiById(id) {
+  const { data: nilai, error } = await supabase
+    .from("nilai")
+    .select("*, murid (id,nama), mapel (nama)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("getNilaiById: ", error);
+    return;
+  }
+  // console.log("getNilaiById: ", nilai);
+  return nilai;
+}
+export async function updateNilai(id, data) {
+  const { id_murid, id_mapel, nilai, jenis, tanggal } = data;
+  const { error } = await supabase
+    .from("nilai")
+    .update({ id_murid, id_mapel, nilai, jenis, tanggal })
+    .eq("id", id);
+  if (error) {
+    console.error("updateNilai: ", error);
+    return;
+  }
+  Swal.fire({
+    title: "Success!",
+    text: "Nilai berhasil diperbarui.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function hapusNilai(id) {
+  const { error } = await supabase.from("nilai").delete().eq("id", id);
+  if (error) {
+    console.error("HapusNilai: ", error);
+    return;
+  }
 }
 
 // ------------------guru------------------

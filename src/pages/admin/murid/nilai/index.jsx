@@ -2,6 +2,7 @@ import {
   Button,
   Dropdown,
   DropdownItem,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -12,7 +13,14 @@ import {
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getMurid, getNilaiByMurid } from "../../../../api/supabase";
+import {
+  getMurid,
+  getNilaiByMurid,
+  hapusNilai,
+} from "../../../../api/supabase";
+import Swal from "sweetalert2";
+import TambahNilai from "./TambahNilai";
+import EditNilai from "./EditNilai";
 
 function NilaiPage() {
   const [nilai, setNilai] = useState([]);
@@ -21,17 +29,59 @@ function NilaiPage() {
     id: 2201,
     nama: "Aditya Ramadhan",
   });
+  const [tambah, setTambah] = useState(false);
+  const [newNilai, setNewNilai] = useState({
+    id_murid: "",
+    id_mapel: "",
+    jenis: "",
+    nilai: "",
+    tanggal: "",
+  });
+  const [edit, setEdit] = useState(false);
+  const [idEdit, setIdEdit] = useState(0);
 
   useEffect(() => {
-    getDataNilai();
-  }, [filterNilai]);
+    getData();
+  }, [filterNilai, nilai]);
 
-  async function getDataNilai() {
+  async function getData() {
     const dataNilai = await getNilaiByMurid(filterNilai.id);
     setNilai(dataNilai);
     const dataMurid = await getMurid();
     setMurid(dataMurid);
   }
+
+  const handleHapus = async (id) => {
+    if (id === null || id === undefined) {
+      console.error("handleHapus: id is null or undefined");
+      return;
+    }
+    try {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          hapusNilai(id);
+          Swal.fire({
+            title: "Terhapus!",
+            text: "Data telah dihapus.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+      getData();
+    } catch (error) {
+      console.error("handleHapus: hapusNilai", error);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -43,7 +93,10 @@ function NilaiPage() {
             placeholder="Search..."
             icon={AiOutlineSearch}
           />
-          <button className="px-4 my-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-400">
+          <button
+            className="px-4 my-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-400"
+            onClick={() => setTambah(true)}
+          >
             + Tambah
           </button>
         </div>
@@ -80,9 +133,6 @@ function NilaiPage() {
               No.
             </TableHeadCell>
             <TableHeadCell className="text-white bg-teal-500">
-              Nama Murid
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
               Mapel
             </TableHeadCell>
             <TableHeadCell className="text-white bg-teal-500">
@@ -105,7 +155,6 @@ function NilaiPage() {
                 className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
               >
                 <TableCell className="w-16">{index + 1}</TableCell>
-                <TableCell>{item.murid.nama}</TableCell>
                 <TableCell>{item.mapel.nama}</TableCell>
                 <TableCell>{item.jenis}</TableCell>
                 <TableCell>{item.nilai}</TableCell>
@@ -115,17 +164,17 @@ function NilaiPage() {
                     <Button
                       size="xs"
                       color="success"
-                      // onClick={() => {
-                      //   setOpenEdit(true);
-                      //   setIdEdit(data.id);
-                      // }}
+                      onClick={() => {
+                        setEdit(true);
+                        setIdEdit(item.id);
+                      }}
                     >
                       <AiFillEdit className="mr-2" /> Edit
                     </Button>
                     <Button
                       size="xs"
                       color="failure"
-                      // onClick={() => handleHapus(data.id)}
+                      onClick={() => handleHapus(item.id)}
                     >
                       <AiFillDelete className="mr-2" /> Hapus
                     </Button>
@@ -136,6 +185,19 @@ function NilaiPage() {
           </TableBody>
         </Table>
       </div>
+
+      <Modal show={tambah} onClose={() => setTambah(false)}>
+        <TambahNilai
+          newNilai={newNilai}
+          setNewNilai={setNewNilai}
+          setTambah={setTambah}
+          getData={getData}
+        />
+      </Modal>
+
+      <Modal show={edit} onClose={() => setEdit(false)}>
+        <EditNilai idEdit={idEdit} setEdit={setEdit} getData={getData} />
+      </Modal>
     </div>
   );
 }
