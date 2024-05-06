@@ -94,7 +94,7 @@ function MateriPage() {
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
         {loading ? (
-          <div className="flex justify-center mt-36">
+          <div className="flex justify-center">
             <Spinner />
           </div>
         ) : (
