@@ -154,7 +154,8 @@ export async function getKelas() {
   try {
     const { data: kelasData, error: kelasError } = await supabase
       .from("kelas")
-      .select("id,nama");
+      .select("id,nama")
+      .order("nama", { ascending: true });
 
     if (kelasError) throw kelasError;
     const res = [];
@@ -178,6 +179,47 @@ export async function getKelas() {
     return res;
   } catch (error) {
     console.error("Gagal mengambil data kelas: ", error.message);
+  }
+}
+export async function postNewKelas(data) {
+  const { nama } = data;
+  const { error } = await supabase.from("kelas").insert([{ nama }]);
+
+  if (error) {
+    console.error("postNewKelas: ", error);
+    return;
+  }
+}
+export async function getKelasById(id) {
+  const { data, error } = await supabase
+    .from("kelas")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("getKelasById: ", error);
+    return;
+  }
+  return data;
+}
+export async function updateKelas(id, data) {
+  const { nama } = data;
+  const { error } = await supabase
+    .from("kelas")
+    .update([{ nama }])
+    .eq("id", id);
+
+  if (error) {
+    console.error("updateKelas: ", error);
+    return;
+  }
+}
+export async function hapusKelas(id) {
+  const { error } = await supabase.from("kelas").delete().eq("id", id);
+  if (error) {
+    console.error("HapusKelas: ", error);
+    return;
   }
 }
 
