@@ -7,28 +7,44 @@ import {
   TextInput,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { getMapel, postNewGuru } from "../../../api/supabase";
+import { getMapel, getUserByRole, postNewGuru } from "../../../api/supabase";
 
 function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
   const [mapel, setMapel] = useState([]);
-  const [labelMapel, setLabelMapel] = useState("Pilih Mapel");
-  const [labelJK, setLabelJK] = useState("Pilih Jenis Kelamin");
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
-    getDataMapel();
+    getDatas();
   }, []);
 
-  async function getDataMapel() {
-    const data = await getMapel();
-    setMapel(data);
+  async function getDatas() {
+    const dataMapel = await getMapel();
+    setMapel(dataMapel);
+    const dataUser = await getUserByRole("guru");
+    setUser(dataUser);
   }
 
   const handleNewGuru = async (event) => {
     event.preventDefault();
-    setNewGuru({
-      ...newGuru,
-      [event.target.id]: event.target.value,
-    });
+    if (event.target.id === "tanggal_lahir") {
+      const birthDate = new Date(event.target.value);
+      const now = new Date();
+      let age = now.getFullYear() - birthDate.getFullYear();
+      const m = now.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < birthDate.getDate())) {
+        age++;
+      }
+      setNewGuru({
+        ...newGuru,
+        [event.target.id]: event.target.value,
+        umur: age,
+      });
+    } else {
+      setNewGuru({
+        ...newGuru,
+        [event.target.id]: event.target.value,
+      });
+    }
   };
 
   async function handleSubmit() {
@@ -40,7 +56,10 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
       tanggal_lahir: newGuru.tanggal_lahir,
       umur: newGuru.umur,
       alamat: newGuru.alamat,
+      id_mapel: newGuru.id_mapel,
       mapel: newGuru.mapel,
+      id_user: newGuru.id_user,
+      username: newGuru.username,
     });
 
     try {
@@ -51,14 +70,15 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
     setNewGuru({
       ...newGuru,
       nama: "",
-      jenis_kelamin: "",
+      jenis_kelamin: "Pilih Jenis Kelamin",
       tanggal_lahir: "",
       umur: "",
       alamat: "",
-      mapel: "",
+      id_mapel: "",
+      mapel: "Pilih Mapel",
+      username: "",
     });
     getDataGuru();
-    // console.log("handleNewGuru: ", newGuru);
   }
 
   return (
@@ -87,14 +107,13 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
               className="block mb-2"
             />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown label={labelJK} inline className="w-64">
+              <Dropdown label={newGuru.jenis_kelamin} inline className="w-64">
                 <DropdownItem
                   onClick={() => {
                     setNewGuru({
                       ...newGuru,
                       jenis_kelamin: "Laki-laki",
                     });
-                    setLabelJK("Laki-laki");
                   }}
                 >
                   Laki-laki
@@ -105,7 +124,6 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
                       ...newGuru,
                       jenis_kelamin: "Perempuan",
                     });
-                    setLabelJK("Perempuan");
                   }}
                 >
                   Perempuan
@@ -140,6 +158,7 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
               value={newGuru.umur}
               onChange={handleNewGuru}
               autoComplete="off"
+              readOnly
             />
           </div>
           <div>
@@ -161,7 +180,7 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
               className="block mb-2"
             />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown label={labelMapel} inline className="w-64">
+              <Dropdown label={newGuru.mapel} inline className="w-64">
                 {mapel.map((data) => {
                   return (
                     <DropdownItem
@@ -169,12 +188,35 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
                       onClick={() => {
                         setNewGuru({
                           ...newGuru,
-                          mapel: data.id,
+                          id_mapel: data.id,
+                          mapel: data.nama,
                         });
-                        setLabelMapel(data.nama);
                       }}
                     >
                       {data.nama}
+                    </DropdownItem>
+                  );
+                })}
+              </Dropdown>
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="user" value="Username" className="block mb-2" />
+            <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
+              <Dropdown label={newGuru.username} inline className="w-64">
+                {user.map((data) => {
+                  return (
+                    <DropdownItem
+                      key={data.id}
+                      onClick={() => {
+                        setNewGuru({
+                          ...newGuru,
+                          id_user: data.id,
+                          username: data.username,
+                        });
+                      }}
+                    >
+                      {data.username}
                     </DropdownItem>
                   );
                 })}
@@ -199,11 +241,14 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
             setNewGuru({
               ...newGuru,
               nama: "",
-              jenis_kelamin: "",
+              jenis_kelamin: "Pilih Jenis Kelamin",
               tanggal_lahir: "",
               umur: "",
               alamat: "",
-              mapel: "",
+              id_mapel: "",
+              mapel: "Pilih Mapel",
+              id_user: "",
+              username: "Pilih Username",
             });
           }}
         >

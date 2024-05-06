@@ -8,6 +8,7 @@ import {
   TableHeadCell,
   TableRow,
   TextInput,
+  Spinner,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
@@ -21,22 +22,28 @@ function GuruPage() {
   const [tambah, setTambah] = useState(false);
   const [newGuru, setNewGuru] = useState({
     nama: "",
-    jenis_kelamin: "",
+    jenis_kelamin: "Pilih Jenis Kelamin",
     tanggal_lahir: "",
     umur: "",
     alamat: "",
-    mapel: "",
+    id_mapel: "",
+    mapel: "Pilih Mapel",
+    id_user: "",
+    username: "Pilih Username",
   });
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getDataGuru();
-  }, [guru]);
+  }, []);
 
   async function getDataGuru() {
+    setLoading(true);
     const data = await getGuru();
     setGuru(data);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -91,73 +98,85 @@ function GuruPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Table striped>
-          <TableHead className="text-center">
-            <TableHeadCell className="text-white bg-teal-500 ">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Nama
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Jenis Kelamin
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Tanggal Lahir
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500 ">
-              Umur
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Alamat
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Mapel
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {guru.map((item, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                >
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{item.nama}</TableCell>
-                  <TableCell>{item.jenis_kelamin}</TableCell>
-                  <TableCell>{item.tanggal_lahir}</TableCell>
-                  <TableCell>{item.umur}</TableCell>
-                  <TableCell>{item.alamat}</TableCell>
-                  <TableCell>{item.mapel.nama}</TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(item.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(item.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {loading ? (
+          <div className="flex justify-center">
+            <Spinner />
+          </div>
+        ) : (
+          <Table key={guru} striped>
+            <TableHead className="text-center">
+              <TableHeadCell className="text-white bg-teal-500 ">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Nama
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Jenis Kelamin
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Tanggal Lahir
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500 ">
+                Umur
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Alamat
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Mapel
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Username / Email
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {guru.map((item, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                  >
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{item.nama}</TableCell>
+                    <TableCell>{item.jenis_kelamin}</TableCell>
+                    <TableCell>{item.tanggal_lahir}</TableCell>
+                    <TableCell>{item.umur}</TableCell>
+                    <TableCell>{item.alamat}</TableCell>
+                    <TableCell>{item.mapel.nama}</TableCell>
+                    <TableCell>
+                      {item.user.username} / {item.user.email}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(item.id);
+                          }}
+                        >
+                          <AiFillEdit />
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(item.id)}
+                        >
+                          <AiFillDelete />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} onClose={() => setTambah(false)}>

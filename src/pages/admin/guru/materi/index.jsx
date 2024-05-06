@@ -8,6 +8,7 @@ import {
   TableHeadCell,
   TableRow,
   TextInput,
+  Spinner,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
@@ -26,14 +27,17 @@ function MateriPage() {
   });
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getDataMateri();
-  }, [materi]);
+  }, []);
 
   async function getDataMateri() {
+    setLoading(true);
     const dataMateri = await getMateri();
     setMateri(dataMateri);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -89,64 +93,70 @@ function MateriPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Table striped>
-          <TableHead className="text-center">
-            <TableHeadCell className="text-white bg-teal-500">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Guru
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Mapel
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Materi
-            </TableHeadCell>
+        {loading ? (
+          <div className="flex justify-center mt-36">
+            <Spinner />
+          </div>
+        ) : (
+          <Table key={materi} striped>
+            <TableHead className="text-center">
+              <TableHeadCell className="text-white bg-teal-500">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Guru
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Mapel
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Materi
+              </TableHeadCell>
 
-            <TableHeadCell className="text-white bg-teal-500">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {materi.map((data, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                >
-                  <TableCell className="whitespace-nowrap">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell>{data.guru.nama}</TableCell>
-                  <TableCell>{data.mapel.nama}</TableCell>
-                  <TableCell>{data.deskripsi}</TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(data.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(data.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+              <TableHeadCell className="text-white bg-teal-500">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {materi.map((data, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                  >
+                    <TableCell className="whitespace-nowrap">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>{data.guru.nama}</TableCell>
+                    <TableCell>{data.mapel.nama}</TableCell>
+                    <TableCell>{data.deskripsi}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(data.id);
+                          }}
+                        >
+                          <AiFillEdit className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(data.id)}
+                        >
+                          <AiFillDelete className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} onClose={() => setTambah(false)} size="md">

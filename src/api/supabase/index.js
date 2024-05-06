@@ -8,7 +8,7 @@ export async function getUser() {
     .select("*")
     .order("role", { ascending: true });
   if (!data) return console.error("Gagal mengambil data user dari supabase");
-  // console.log(data);
+
   return data;
 }
 export async function findUserByUsername({ user: { username } }) {
@@ -29,7 +29,6 @@ export async function findUserByUsername({ user: { username } }) {
     return;
   }
 
-  // console.log("findUserByUsername: ", data);
   return data;
 }
 export async function findUserByEmail({ user: { email } }) {
@@ -49,8 +48,6 @@ export async function findUserByEmail({ user: { email } }) {
     console.error("findUserByEmail: ", error);
     return;
   }
-
-  // console.log("findUserByEmail: ", data);
   return data;
 }
 export async function getUserByRole(role) {
@@ -141,7 +138,6 @@ export async function getPengumuman() {
     console.error("getPengumuman: ", error);
     return;
   }
-  // console.log("getPengumuman: ", data);
   return data;
 }
 export async function postNewPengumuman(pengumuman) {
@@ -179,7 +175,6 @@ export async function getPengumumanById(id) {
     console.error("getPengumumanById: ", error);
     return;
   }
-  // console.log("getPengumumanById: ", data);
   return data;
 }
 export async function updatePengumuman(id, pengumuman) {
@@ -199,7 +194,6 @@ export async function updatePengumuman(id, pengumuman) {
     showConfirmButton: false,
     timer: 1500,
   });
-  // console.log("updatePengumuman: ", id, pengumuman);
 }
 export async function hapusPengumuman(id) {
   const { error } = await supabase.from("pengumuman").delete().eq("id", id);
@@ -207,7 +201,6 @@ export async function hapusPengumuman(id) {
     console.error("HapusPengumuman: ", error);
     return;
   }
-  // console.log("HapusPengumuman: ", id);
 }
 
 // ------------------kelas------------------
@@ -235,8 +228,6 @@ export async function getKelas() {
         jml_murid: muridData ? muridData.length : 0,
       });
     }
-
-    // console.log("res: ", res);
     return res;
   } catch (error) {
     console.error("Gagal mengambil data kelas: ", error.message);
@@ -301,7 +292,6 @@ export async function getMurid() {
     console.error("getMurid: ", error);
     return;
   }
-  // console.log("getMurid: ", murid);
 
   return murid;
 }
@@ -349,7 +339,6 @@ export async function getMuridById(id) {
     console.error("getMuridById: ", error);
     return;
   }
-  // console.log("getMuridById: ", murid);
   return murid;
 }
 export async function updateMurid(id, data) {
@@ -386,7 +375,6 @@ export async function updateMurid(id, data) {
     showConfirmButton: false,
     timer: 1500,
   });
-  // console.log("updateMurid: ", id, data);
 }
 export async function hapusMurid(id) {
   const { error } = await supabase.from("murid").delete().eq("id", id);
@@ -394,7 +382,6 @@ export async function hapusMurid(id) {
     console.error("HapusMurid: ", error);
     return;
   }
-  // console.log("HapusMurid: ", id);
 }
 
 // ------------------jadwal------------------
@@ -413,7 +400,6 @@ export async function getJadwal() {
     console.error("getJadwal: ", error);
     return;
   }
-  // console.log("getJadwal: ", jadwal);
 
   return jadwal;
 }
@@ -433,7 +419,6 @@ export async function getJadwalByFilter(filter) {
     console.error("getJadwalByFilter: ", error);
     return;
   }
-  // console.log("getJadwalByFilter: ", jadwal);
 
   return jadwal;
 }
@@ -511,7 +496,6 @@ export async function getAbsensiByFilter(filter) {
     console.error("getAbsensiByFilter: ", error);
     return;
   }
-  // console.log("getAbsensiByFilter: ", absensi);
 
   return absensi;
 }
@@ -591,7 +575,6 @@ export async function getNilaiByMurid(murid) {
     console.error("getNilaiByMurid: ", error);
     return;
   }
-  // console.log("getNilaiByMurid: ", nilai);
 
   return nilai;
 }
@@ -624,7 +607,6 @@ export async function getNilaiById(id) {
     console.error("getNilaiById: ", error);
     return;
   }
-  // console.log("getNilaiById: ", nilai);
   return nilai;
 }
 export async function updateNilai(id, data) {
@@ -657,7 +639,7 @@ export async function hapusNilai(id) {
 export async function getGuru() {
   const { data: guru, error } = await supabase
     .from("guru")
-    .select("*, mapel (nama)")
+    .select("*, mapel (nama), user (username, email)")
     .order("nama", { ascending: true });
 
   if (error || !guru) {
@@ -670,8 +652,6 @@ export async function getGuru() {
     console.error("getGuru: ", error);
     return;
   }
-  // console.log("getGuru: ", guru);
-
   return guru;
 }
 export async function postNewGuru(data) {
@@ -679,12 +659,20 @@ export async function postNewGuru(data) {
     throw new Error("postNewGuru: data is null or undefined");
   }
 
-  const { nama, jenis_kelamin, tanggal_lahir, umur, alamat, mapel } = data;
+  const {
+    nama,
+    jenis_kelamin,
+    tanggal_lahir,
+    umur,
+    alamat,
+    id_mapel,
+    id_user,
+  } = data;
 
   const { error } = await supabase
     .from("guru")
     .insert([
-      { nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_mapel: mapel },
+      { nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_mapel, id_user },
     ]);
 
   if (error) {
@@ -702,19 +690,26 @@ export async function postNewGuru(data) {
 export async function getGuruById(id) {
   const { data: guru, error } = await supabase
     .from("guru")
-    .select("*, mapel (nama)")
+    .select("*, mapel (nama), user (username)")
     .eq("id", id)
     .single();
 
   if (error) {
     console.error("getGuruById: ", error);
   }
-  // console.log("getGuruById: ", guru);
 
   return guru;
 }
 export async function updateGuru(id, data) {
-  const { nama, jenis_kelamin, tanggal_lahir, umur, alamat, id_mapel } = data;
+  const {
+    nama,
+    jenis_kelamin,
+    tanggal_lahir,
+    umur,
+    alamat,
+    id_mapel,
+    id_user,
+  } = data;
   const { error } = await supabase
     .from("guru")
     .update([
@@ -725,6 +720,7 @@ export async function updateGuru(id, data) {
         umur,
         alamat,
         id_mapel,
+        id_user,
       },
     ])
     .eq("id", id);
@@ -739,7 +735,6 @@ export async function updateGuru(id, data) {
     showConfirmButton: false,
     timer: 1500,
   });
-  // console.log("updateGuru: ", data);
 }
 export async function hapusGuru(id) {
   const { error } = await supabase.from("guru").delete().eq("id", id);
@@ -766,7 +761,6 @@ export async function getMapel() {
     console.error("getMapel: ", error);
     return;
   }
-  // console.log("getMapel: ", mapel);
 
   return mapel;
 }
@@ -821,7 +815,6 @@ export async function updateMapel(id, data) {
     showConfirmButton: false,
     timer: 1500,
   });
-  // console.log("updateMapel: ", data);
 }
 export async function hapusMapel(id) {
   const { error } = await supabase.from("mapel").delete().eq("id", id);
@@ -849,7 +842,6 @@ export async function getMateri() {
     console.error("getMateri: ", error);
     return;
   }
-  // console.log("getMateri: ", materi);
 
   return materi;
 }
@@ -859,7 +851,6 @@ export async function postNewMateri(data) {
   }
 
   const { deskripsi, id_guru, id_mapel } = data;
-  console.log("postNewMateri: ", deskripsi, id_guru, id_mapel);
 
   if (!deskripsi || !id_guru || !id_mapel) {
     throw new Error(
@@ -904,7 +895,6 @@ export async function updateMateri(id, data) {
     console.error("updateMateri: ", error);
     return;
   }
-  // console.log("updateMateri: ", data);
 }
 export async function hapusMateri(id) {
   const { error } = await supabase.from("materi").delete().eq("id", id);

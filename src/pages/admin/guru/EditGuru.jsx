@@ -1,6 +1,11 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { getGuruById, getMapel, updateGuru } from "../../../api/supabase";
+import {
+  getGuruById,
+  getMapel,
+  getUserByRole,
+  updateGuru,
+} from "../../../api/supabase";
 import {
   Dropdown,
   DropdownItem,
@@ -12,57 +17,84 @@ import {
 function EditGuru({ idEdit, setEdit, getDataGuru }) {
   const [guru, setGuru] = useState({});
   const [mapel, setMapel] = useState([]);
-  const [labelMapel, setLabelMapel] = useState("Pilih Mapel");
+  const [labelMapel, setLabelMapel] = useState("");
+  const [user, setUser] = useState([]);
+  const [labelUser, setLabelUser] = useState("");
 
   async function getData() {
-    const data = await getGuruById(idEdit);
-    setGuru(data);
-    const dataMapel = await getMapel();
-    setMapel(dataMapel);
+    try {
+      const data = await getGuruById(idEdit);
+      if (data) {
+        setGuru(data);
+      }
+
+      const dataMapel = await getMapel();
+      if (dataMapel) {
+        setMapel(dataMapel);
+      }
+
+      const dataUser = await getUserByRole("guru");
+      if (dataUser) {
+        setUser(dataUser);
+      }
+    } catch (error) {
+      console.error("getData: ", error);
+    }
+  }
+
+  async function setLabel() {
+    const guru = await getGuruById(idEdit);
+    setLabelMapel(guru.mapel.nama);
+    setLabelUser(guru.user.username);
   }
 
   useEffect(() => {
     getData();
-    async function setLabel() {
-      const guru = await getGuruById(idEdit);
-      setLabelMapel(guru.mapel.nama);
-    }
     setLabel();
   }, []);
 
-  const handleGuru = async (event) => {
+  const handleGuru = (event) => {
     event.preventDefault();
-    setGuru({
-      ...guru,
-      [event.target.id]: event.target.value,
-    });
+    if (guru) {
+      setGuru({
+        ...guru,
+        [event.target.id]: event.target.value,
+      });
+    }
   };
 
   async function handleSubmit() {
-    setEdit(false);
-    setGuru({
-      ...guru,
-      nama: guru.nama,
-      jenis_kelamin: guru.jenis_kelamin,
-      tanggal_lahir: guru.tanggal_lahir,
-      umur: guru.umur,
-      alamat: guru.alamat,
-      mapel: guru.mapel,
-    });
-
     try {
-      await updateGuru(idEdit, guru);
+      setEdit(false);
+      if (guru) {
+        setGuru({
+          ...guru,
+          nama: guru.nama,
+          jenis_kelamin: guru.jenis_kelamin,
+          tanggal_lahir: guru.tanggal_lahir,
+          umur: guru.umur,
+          alamat: guru.alamat,
+          id_mapel: guru.id_mapel,
+          id_user: guru.id_user,
+        });
+        console.log("Guru: ", guru);
+      }
+
+      if (guru && idEdit) {
+        await updateGuru(idEdit, guru);
+      }
+
+      if (getDataGuru) {
+        getDataGuru();
+      }
     } catch (error) {
       console.error("handleSubmit: ", error);
     }
-    getDataGuru();
   }
 
   return (
     <div>
-      <Modal.Header>
-        <p className="text-xl font-medium">Edit Guru</p>
-      </Modal.Header>
+      <Modal.Header>Edit Data Guru</Modal.Header>
       <Modal.Body>
         <div className="space-y-2">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -73,7 +105,7 @@ function EditGuru({ idEdit, setEdit, getDataGuru }) {
                 type="text"
                 placeholder="nama guru"
                 required
-                value={guru.nama}
+                value={guru?.nama}
                 onChange={handleGuru}
                 autoComplete="off"
               />
@@ -85,7 +117,12 @@ function EditGuru({ idEdit, setEdit, getDataGuru }) {
                 className="block mb-2"
               />
               <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-                <Dropdown label={guru.jenis_kelamin} inline className="w-64">
+                <Dropdown
+                  id="jenis_kelamin"
+                  label={guru?.jenis_kelamin}
+                  inline
+                  className="w-64"
+                >
                   <DropdownItem
                     onClick={() => {
                       setGuru({
@@ -120,7 +157,7 @@ function EditGuru({ idEdit, setEdit, getDataGuru }) {
                 type="date"
                 placeholder="tanggal lahir"
                 required
-                value={guru.tanggal_lahir}
+                value={guru?.tanggal_lahir}
                 onChange={handleGuru}
                 autoComplete="off"
                 pattern="\d{4}-\d{2}-\d{2}"
@@ -133,7 +170,7 @@ function EditGuru({ idEdit, setEdit, getDataGuru }) {
                 type="text"
                 placeholder="umur"
                 required
-                value={guru.umur}
+                value={guru?.umur}
                 onChange={handleGuru}
                 autoComplete="off"
               />
@@ -145,7 +182,7 @@ function EditGuru({ idEdit, setEdit, getDataGuru }) {
                 type="text"
                 placeholder="alamat"
                 required
-                value={guru.alamat}
+                value={guru?.alamat}
                 onChange={handleGuru}
                 autoComplete="off"
               />
@@ -165,12 +202,39 @@ function EditGuru({ idEdit, setEdit, getDataGuru }) {
                         onClick={() => {
                           setGuru({
                             ...guru,
-                            mapel: data.id,
+                            id_mapel: data.id_mapel,
                           });
                           setLabelMapel(data.nama);
                         }}
                       >
                         {data.nama}
+                      </DropdownItem>
+                    );
+                  })}
+                </Dropdown>
+              </div>
+            </div>
+            <div>
+              <Label
+                htmlFor="user"
+                value="Pilih Username"
+                className="block mb-2"
+              />
+              <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
+                <Dropdown label={labelUser} inline className="w-64">
+                  {user.map((data) => {
+                    return (
+                      <DropdownItem
+                        key={data.id}
+                        onClick={() => {
+                          setGuru({
+                            ...guru,
+                            id_user: data.id_user,
+                          });
+                          setLabelUser(data.username);
+                        }}
+                      >
+                        {data.username}
                       </DropdownItem>
                     );
                   })}

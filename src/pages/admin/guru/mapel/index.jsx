@@ -1,6 +1,7 @@
 import {
   Button,
   Modal,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -22,14 +23,17 @@ function MapelPage() {
   const [newMapel, setNewMapel] = useState({});
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getDataMapel();
-  }, [mapel]);
+  }, []);
 
   async function getDataMapel() {
+    setLoading(true);
     const data = await getMapel();
     setMapel(data);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -85,55 +89,62 @@ function MapelPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Table striped>
-          <TableHead className="text-center">
-            <TableHeadCell className="w-16 text-white bg-teal-500">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Nama Mapel
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {mapel.map((data, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                >
-                  <TableCell className="whitespace-nowrap">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell>{data.nama}</TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(data.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(data.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {loading && (
+          <div className="flex justify-center">
+            <Spinner size="lg" className="mr-4" />
+          </div>
+        )}
+        {!loading && (
+          <Table key={mapel} striped>
+            <TableHead className="text-center">
+              <TableHeadCell className="w-16 text-white bg-teal-500">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Nama Mapel
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {mapel.map((data, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                  >
+                    <TableCell className="whitespace-nowrap">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>{data.nama}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(data.id);
+                          }}
+                        >
+                          <AiFillEdit className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(data.id)}
+                        >
+                          <AiFillDelete className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} size="lg" onClose={() => setTambah(false)}>
