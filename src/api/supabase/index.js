@@ -3,7 +3,10 @@ import { supabase } from "./SupabaseClient";
 
 //  ------------------user------------------
 export async function getUser() {
-  const { data } = await supabase.from("user").select("*");
+  const { data } = await supabase
+    .from("user")
+    .select("*")
+    .order("role", { ascending: true });
   if (!data) return console.error("Gagal mengambil data user dari supabase");
   // console.log(data);
   return data;
@@ -61,6 +64,64 @@ export async function getUserByRole(role) {
   }
 
   return data;
+}
+
+export async function postNewUser(data) {
+  const { username, email, password, role } = data;
+  const { error } = await supabase
+    .from("user")
+    .insert([{ username, email, password, role }]);
+
+  if (error) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Gagal menambahkan user.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("postNewUser: ", error);
+    return;
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "User ditambahkan.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function getUserById(id) {
+  const { data, error } = await supabase
+    .from("user")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !data) {
+    console.error("getUserById: ", error);
+    return;
+  }
+  return data;
+}
+export async function updateUser(id, data) {
+  const { username, email, password, role } = data;
+  const { error } = await supabase
+    .from("user")
+    .update({ username, email, password, role })
+    .eq("id", id);
+
+  if (error) {
+    console.error("updateUser: ", error);
+    return;
+  }
+}
+export async function hapusUser(id) {
+  const { error } = await supabase.from("user").delete().eq("id", id);
+  if (error) {
+    console.error("deleteUser: ", error);
+    return;
+  }
 }
 
 // ------------------pengumuman------------------
