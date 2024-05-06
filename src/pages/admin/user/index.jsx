@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUser, getUserByRole, hapusUser } from "../../../api/supabase";
+import { getUserByRole, hapusUser } from "../../../api/supabase";
 import Swal from "sweetalert2";
 import {
   Button,
