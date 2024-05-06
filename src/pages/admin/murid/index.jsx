@@ -8,6 +8,7 @@ import {
   TableHeadCell,
   TableRow,
   TextInput,
+  Spinner,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
@@ -30,14 +31,16 @@ function MuridPage() {
   });
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getDataMurid();
-  }, [murid]);
+  }, []);
 
   async function getDataMurid() {
     const data = await getMurid();
     setMurid(data);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -92,81 +95,87 @@ function MuridPage() {
       </div>
 
       <div className="px-4 py-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Table striped>
-          <TableHead className="text-center">
-            <TableHeadCell className="text-white bg-teal-500">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Nama
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Jenis Kelamin
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Tanggal Lahir
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500 ">
-              Umur
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Alamat
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Kelas
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Username / Email
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {murid.map((data, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                >
-                  <TableCell className="whitespace-nowrap">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell>{data.nama}</TableCell>
-                  <TableCell>{data.jenis_kelamin}</TableCell>
-                  <TableCell>{data.tanggal_lahir}</TableCell>
-                  <TableCell>{data.umur}</TableCell>
-                  <TableCell>{data.alamat}</TableCell>
-                  <TableCell>{data.kelas.nama}</TableCell>
-                  <TableCell>
-                    {data.user.username} / {data.user.email}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-2">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(data.id);
-                        }}
-                      >
-                        <AiFillEdit className="" />
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(data.id)}
-                      >
-                        <AiFillDelete className="" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {loading ? (
+          <div className="flex justify-center my-20">
+            <Spinner />
+          </div>
+        ) : (
+          <Table striped key={murid}>
+            <TableHead className="text-center">
+              <TableHeadCell className="text-white bg-teal-500">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Nama
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Jenis Kelamin
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Tanggal Lahir
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500 ">
+                Umur
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Alamat
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Kelas
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Username / Email
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {murid.map((data, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                  >
+                    <TableCell className="whitespace-nowrap">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>{data.nama}</TableCell>
+                    <TableCell>{data.jenis_kelamin}</TableCell>
+                    <TableCell>{data.tanggal_lahir}</TableCell>
+                    <TableCell>{data.umur}</TableCell>
+                    <TableCell>{data.alamat}</TableCell>
+                    <TableCell>{data.kelas.nama}</TableCell>
+                    <TableCell>
+                      {data.user.username} / {data.user.email}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-2">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(data.id);
+                          }}
+                        >
+                          <AiFillEdit className="" />
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(data.id)}
+                        >
+                          <AiFillDelete className="" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} onClose={() => setTambah(false)}>

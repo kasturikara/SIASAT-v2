@@ -6,6 +6,7 @@ import {
   Dropdown,
   DropdownItem,
   Modal,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -37,14 +38,17 @@ function UserPage() {
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
   const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getDataUser();
-  }, [filter, user]);
+  }, [filter]);
 
   async function getDataUser() {
+    setLoading(true);
     const data = await getUserByRole(filter);
     setUser(data);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -113,72 +117,78 @@ function UserPage() {
             );
           })}
         </Dropdown>
-        <Table striped key={user} className="mt-4">
-          <TableHead className="text-center">
-            <TableHeadCell className="w-16 text-white bg-teal-500">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Username
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Email
-            </TableHeadCell>
-            <TableHeadCell className="relative text-white bg-teal-500">
-              Password
-              <button
-                type="button"
-                onClick={() => setShowPass(!showPass)}
-                className="absolute inset-y-0 right-0 px-4 py-2 text-sm font-medium text-white hover:text-teal-300"
-              >
-                {showPass ? <AiFillEyeInvisible /> : <AiFillEye />}
-              </button>
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {user.map((data, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+        {loading ? (
+          <div className="flex justify-center my-20">
+            <Spinner />
+          </div>
+        ) : (
+          <Table striped key={user} className="mt-4">
+            <TableHead className="text-center">
+              <TableHeadCell className="w-16 text-white bg-teal-500">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Username
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Email
+              </TableHeadCell>
+              <TableHeadCell className="relative text-white bg-teal-500">
+                Password
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute inset-y-0 right-0 px-4 py-2 text-sm font-medium text-white hover:text-teal-300"
                 >
-                  <TableCell className="whitespace-nowrap">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell>{data.username}</TableCell>
-                  <TableCell>{data.email}</TableCell>
-                  <TableCell>
-                    {showPass ? data.password : "**********"}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(data.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(data.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+                  {showPass ? <AiFillEyeInvisible /> : <AiFillEye />}
+                </button>
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {user.map((data, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                  >
+                    <TableCell className="whitespace-nowrap">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>{data.username}</TableCell>
+                    <TableCell>{data.email}</TableCell>
+                    <TableCell>
+                      {showPass ? data.password : "**********"}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(data.id);
+                          }}
+                        >
+                          <AiFillEdit className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(data.id)}
+                        >
+                          <AiFillDelete className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} onClose={() => setTambah(false)}>

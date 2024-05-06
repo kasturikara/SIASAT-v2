@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import SlidePengumuman from "../../../components/UI/SlidePengumuman";
+import { useEffect, useState } from "react";
 import { getPengumuman } from "../../../api/supabase";
 import CardUI from "./CardUI";
 
@@ -26,8 +26,8 @@ function DashboardPage() {
                 key={data.id}
                 className="flex flex-col items-center justify-center h-full space-y-4"
               >
-                <p className="text-3xl font-bold uppercase ">{data.judul}</p>
-                <p className="text-xl ">{data.isi}</p>
+                <h1 className="text-3xl font-bold uppercase ">{data.judul}</h1>
+                <h6 className="text-lg text-gray-800">{data.isi}</h6>
               </div>
             );
           })}

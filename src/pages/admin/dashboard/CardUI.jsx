@@ -34,9 +34,9 @@ const CardUI = () => {
   }
 
   return (
-    <div className="grid h-full grid-cols-1 gap-4 mt-8 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid h-full grid-cols-1 gap-4 mt-4 md:grid-cols-3 lg:grid-cols-4">
       {loading ? (
-        <div className="flex items-center justify-center col-span-full">
+        <div className="flex items-center justify-center my-24 col-span-full">
           <Spinner />
         </div>
       ) : (
@@ -45,7 +45,7 @@ const CardUI = () => {
           <Link to="/murid">
             <Card
               horizontal
-              className="h-32 text-gray-800 transition-all bg-pink-400 hover:bg-pink-500 hover:text-gray-200"
+              className="h-32 text-gray-800 transition-all bg-pink-400 hover:bg-pink-500 hover:text-gray-200 hover:scale-105"
             >
               <div className="flex items-center justify-center mx-2">
                 <PiStudent className="text-5xl " />
@@ -63,7 +63,7 @@ const CardUI = () => {
           <Link to="/guru">
             <Card
               horizontal
-              className="h-32 text-gray-800 transition-all bg-yellow-400 hover:bg-yellow-500 hover:text-gray-200"
+              className="h-32 text-gray-800 transition-all bg-yellow-400 hover:bg-yellow-500 hover:text-gray-200 hover:scale-105"
             >
               <div className="flex items-center justify-center mx-2">
                 <PiUsersThree className="text-5xl " />
@@ -81,7 +81,7 @@ const CardUI = () => {
           <Link to="/mapel">
             <Card
               horizontal
-              className="h-32 text-gray-800 transition-all bg-green-400 hover:bg-green-500 hover:text-gray-200"
+              className="h-32 text-gray-800 transition-all bg-green-400 hover:bg-green-500 hover:text-gray-200 hover:scale-105"
             >
               <div className="flex items-center justify-center mx-2">
                 <PiBookOpenText className="text-5xl" />
@@ -99,7 +99,7 @@ const CardUI = () => {
           <Link to="/kelas">
             <Card
               horizontal
-              className="h-32 text-gray-800 transition-all bg-violet-400 hover:bg-violet-500 hover:text-gray-200"
+              className="h-32 text-gray-800 transition-all bg-violet-400 hover:bg-violet-500 hover:text-gray-200 hover:scale-105"
             >
               <div className="flex items-center justify-center mx-2">
                 <PiBuildings className="text-5xl" />

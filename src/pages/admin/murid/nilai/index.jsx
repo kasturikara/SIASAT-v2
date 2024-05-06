@@ -10,6 +10,7 @@ import {
   TableHeadCell,
   TableRow,
   TextInput,
+  Spinner,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
@@ -39,16 +40,19 @@ function NilaiPage() {
   });
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getData();
-  }, [filterNilai, nilai]);
+  }, [filterNilai]);
 
   async function getData() {
+    setLoading(true);
     const dataNilai = await getNilaiByMurid(filterNilai.id);
     setNilai(dataNilai);
     const dataMurid = await getMurid();
     setMurid(dataMurid);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -127,63 +131,69 @@ function NilaiPage() {
             );
           })}
         </Dropdown>
-        <Table striped key={nilai} className="mt-4">
-          <TableHead className="text-center">
-            <TableHeadCell className="w-16 text-white bg-teal-500">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Mapel
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Jenis
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Nilai
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Tanggal
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500 ">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {nilai.map((item, index) => (
-              <TableRow
-                key={index}
-                className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-              >
-                <TableCell className="w-16">{index + 1}</TableCell>
-                <TableCell>{item.mapel.nama}</TableCell>
-                <TableCell>{item.jenis}</TableCell>
-                <TableCell>{item.nilai}</TableCell>
-                <TableCell>{item.tanggal}</TableCell>
-                <TableCell>
-                  <div className="flex justify-center gap-4">
-                    <Button
-                      size="xs"
-                      color="success"
-                      onClick={() => {
-                        setEdit(true);
-                        setIdEdit(item.id);
-                      }}
-                    >
-                      <AiFillEdit className="mr-2" /> Edit
-                    </Button>
-                    <Button
-                      size="xs"
-                      color="failure"
-                      onClick={() => handleHapus(item.id)}
-                    >
-                      <AiFillDelete className="mr-2" /> Hapus
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {loading ? (
+          <div className="flex justify-center my-20">
+            <Spinner />
+          </div>
+        ) : (
+          <Table striped key={nilai} className="mt-4">
+            <TableHead className="text-center">
+              <TableHeadCell className="w-16 text-white bg-teal-500">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Mapel
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Jenis
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Nilai
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Tanggal
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500 ">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {nilai.map((item, index) => (
+                <TableRow
+                  key={index}
+                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                >
+                  <TableCell className="w-16">{index + 1}</TableCell>
+                  <TableCell>{item.mapel.nama}</TableCell>
+                  <TableCell>{item.jenis}</TableCell>
+                  <TableCell>{item.nilai}</TableCell>
+                  <TableCell>{item.tanggal}</TableCell>
+                  <TableCell>
+                    <div className="flex justify-center gap-4">
+                      <Button
+                        size="xs"
+                        color="success"
+                        onClick={() => {
+                          setEdit(true);
+                          setIdEdit(item.id);
+                        }}
+                      >
+                        <AiFillEdit className="mr-2" /> Edit
+                      </Button>
+                      <Button
+                        size="xs"
+                        color="failure"
+                        onClick={() => handleHapus(item.id)}
+                      >
+                        <AiFillDelete className="mr-2" /> Hapus
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} onClose={() => setTambah(false)}>

@@ -4,12 +4,15 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 const SlidePengumuman = ({ children }) => {
   return (
-    <div className="p-4 rounded-lg h-46 sm:h-56 xl:h-64 2xl:h-80 bg-slate-50">
+    <div className="p-4 rounded-lg h-46 sm:h-56 xl:h-64 2xl:h-80 bg-gradient-to-r from-teal-500 to-sky-400">
       <Carousel
         pauseOnHover
-        leftControl={<FaAngleLeft />}
-        rightControl={<FaAngleRight />}
-        indicators={false}
+        leftControl={
+          <FaAngleLeft className="text-3xl text-white hover:scale-150 hover:text-gray-200" />
+        }
+        rightControl={
+          <FaAngleRight className="text-3xl text-white hover:scale-150 hover:text-gray-200" />
+        }
         slideInterval={4000}
       >
         {children}

@@ -3,6 +3,7 @@ import {
   Dropdown,
   DropdownItem,
   Modal,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -41,16 +42,18 @@ function JadwalPage() {
   });
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getDataJadwal();
-  }, [jadwal]);
+  }, []);
 
   async function getDataJadwal() {
     const dataJadwal = await getJadwalByFilter(filterJadwal.id);
     setJadwal(dataJadwal);
     const dataKelas = await getKelas();
     setKelas(dataKelas);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -129,67 +132,73 @@ function JadwalPage() {
             );
           })}
         </Dropdown>
-        <Table striped key={jadwal} className="mt-4">
-          <TableHead className="text-center">
-            <TableHeadCell className="w-16 text-white bg-teal-500">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Hari
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Nama Guru
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Mapel
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Jam
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500 ">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {jadwal.map((data, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  className=" text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                >
-                  <TableCell className="w-16">{index + 1}</TableCell>
-                  <TableCell>{data.hari}</TableCell>
-                  <TableCell>{data.guru?.nama}</TableCell>
-                  <TableCell>{data.guru?.mapel.nama}</TableCell>
-                  <TableCell>
-                    {data.jam_mulai} - {data.jam_selesai}
-                  </TableCell>
-                  <TableCell className="w-1/3">
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(data.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(data.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {loading ? (
+          <div className="flex justify-center my-20">
+            <Spinner />
+          </div>
+        ) : (
+          <Table striped key={jadwal} className="mt-4">
+            <TableHead className="text-center">
+              <TableHeadCell className="w-16 text-white bg-teal-500">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Hari
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Nama Guru
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Mapel
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Jam
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500 ">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {jadwal.map((data, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    className=" text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                  >
+                    <TableCell className="w-16">{index + 1}</TableCell>
+                    <TableCell>{data.hari}</TableCell>
+                    <TableCell>{data.guru?.nama}</TableCell>
+                    <TableCell>{data.guru?.mapel.nama}</TableCell>
+                    <TableCell>
+                      {data.jam_mulai} - {data.jam_selesai}
+                    </TableCell>
+                    <TableCell className="w-1/3">
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(data.id);
+                          }}
+                        >
+                          <AiFillEdit className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(data.id)}
+                        >
+                          <AiFillDelete className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} onClose={() => setTambah(false)}>

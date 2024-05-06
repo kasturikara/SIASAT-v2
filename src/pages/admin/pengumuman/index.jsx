@@ -1,6 +1,7 @@
 import {
   Button,
   Modal,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -26,14 +27,16 @@ function PengumumanPage() {
   });
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getDataPengumuman();
-  }, [pengumuman]);
+  }, []);
 
   async function getDataPengumuman() {
     const data = await getPengumuman();
     setPengumuman(data);
+    setLoading(false);
   }
 
   const handleHapus = async (id) => {
@@ -78,63 +81,69 @@ function PengumumanPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Table striped key={pengumuman}>
-          <TableHead className="text-center">
-            <TableHeadCell className="text-white bg-teal-500">
-              No.
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Judul
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Isi
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Tanggal
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Action
-            </TableHeadCell>
-          </TableHead>
-          <TableBody className="text-center divide-y">
-            {pengumuman.map((data, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                >
-                  <TableCell className=" whitespace-nowrap">
-                    {index + 1}.
-                  </TableCell>
-                  <TableCell>{data.judul}</TableCell>
-                  <TableCell>{data.isi}</TableCell>
-                  <TableCell>{data.tanggal}</TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(data.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(data.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {loading ? (
+          <div className="flex justify-center my-20">
+            <Spinner />
+          </div>
+        ) : (
+          <Table striped key={pengumuman}>
+            <TableHead className="text-center">
+              <TableHeadCell className="text-white bg-teal-500">
+                No.
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Judul
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Isi
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Tanggal
+              </TableHeadCell>
+              <TableHeadCell className="text-white bg-teal-500">
+                Action
+              </TableHeadCell>
+            </TableHead>
+            <TableBody className="text-center divide-y">
+              {pengumuman.map((data, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                  >
+                    <TableCell className=" whitespace-nowrap">
+                      {index + 1}.
+                    </TableCell>
+                    <TableCell>{data.judul}</TableCell>
+                    <TableCell>{data.isi}</TableCell>
+                    <TableCell>{data.tanggal}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(data.id);
+                          }}
+                        >
+                          <AiFillEdit className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(data.id)}
+                        >
+                          <AiFillDelete className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </div>
 
       <Modal show={tambah} size="lg" onClose={() => setTambah(false)}>
