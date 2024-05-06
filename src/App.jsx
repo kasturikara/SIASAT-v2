@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 
 //layout
 import AdminLayout from "./layout/admin";
+import GuruLayout from "./layout/guru";
 
 // routes
 import AdminRoutes from "./routes/AdminRoutes";
+import GuruRoutes from "./routes/GuruRoutes";
 
 // pages
 import LoginPage from "./pages/auth";
@@ -104,9 +106,9 @@ function App() {
               );
             case "guru":
               return (
-                <>
-                  <p>Role {user.role}</p>
-                </>
+                <GuruLayout>
+                  <GuruRoutes />
+                </GuruLayout>
               );
             case "wali":
               return (
