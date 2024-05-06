@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SlidePengumuman from "../../../components/UI/SlidePengumuman";
 import { getPengumuman } from "../../../api/supabase";
+import CardUI from "./CardUI";
 
 function DashboardPage() {
   const [pengumuman, setPengumuman] = useState([]);
@@ -32,6 +33,8 @@ function DashboardPage() {
           })}
         </SlidePengumuman>
       </div>
+      {/* //* Card */}
+      <CardUI />
     </div>
   );
 }
