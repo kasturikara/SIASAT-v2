@@ -43,7 +43,7 @@ function index() {
               {user.user.email}
             </span>
           </DropdownHeader>
-          <DropdownItem>Setting</DropdownItem>
+          <DropdownItem>Profile</DropdownItem>
           <DropdownDivider />
           <DropdownItem
             onClick={() => {
