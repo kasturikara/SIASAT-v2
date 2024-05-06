@@ -11,8 +11,8 @@ import { getMapel, postNewGuru } from "../../../api/supabase";
 
 function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
   const [mapel, setMapel] = useState([]);
-  const [labelMapel, setLabelMapel] = useState("Mapel");
-  const [labelJK, setLabelJK] = useState("Jenis Kelamin");
+  const [labelMapel, setLabelMapel] = useState("Pilih Mapel");
+  const [labelJK, setLabelJK] = useState("Pilih Jenis Kelamin");
 
   useEffect(() => {
     getDataMapel();
