@@ -317,7 +317,7 @@ export async function getJadwal() {
 export async function getJadwalByFilter(filter) {
   const { data: jadwal, error } = await supabase
     .from("jadwal")
-    .select("*, kelas (nama), mapel (nama, materi(deskripsi))")
+    .select("*, kelas (nama), guru (nama, mapel (nama)))")
     .eq("id_kelas", filter);
 
   if (error || !jadwal) {
@@ -333,6 +333,62 @@ export async function getJadwalByFilter(filter) {
   // console.log("getJadwalByFilter: ", jadwal);
 
   return jadwal;
+}
+export async function postNewJadwal(data) {
+  const { id_kelas, id_guru, hari, jam_mulai, jam_selesai } = data;
+  const { error } = await supabase
+    .from("jadwal")
+    .insert([{ id_kelas, id_guru, hari, jam_mulai, jam_selesai }]);
+
+  if (error) {
+    throw error || new Error("postNewJadwal: insert failed", error);
+  }
+
+  Swal.fire({
+    title: "Success!",
+    text: "Jadwal baru telah ditambahkan.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+export async function getJadwalById(id) {
+  const { data: jadwal, error } = await supabase
+    .from("jadwal")
+    .select("*, kelas (nama), guru (nama, mapel (nama)))")
+    .eq("id", id)
+    .single();
+
+  if (error || !jadwal) {
+    Swal.fire({
+      title: "Oops!",
+      text: "Jadwal tidak ditemukan.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("getJadwalById: ", error);
+    return;
+  }
+
+  return jadwal;
+}
+export async function updateJadwal(id, data) {
+  const { id_kelas, id_guru, hari, jam_mulai, jam_selesai } = data;
+  const { error } = await supabase
+    .from("jadwal")
+    .update({ id_kelas, id_guru, hari, jam_mulai, jam_selesai })
+    .eq("id", id);
+
+  if (error) {
+    throw error || new Error("updateJadwal: update failed", error);
+  }
+}
+export async function hapusJadwal(id) {
+  const { error } = await supabase.from("jadwal").delete().eq("id", id);
+  if (error) {
+    console.error("HapusJadwal: ", error);
+    return;
+  }
 }
 
 // ------------------absensi------------------

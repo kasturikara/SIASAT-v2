@@ -2,6 +2,7 @@ import {
   Button,
   Dropdown,
   DropdownItem,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -12,7 +13,14 @@ import {
 } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getJadwalByFilter, getKelas } from "../../../api/supabase";
+import {
+  getJadwalByFilter,
+  getKelas,
+  hapusJadwal,
+} from "../../../api/supabase";
+import Swal from "sweetalert2";
+import EditJadwal from "./EditJadwal";
+import TambahJadwal from "./TambahJadwal";
 
 function JadwalPage() {
   const [jadwal, setJadwal] = useState([]);
@@ -21,10 +29,22 @@ function JadwalPage() {
     id: 1,
     kelas: "10-1",
   });
+  const [tambah, setTambah] = useState(false);
+  const [newJadwal, setNewJadwal] = useState({
+    id_kelas: filterJadwal.id,
+    kelas: filterJadwal.kelas,
+    id_guru: "",
+    guru: "Pilih Guru",
+    hari: "Pilih Hari",
+    jam_mulai: "",
+    jam_selesai: "",
+  });
+  const [edit, setEdit] = useState(false);
+  const [idEdit, setIdEdit] = useState(0);
 
   useEffect(() => {
     getDataJadwal();
-  }, [filterJadwal]);
+  }, [jadwal]);
 
   async function getDataJadwal() {
     const dataJadwal = await getJadwalByFilter(filterJadwal.id);
@@ -32,6 +52,38 @@ function JadwalPage() {
     const dataKelas = await getKelas();
     setKelas(dataKelas);
   }
+
+  const handleHapus = async (id) => {
+    if (id === null || id === undefined) {
+      console.error("handleHapus: id is null or undefined");
+      return;
+    }
+    try {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          hapusJadwal(id);
+          Swal.fire({
+            title: "Terhapus!",
+            text: "Data telah dihapus.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+      getDataJadwal();
+    } catch (error) {
+      console.error("handleHapus: hapusJadwal", error);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -43,7 +95,10 @@ function JadwalPage() {
             placeholder="Search..."
             icon={AiOutlineSearch}
           />
-          <button className="px-4 my-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-400">
+          <button
+            className="px-4 my-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-400"
+            onClick={() => setTambah(true)}
+          >
             + Tambah
           </button>
         </div>
@@ -83,13 +138,10 @@ function JadwalPage() {
               Hari
             </TableHeadCell>
             <TableHeadCell className="text-white bg-teal-500">
-              Kelas
+              Nama Guru
             </TableHeadCell>
             <TableHeadCell className="text-white bg-teal-500">
               Mapel
-            </TableHeadCell>
-            <TableHeadCell className="text-white bg-teal-500">
-              Materi
             </TableHeadCell>
             <TableHeadCell className="text-white bg-teal-500">
               Jam
@@ -107,9 +159,8 @@ function JadwalPage() {
                 >
                   <TableCell className="w-16">{index + 1}</TableCell>
                   <TableCell>{data.hari}</TableCell>
-                  <TableCell>{data.kelas.nama}</TableCell>
-                  <TableCell>{data.mapel.nama}</TableCell>
-                  <TableCell>{data.mapel.materi[0].deskripsi}</TableCell>
+                  <TableCell>{data.guru?.nama}</TableCell>
+                  <TableCell>{data.guru?.mapel.nama}</TableCell>
                   <TableCell>
                     {data.jam_mulai} - {data.jam_selesai}
                   </TableCell>
@@ -118,17 +169,17 @@ function JadwalPage() {
                       <Button
                         size="xs"
                         color="success"
-                        // onClick={() => {
-                        //   setOpenEdit(true);
-                        //   setIdEdit(data.id);
-                        // }}
+                        onClick={() => {
+                          setEdit(true);
+                          setIdEdit(data.id);
+                        }}
                       >
                         <AiFillEdit className="mr-2" /> Edit
                       </Button>
                       <Button
                         size="xs"
                         color="failure"
-                        // onClick={() => handleHapus(data.id)}
+                        onClick={() => handleHapus(data.id)}
                       >
                         <AiFillDelete className="mr-2" /> Hapus
                       </Button>
@@ -140,6 +191,23 @@ function JadwalPage() {
           </TableBody>
         </Table>
       </div>
+
+      <Modal show={tambah} onClose={() => setTambah(false)}>
+        <TambahJadwal
+          newJadwal={newJadwal}
+          setNewJadwal={setNewJadwal}
+          setTambah={setTambah}
+          getDataJadwal={getDataJadwal}
+        />
+      </Modal>
+
+      <Modal show={edit} onClose={() => setEdit(false)}>
+        <EditJadwal
+          idEdit={idEdit}
+          setEdit={setEdit}
+          getDataJadwal={getDataJadwal}
+        />
+      </Modal>
     </div>
   );
 }
