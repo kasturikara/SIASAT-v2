@@ -9,7 +9,6 @@ function EditPengumuman({ idEdit, setOpenEdit, getDataPengumuman }) {
   async function getData() {
     const data = await getPengumumanById(idEdit);
     setPengumuman(data);
-    return data;
   }
 
   useEffect(() => {
