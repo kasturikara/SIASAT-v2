@@ -4,7 +4,6 @@ import { Route, Routes } from "react-router-dom";
 // pages
 import DashboardPage from "../pages/guru/dashboard";
 import AbsensiPage from "../pages/guru/murid/absensi";
-import MapelPage from "../pages/guru/mapel";
 import NilaiPage from "../pages/guru/murid/nilai";
 import ProfilePage from "../pages/guru/profile";
 import RaporPage from "../pages/guru/murid/rapor";
@@ -14,7 +13,6 @@ function GuruRoutes() {
     <Routes>
       <Route path="/" element={<DashboardPage />} />
       <Route path="/absensi" element={<AbsensiPage />} />
-      <Route path="/mapel" element={<MapelPage />} />
       <Route path="/nilai" element={<NilaiPage />} />
       <Route path="/rapor" element={<RaporPage />} />
       <Route path="/profile" element={<ProfilePage />} />

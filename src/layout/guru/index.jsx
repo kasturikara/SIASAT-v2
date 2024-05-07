@@ -1,10 +1,29 @@
 import PropTypes from "prop-types";
 import SidebarUI from "../../components/guru/SidebarUI";
 import NavbarUI from "../../components/guru/NavbarUI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getGuruByUser } from "../../api/supabase";
+import { Spinner } from "flowbite-react";
 
 function GuruLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem("login"));
+
+  useEffect(() => {
+    getDataGuru();
+  }, []);
+
+  async function getDataGuru() {
+    setLoading(true);
+    try {
+      const data = await getGuruByUser(user?.user);
+      localStorage.setItem("guru", JSON.stringify(data));
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  }
 
   return (
     <div className="antialiased bg-slate-200">
@@ -15,7 +34,13 @@ function GuruLayout({ children }) {
           isOpen ? "md:ml-56" : "ml-12"
         } bg-slate-200`}
       >
-        {children}
+        {loading ? (
+          <div className="flex items-center justify-center my-24">
+            <Spinner />
+          </div>
+        ) : (
+          children
+        )}
       </main>
       <footer className="shadow bg-slate-200">
         <div className="w-full max-w-screen-xl p-4 mx-auto">

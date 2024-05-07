@@ -743,6 +743,18 @@ export async function hapusGuru(id) {
     return;
   }
 }
+export async function getGuruByUser(user) {
+  const { id } = user;
+  const { data, error } = await supabase
+    .from("guru")
+    .select("*, mapel (nama, materi (deskripsi))")
+    .eq("id_user", id)
+    .single();
+  if (error) {
+    console.error("getGuruByUser: ", error);
+  }
+  return data;
+}
 
 // ------------------mapel------------------
 export async function getMapel() {
@@ -902,4 +914,7 @@ export async function hapusMateri(id) {
     console.error("deleteMateri: ", error);
     return;
   }
+}
+export async function getMateriByGuru(guru) {
+  console.log("getMateriBy: ", guru);
 }

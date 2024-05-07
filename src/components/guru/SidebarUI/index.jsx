@@ -1,8 +1,7 @@
+import PropTypes from "prop-types";
 import { Sidebar } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  PiBook,
-  PiBookFill,
   PiBookOpenText,
   PiBookOpenTextFill,
   PiCalendarCheck,
@@ -13,7 +12,9 @@ import {
   PiChartBarFill,
   PiSquaresFour,
   PiSquaresFourFill,
+  PiUserCircle,
   PiUsers,
+  PiUserCircleFill,
 } from "react-icons/pi";
 
 const SidebarUI = ({ isOpen, setIsOpen }) => {
@@ -43,18 +44,7 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
           >
             Dashboard
           </Sidebar.Item>
-          <Sidebar.Item
-            as={Link}
-            to="/mapel"
-            icon={location.pathname !== "/mapel" ? PiBook : PiBookFill}
-            active={location.pathname === "/mapel"}
-            className={`hover:bg-slate-200 hover:text-gray-500 ${
-              location.pathname === "/mapel" &&
-              "bg-amber-200 text-gray-700 font-medium"
-            }`}
-          >
-            Mapel
-          </Sidebar.Item>
+
           <Sidebar.Collapse icon={PiUsers} label="Murid">
             <Sidebar.Item
               as={Link}
@@ -103,6 +93,20 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
               Rapor
             </Sidebar.Item>
           </Sidebar.Collapse>
+          <Sidebar.Item
+            as={Link}
+            to="/profile"
+            icon={
+              location.pathname !== "/profile" ? PiUserCircle : PiUserCircleFill
+            }
+            active={location.pathname === "/profile"}
+            className={`hover:bg-slate-200 hover:text-gray-500 ${
+              location.pathname === "/profile" &&
+              "bg-amber-200 text-gray-700 font-medium"
+            }`}
+          >
+            Profile
+          </Sidebar.Item>
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup className="fixed bottom-0">
           <Sidebar.Item className="mx-auto text-sm text-center text-gray-500">
@@ -125,6 +129,11 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
       </Sidebar.Items>
     </Sidebar>
   );
+};
+
+SidebarUI.propTypes = {
+  isOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func,
 };
 
 export default SidebarUI;
