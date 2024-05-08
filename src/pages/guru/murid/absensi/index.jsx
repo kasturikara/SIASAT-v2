@@ -38,6 +38,7 @@ function AbsensiPage() {
   const [tambah, setTambah] = useState(false);
   const [newAbsensi, setNewAbsensi] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [idEdit, setIdEdit] = useState(0);
   const [loading, setLoading] = useState(true);
   const [kelas, setKelas] = useState([]);
 
@@ -149,7 +150,7 @@ function AbsensiPage() {
             <Spinner size="xl" />
           </div>
         ) : (
-          <Table className="mt-4 text-center" key={absensi}>
+          <Table className="mt-4 text-center" key={absensi} striped>
             <TableHead className="text-center">
               <TableHeadCell className="w-16 text-white bg-amber-500">
                 No.
@@ -169,11 +170,7 @@ function AbsensiPage() {
                 return (
                   <TableRow
                     key={index}
-                    className={`text-slate-600 hover:bg-amber-50 ${
-                      absen.status === "Hadir" && "bg-teal-200"
-                    } ${absen.status === "Sakit" && "bg-indigo-200"} ${
-                      absen.status === "Izin" && "bg-gray-200"
-                    } ${absen.status === "Alpa" && "bg-red-200"}`}
+                    className="text-slate-600 hover:bg-amber-50 odd:bg-slate-100"
                   >
                     <TableCell className="w-16 font-bold">
                       {index + 1}
@@ -187,6 +184,7 @@ function AbsensiPage() {
                           color="success"
                           onClick={() => {
                             setEdit(true);
+                            setIdEdit(absen.id);
                           }}
                         >
                           <PiNotePencilDuotone className="mr-2 text-sm" /> Edit
@@ -219,7 +217,7 @@ function AbsensiPage() {
       </Modal>
 
       <Modal show={edit} size="md" onClose={() => setEdit(false)}>
-        <EditAbsensi id={absensi.id} setEdit={setEdit} getDatas={getDatas} />
+        <EditAbsensi idEdit={idEdit} setEdit={setEdit} getDatas={getDatas} />
       </Modal>
     </div>
   );

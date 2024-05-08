@@ -175,6 +175,7 @@ function TambahAbsensi({
                       id={`Alpa_${data.id}`}
                       name={`status_${data.id}`}
                       onChange={() => handleStatus(data.id, "Alpa")}
+                      // defaultChecked
                     />
                   </TableCell>
                 </TableRow>

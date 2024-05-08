@@ -515,22 +515,6 @@ export async function getAbsensiByFilter(filter) {
     return;
   }
   return absensiData;
-
-  // const { idKelas, tanggal } = filter;
-  // console.log("filter: ", idKelas, tanggal);
-  // const { data: absensi, error } = await supabase
-  //   .from("absensi")
-  //   .select("*, murid (nama, kelas (id))")
-  //   .eq("murid.kelas.id", idKelas)
-  //   .eq("tanggal", tanggal)
-  //   .order("murid (nama)", { ascending: true });
-
-  // if (error || !absensi) {
-  //   console.error("getAbsensiByFilter: ", error);
-  //   return;
-  // }
-  // console.log("absensi: ", absensi);
-  // return absensi;
 }
 
 export async function postAbsensi(dataArray) {
