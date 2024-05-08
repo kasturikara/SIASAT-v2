@@ -383,6 +383,17 @@ export async function hapusMurid(id) {
     return;
   }
 }
+export async function getMuridByKelas(kelas) {
+  const { data: murid, error } = await supabase
+    .from("murid")
+    .select("*, kelas (nama), user (username)")
+    .eq("id_kelas", kelas);
+  if (error || !murid) {
+    console.error("getMuridByKelas: ", error);
+    return;
+  }
+  return murid;
+}
 
 // ------------------jadwal------------------
 export async function getJadwal() {
@@ -481,24 +492,57 @@ export async function hapusJadwal(id) {
 
 // ------------------absensi------------------
 export async function getAbsensiByFilter(filter) {
-  const { data: absensi, error } = await supabase
-    .from("absensi")
-    .select("*, murid (nama)")
-    .eq("tanggal", filter);
-
-  if (error || !absensi) {
-    Swal.fire({
-      title: "Oops!",
-      text: "Absensi tidak ditemukan.",
-      icon: "error",
-      confirmButtonText: "OK",
-    });
-    console.error("getAbsensiByFilter: ", error);
+  const { idKelas, tanggal } = filter;
+  const { data: muridData, error: muridError } = await supabase
+    .from("murid")
+    .select("id")
+    .eq("id_kelas", idKelas);
+  if (muridError) {
+    console.error("getAbsensiByFilter: ", muridError);
     return;
   }
+  const muridIds = muridData.map((murid) => murid.id);
 
-  return absensi;
+  // get absensi by id murid
+  const { data: absensiData, error: absensiError } = await supabase
+    .from("absensi")
+    .select("*, murid (nama)")
+    .in("id_murid", muridIds)
+    .eq("tanggal", tanggal)
+    .order("murid (nama)", { ascending: true });
+  if (absensiError) {
+    console.error("getAbsensiByFilter: ", absensiError);
+    return;
+  }
+  return absensiData;
+
+  // const { idKelas, tanggal } = filter;
+  // console.log("filter: ", idKelas, tanggal);
+  // const { data: absensi, error } = await supabase
+  //   .from("absensi")
+  //   .select("*, murid (nama, kelas (id))")
+  //   .eq("murid.kelas.id", idKelas)
+  //   .eq("tanggal", tanggal)
+  //   .order("murid (nama)", { ascending: true });
+
+  // if (error || !absensi) {
+  //   console.error("getAbsensiByFilter: ", error);
+  //   return;
+  // }
+  // console.log("absensi: ", absensi);
+  // return absensi;
 }
+
+export async function postAbsensi(dataArray) {
+  const { error } = await supabase.from("absensi").insert(dataArray, {
+    // eslint-disable-next-line no-underscore-dangle
+    _count: dataArray.length,
+  });
+  if (error) {
+    throw error || new Error("postAbsensiMany: insertMany failed", error);
+  }
+}
+
 export async function postNewAbsensi(data) {
   const { tanggal, id_murid, status } = data;
 
