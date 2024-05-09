@@ -11,29 +11,33 @@ function LoginPage({ user, setUser, handleLogin }) {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col h-screen md:flex-row">
       {/* Bagian Background */}
-      <div className="flex items-center justify-end w-1/3 bg-teal-500">
-        <div className="flex flex-col items-center justify-center w-2/3 text-white bg-teal-500 rounded-tl-lg rounded-bl-lg shadow-2xl h-5/6">
+      <div className="flex items-center justify-center bg-teal-500 md:justify-end md:w-1/3 ">
+        <div className="flex flex-row items-center justify-center w-2/3 gap-4 p-4 text-white bg-teal-500 rounded-tl-lg rounded-bl-lg shadow-none md:gap-0 md:flex-col md:shadow-2xl md:p-0 md:h-5/6">
           {/* Bagian Logo */}
-          <img src="logo_siasat.png" alt="logo" className="w-32 h-32" />
+          <img
+            src="logo_siasat.png"
+            alt="logo"
+            className="w-16 h-16 md:w-32 md:h-32"
+          />
           {/* Bagian Judul */}
           <p className="mt-2 text-2xl font-bold">SIASAT</p>
           {/* Bagian Deskripsi */}
-          <p className="text-sm font-light text-center">
+          <p className="hidden text-sm font-light text-center md:block">
             Sistem Informasi Akademik Sekolah Terpadu
           </p>
         </div>
       </div>
       {/* Bagian Form */}
-      <div className="flex items-center justify-start w-2/3">
+      <div className="flex items-center justify-center mt-12 md:justify-start md:mt-0 md:w-2/3">
         <form
           autoComplete="off"
           onSubmit={handleSubmit}
-          className="flex flex-col justify-center w-2/3 px-24 py-8 rounded-tl-lg rounded-bl-lg shadow-2xl h-5/6"
+          className="flex flex-col justify-center px-24 py-8 rounded-tl-lg rounded-bl-lg shadow-none md:shadow-2xl md:w-2/3 h-5/6"
         >
           {/* Bagian Judul */}
-          <p className="mb-8 text-2xl font-bold text-center">
+          <p className="mb-8 text-xl font-bold text-center md:text-2xl">
             Masuk ke akun anda
           </p>
           {/* Bagian Username / Email */}
