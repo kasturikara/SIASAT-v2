@@ -76,22 +76,6 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
             >
               Nilai
             </Sidebar.Item>
-            <Sidebar.Item
-              as={Link}
-              to="/rapor"
-              icon={
-                location.pathname !== "/rapor"
-                  ? PiBookOpenText
-                  : PiBookOpenTextFill
-              }
-              active={location.pathname === "/rapor"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
-                location.pathname === "/rapor" &&
-                "bg-amber-200 text-gray-700 font-medium"
-              }`}
-            >
-              Rapor
-            </Sidebar.Item>
           </Sidebar.Collapse>
           <Sidebar.Item
             as={Link}

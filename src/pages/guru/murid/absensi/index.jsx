@@ -170,7 +170,7 @@ function AbsensiPage() {
                 return (
                   <TableRow
                     key={index}
-                    className="text-slate-600 hover:bg-amber-50 odd:bg-slate-100"
+                    className="text-slate-600 hover:bg-amber-50 hover:font-semibold odd:bg-slate-200 "
                   >
                     <TableCell className="w-16 font-bold">
                       {index + 1}
