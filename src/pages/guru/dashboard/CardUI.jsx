@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getKelas, getMurid } from "../../../api/supabase";
 import { Card, Spinner } from "flowbite-react";
-import { Link } from "react-router-dom";
 import { PiBuildings, PiStudent } from "react-icons/pi";
 
 const CardUI = () => {
