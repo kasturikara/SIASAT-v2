@@ -1,11 +1,3 @@
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import {
-  getMapel,
-  getMurid,
-  getNilaiById,
-  updateNilai,
-} from "../../../../api/supabase";
 import {
   Dropdown,
   DropdownItem,
@@ -13,56 +5,52 @@ import {
   Modal,
   TextInput,
 } from "flowbite-react";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { getMurid, postNewNilai } from "../../../../api/supabase";
 
-function EditNilai({ idEdit, setEdit, getData }) {
+function TambahNilai({ newNilai, setNewNilai, setTambah, getDatas }) {
   const [murid, setMurid] = useState([]);
-  const [mapel, setMapel] = useState([]);
-  const [nilai, setNilai] = useState([]);
-
-  async function getDatas() {
-    const nilai = await getNilaiById(idEdit);
-    // console.log("nilaiiiii, ", nilai);
-    setNilai(nilai);
-    const murid = await getMurid();
-    setMurid(murid);
-    const mapel = await getMapel();
-    setMapel(mapel);
-  }
 
   useEffect(() => {
-    getDatas();
+    getData();
   }, []);
 
-  const handleNilai = (event) => {
+  async function getData() {
+    const murid = await getMurid();
+    setMurid(murid);
+  }
+
+  const handleNewNilai = (event) => {
     event.preventDefault();
-    setNilai({
-      ...nilai,
+    setNewNilai({
+      ...newNilai,
       [event.target.id]: event.target.value,
     });
   };
 
   async function handleSubmit() {
-    setEdit(false);
-    setNilai({
-      ...nilai,
-      id_murid: nilai.id_murid,
-      id_mapel: nilai.id_mapel,
-      jenis: nilai.jenis,
-      nilai: nilai.nilai,
-      tanggal: nilai.tanggal,
+    setTambah(false);
+    setNewNilai({
+      ...newNilai,
+      id_murid: newNilai.id_murid,
+      id_mapel: newNilai.id_mapel,
+      jenis: newNilai.jenis,
+      nilai: newNilai.nilai,
+      tanggal: newNilai.tanggal,
     });
-
     try {
-      await updateNilai(idEdit, nilai);
+      await postNewNilai(newNilai);
     } catch (error) {
-      console.error("handleNilai: ", error);
+      console.error("new nilai: ", error);
     }
-    getData();
+    setNewNilai({});
+    getDatas();
   }
 
   return (
     <div>
-      <Modal.Header>Edit Nilai</Modal.Header>
+      <Modal.Header>Tambah Nilai Baru</Modal.Header>
       <Modal.Body>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
@@ -70,7 +58,7 @@ function EditNilai({ idEdit, setEdit, getData }) {
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
               <Dropdown
                 id="murid"
-                label={nilai.murid?.nama}
+                label={newNilai.murid}
                 inline
                 className="w-64"
               >
@@ -79,9 +67,10 @@ function EditNilai({ idEdit, setEdit, getData }) {
                     <DropdownItem
                       key={data.id}
                       onClick={() => {
-                        setNilai({
-                          ...nilai,
+                        setNewNilai({
+                          ...newNilai,
                           id_murid: data.id,
+                          murid: data.nama,
                         });
                       }}
                     >
@@ -92,37 +81,16 @@ function EditNilai({ idEdit, setEdit, getData }) {
               </Dropdown>
             </div>
           </div>
-          <div>
-            <Label htmlFor="mapel" value="Nama Mapel" className="block mb-2" />
-            <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown
-                id="mapel"
-                label={nilai.mapel?.nama}
-                inline
-                className="w-64"
-              >
-                {mapel.map((data) => {
-                  return (
-                    <DropdownItem
-                      key={data.id}
-                      onClick={() => {
-                        setNilai({
-                          ...nilai,
-                          id_mapel: data.id,
-                        });
-                      }}
-                    >
-                      {data.nama}
-                    </DropdownItem>
-                  );
-                })}
-              </Dropdown>
-            </div>
-          </div>
+
           <div>
             <Label htmlFor="jenis" value="Jenis Nilai" className="block mb-2" />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown id="jenis" label={nilai.jenis} inline className="w-64">
+              <Dropdown
+                id="jenis"
+                label={newNilai.jenis || "Pilih Jenis Nilai"}
+                inline
+                className="w-64"
+              >
                 {[
                   { nama: "Tugas 1" },
                   { nama: "Tugas 2" },
@@ -135,8 +103,8 @@ function EditNilai({ idEdit, setEdit, getData }) {
                     <DropdownItem
                       key={data.nama}
                       onClick={() => {
-                        setNilai({
-                          ...nilai,
+                        setNewNilai({
+                          ...newNilai,
                           jenis: data.nama,
                         });
                       }}
@@ -155,8 +123,8 @@ function EditNilai({ idEdit, setEdit, getData }) {
               type="number"
               placeholder="Masukkan nilai"
               required
-              value={nilai.nilai}
-              onChange={handleNilai}
+              value={newNilai.nilai}
+              onChange={handleNewNilai}
               autoComplete="off"
             />
           </div>
@@ -167,8 +135,8 @@ function EditNilai({ idEdit, setEdit, getData }) {
               type="date"
               placeholder="Pilih tanggal"
               required
-              value={nilai.tanggal}
-              onChange={handleNilai}
+              value={newNilai.tanggal}
+              onChange={handleNewNilai}
               autoComplete="off"
               pattern="\d{4}-\d{2}-\d{2}"
             />
@@ -177,16 +145,19 @@ function EditNilai({ idEdit, setEdit, getData }) {
       </Modal.Body>
       <Modal.Footer>
         <button
-          className="w-24 px-4 py-2 text-sm text-white bg-green-500 rounded hover:bg-green-800"
+          className="w-24 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-800"
           onClick={() => {
             handleSubmit();
           }}
         >
-          Update
+          Simpan
         </button>
         <button
           className="w-24 px-4 py-2 text-sm border rounded border-slate-300 hover:border-red-500 hover:text-red-500 hover:bg-red-50"
-          onClick={() => setEdit(false)}
+          onClick={() => {
+            setTambah(false);
+            setNewNilai({});
+          }}
         >
           Batal
         </button>
@@ -195,10 +166,11 @@ function EditNilai({ idEdit, setEdit, getData }) {
   );
 }
 
-EditNilai.propTypes = {
-  idEdit: PropTypes.number,
-  setEdit: PropTypes.func,
-  getData: PropTypes.func,
+TambahNilai.propTypes = {
+  newNilai: PropTypes.object,
+  setNewNilai: PropTypes.func,
+  setTambah: PropTypes.func,
+  getDatas: PropTypes.func,
 };
 
-export default EditNilai;
+export default TambahNilai;

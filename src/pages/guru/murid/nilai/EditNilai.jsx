@@ -1,11 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import {
-  getMapel,
-  getMurid,
-  getNilaiById,
-  updateNilai,
-} from "../../../../api/supabase";
+import { getNilaiById, updateNilai } from "../../../../api/supabase";
 import {
   Dropdown,
   DropdownItem,
@@ -14,24 +9,17 @@ import {
   TextInput,
 } from "flowbite-react";
 
-function EditNilai({ idEdit, setEdit, getData }) {
-  const [murid, setMurid] = useState([]);
-  const [mapel, setMapel] = useState([]);
-  const [nilai, setNilai] = useState([]);
-
-  async function getDatas() {
-    const nilai = await getNilaiById(idEdit);
-    // console.log("nilaiiiii, ", nilai);
-    setNilai(nilai);
-    const murid = await getMurid();
-    setMurid(murid);
-    const mapel = await getMapel();
-    setMapel(mapel);
-  }
+function EditNilai({ idEdit, setEdit, getDatas }) {
+  const [nilai, setNilai] = useState({});
 
   useEffect(() => {
-    getDatas();
+    getData();
   }, []);
+
+  async function getData() {
+    const data = await getNilaiById(idEdit);
+    setNilai(data);
+  }
 
   const handleNilai = (event) => {
     event.preventDefault();
@@ -43,21 +31,12 @@ function EditNilai({ idEdit, setEdit, getData }) {
 
   async function handleSubmit() {
     setEdit(false);
-    setNilai({
-      ...nilai,
-      id_murid: nilai.id_murid,
-      id_mapel: nilai.id_mapel,
-      jenis: nilai.jenis,
-      nilai: nilai.nilai,
-      tanggal: nilai.tanggal,
-    });
-
     try {
       await updateNilai(idEdit, nilai);
     } catch (error) {
       console.error("handleNilai: ", error);
     }
-    getData();
+    getDatas();
   }
 
   return (
@@ -66,62 +45,8 @@ function EditNilai({ idEdit, setEdit, getData }) {
       <Modal.Body>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <Label htmlFor="murid" value="Nama Murid" className="block mb-2" />
-            <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown
-                id="murid"
-                label={nilai.murid?.nama}
-                inline
-                className="w-64"
-              >
-                {murid.map((data) => {
-                  return (
-                    <DropdownItem
-                      key={data.id}
-                      onClick={() => {
-                        setNilai({
-                          ...nilai,
-                          id_murid: data.id,
-                        });
-                      }}
-                    >
-                      {data.nama}
-                    </DropdownItem>
-                  );
-                })}
-              </Dropdown>
-            </div>
-          </div>
-          <div>
-            <Label htmlFor="mapel" value="Nama Mapel" className="block mb-2" />
-            <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown
-                id="mapel"
-                label={nilai.mapel?.nama}
-                inline
-                className="w-64"
-              >
-                {mapel.map((data) => {
-                  return (
-                    <DropdownItem
-                      key={data.id}
-                      onClick={() => {
-                        setNilai({
-                          ...nilai,
-                          id_mapel: data.id,
-                        });
-                      }}
-                    >
-                      {data.nama}
-                    </DropdownItem>
-                  );
-                })}
-              </Dropdown>
-            </div>
-          </div>
-          <div>
             <Label htmlFor="jenis" value="Jenis Nilai" className="block mb-2" />
-            <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
+            <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-700 border-slate-300 bg-slate-50">
               <Dropdown id="jenis" label={nilai.jenis} inline className="w-64">
                 {[
                   { nama: "Tugas 1" },
@@ -198,7 +123,7 @@ function EditNilai({ idEdit, setEdit, getData }) {
 EditNilai.propTypes = {
   idEdit: PropTypes.number,
   setEdit: PropTypes.func,
-  getData: PropTypes.func,
+  getDatas: PropTypes.func,
 };
 
 export default EditNilai;

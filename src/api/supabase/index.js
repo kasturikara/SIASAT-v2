@@ -591,7 +591,7 @@ export async function getNilaiByMurid(murid) {
     .from("nilai")
     .select("*, murid (id,nama), mapel (nama)")
     .eq("id_murid", murid)
-    .order("mapel (nama)", { ascending: true });
+    .order("tanggal", { ascending: true });
 
   if (error || !nilai) {
     Swal.fire({
@@ -661,6 +661,19 @@ export async function hapusNilai(id) {
     console.error("HapusNilai: ", error);
     return;
   }
+}
+export async function getNilaiByMuridAndMapel(idMurid, idMapel) {
+  const { data: nilai, error } = await supabase
+    .from("nilai")
+    .select("*, murid (id,nama), mapel (nama)")
+    .eq("id_murid", idMurid)
+    .eq("id_mapel", idMapel)
+    .order("tanggal", { ascending: true });
+  if (error || !nilai) {
+    console.error("getNilaiByMuridAndMapel: ", error);
+    return;
+  }
+  return nilai;
 }
 
 // ------------------guru------------------
