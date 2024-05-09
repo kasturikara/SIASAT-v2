@@ -6,7 +6,7 @@ import { getGuruByUser } from "../../api/supabase";
 import { Spinner } from "flowbite-react";
 
 function GuruLayout({ children }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(true);
   const user = JSON.parse(localStorage.getItem("login"));
 
