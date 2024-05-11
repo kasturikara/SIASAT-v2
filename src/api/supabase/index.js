@@ -394,6 +394,18 @@ export async function getMuridByKelas(kelas) {
   }
   return murid;
 }
+export async function getMuridByUser(user) {
+  const { id } = user;
+  const { data, error } = await supabase
+    .from("murid")
+    .select("*, kelas (nama)")
+    .eq("id_user", id)
+    .single();
+  if (error) {
+    console.error("getMuridByUser: ", error);
+  }
+  return data;
+}
 
 // ------------------jadwal------------------
 export async function getJadwal() {
@@ -516,7 +528,41 @@ export async function getAbsensiByFilter(filter) {
   }
   return absensiData;
 }
+export async function getAbsensiByMurid(filter) {
+  const { idMurid, angkaBulan } = filter;
+  const tanggalAwal = new Date(angkaBulan + "-01-24");
+  const tanggalAkhir = new Date(tanggalAwal);
+  tanggalAkhir.setMonth(tanggalAkhir.getMonth() + 1, 0);
+  tanggalAkhir.setHours(0, 0, 0, 0);
 
+  const { data, error } = await supabase
+    .from("absensi")
+    .select("*")
+    .eq("id_murid", idMurid)
+    .gte("tanggal", tanggalAwal.toISOString().slice(0, 10))
+    .lte("tanggal", tanggalAkhir.toISOString().slice(0, 10))
+    .order("tanggal", { ascending: true });
+
+  if (error) {
+    console.error("getAbsensiByMurid: ", error);
+    return;
+  }
+  return data;
+}
+
+// const { data, error } = await supabase
+//   .from("absensi")
+//   .select("*")
+//   .eq("id_murid", id)
+//   .order("tanggal", { ascending: true });
+
+// if (error) {
+//   console.error("getAbsensiByMurid: ", error);
+//   return;
+// }
+// console.log("data: ", data);
+// return data;
+// }
 export async function postAbsensi(dataArray) {
   const { error } = await supabase.from("absensi").insert(dataArray, {
     // eslint-disable-next-line no-underscore-dangle

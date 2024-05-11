@@ -18,6 +18,8 @@ import { findUserByEmail, findUserByUsername } from "./api/supabase";
 
 // dependencies
 import Swal from "sweetalert2";
+import MuridLayout from "./layout/murid";
+import MuridRoutes from "./routes/MuridRoutes";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -100,9 +102,9 @@ function App() {
               );
             case "murid":
               return (
-                <>
-                  <p>Role {user.role}</p>
-                </>
+                <MuridLayout>
+                  <MuridRoutes />
+                </MuridLayout>
               );
             case "guru":
               return (
@@ -112,9 +114,9 @@ function App() {
               );
             case "wali":
               return (
-                <>
-                  <p>Role {user.role}</p>
-                </>
+                <MuridLayout>
+                  <MuridRoutes />
+                </MuridLayout>
               );
             default:
               return <div>Role tidak terdaftar</div>;

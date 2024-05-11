@@ -13,6 +13,8 @@ import {
   PiUserCircle,
   PiUsers,
   PiUserCircleFill,
+  PiCalendar,
+  PiCalendarFill,
 } from "react-icons/pi";
 
 const SidebarUI = ({ isOpen, setIsOpen }) => {
@@ -23,7 +25,7 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
       <Sidebar.Items>
         <Sidebar.ItemGroup>
           <Sidebar.Item
-            className="text-gray-900 d hover:text-amber-500 hover:bg-gray-50 hover:cursor-pointer"
+            className="text-gray-900 d hover:text-teal-500 hover:bg-gray-50 hover:cursor-pointer"
             onClick={() => setIsOpen(false)}
           >
             <PiCaretLeft className="ml-auto text-2xl " />
@@ -37,44 +39,52 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
             active={location.pathname === "/"}
             className={`hover:bg-slate-200 hover:text-gray-500 ${
               location.pathname === "/" &&
-              "bg-amber-200 text-gray-700 font-medium"
+              "bg-teal-200 text-gray-700 font-medium"
             }`}
           >
             Dashboard
           </Sidebar.Item>
 
-          <Sidebar.Collapse icon={PiUsers} label="Murid">
-            <Sidebar.Item
-              as={Link}
-              to="/absensi"
-              icon={
-                location.pathname !== "/absensi"
-                  ? PiCalendarCheck
-                  : PiCalendarCheckFill
-              }
-              active={location.pathname === "/absensi"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
-                location.pathname === "/absensi" &&
-                "bg-amber-200 text-gray-700 font-medium"
-              }`}
-            >
-              Absensi
-            </Sidebar.Item>
-            <Sidebar.Item
-              as={Link}
-              to="/nilai"
-              icon={
-                location.pathname !== "/nilai" ? PiChartBar : PiChartBarFill
-              }
-              active={location.pathname === "/nilai"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
-                location.pathname === "/nilai" &&
-                "bg-amber-200 text-gray-700 font-medium"
-              }`}
-            >
-              Nilai
-            </Sidebar.Item>
-          </Sidebar.Collapse>
+          <Sidebar.Item
+            as={Link}
+            to="/absensi"
+            icon={
+              location.pathname !== "/absensi"
+                ? PiCalendarCheck
+                : PiCalendarCheckFill
+            }
+            active={location.pathname === "/absensi"}
+            className={`hover:bg-slate-200 hover:text-gray-500 ${
+              location.pathname === "/absensi" &&
+              "bg-teal-200 text-gray-700 font-medium"
+            }`}
+          >
+            Absensi
+          </Sidebar.Item>
+          <Sidebar.Item
+            as={Link}
+            to="/jadwal"
+            icon={location.pathname !== "/jadwal" ? PiCalendar : PiCalendarFill}
+            active={location.pathname === "/jadwal"}
+            className={`hover:bg-slate-200 hover:text-gray-500 ${
+              location.pathname === "/jadwal" &&
+              "bg-teal-200 text-gray-700 font-medium"
+            }`}
+          >
+            Jadwal
+          </Sidebar.Item>
+          <Sidebar.Item
+            as={Link}
+            to="/nilai"
+            icon={location.pathname !== "/nilai" ? PiChartBar : PiChartBarFill}
+            active={location.pathname === "/nilai"}
+            className={`hover:bg-slate-200 hover:text-gray-500 ${
+              location.pathname === "/nilai" &&
+              "bg-teal-200 text-gray-700 font-medium"
+            }`}
+          >
+            Nilai
+          </Sidebar.Item>
           <Sidebar.Item
             as={Link}
             to="/profile"
@@ -84,7 +94,7 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
             active={location.pathname === "/profile"}
             className={`hover:bg-slate-200 hover:text-gray-500 ${
               location.pathname === "/profile" &&
-              "bg-amber-200 text-gray-700 font-medium"
+              "bg-teal-200 text-gray-700 font-medium"
             }`}
           >
             Profile
@@ -102,7 +112,7 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
       <Sidebar.Items>
         <Sidebar.ItemGroup>
           <Sidebar.Item
-            className="text-gray-900 d hover:text-amber-500 hover:bg-gray-50 hover:cursor-pointer"
+            className="text-gray-900 d hover:text-teal-500 hover:bg-gray-50 hover:cursor-pointer"
             onClick={() => setIsOpen(true)}
           >
             <PiCaretRight className="text-2xl" />
