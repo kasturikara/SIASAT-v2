@@ -722,6 +722,18 @@ export async function getNilaiByMuridAndMapel(idMurid, idMapel) {
   }
   return nilai;
 }
+export async function getNilaiForRapor(idMurid) {
+  const { data: nilai, error } = await supabase
+    .from("nilai")
+    .select("id, jenis, nilai, id_mapel, mapel (nama)")
+    .eq("id_murid", idMurid);
+
+  if (error || !nilai) {
+    console.error("getNilaiForRapor: ", error);
+    return;
+  }
+  return nilai;
+}
 
 // ------------------guru------------------
 export async function getGuru() {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   getMurid,
-  getNilaiByMurid,
   getNilaiByMuridAndMapel,
   hapusNilai,
 } from "../../../../api/supabase";
