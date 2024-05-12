@@ -430,7 +430,8 @@ export async function getJadwalByFilter(filter) {
   const { data: jadwal, error } = await supabase
     .from("jadwal")
     .select("*, kelas (nama), guru (nama, mapel (nama)))")
-    .eq("id_kelas", filter);
+    .eq("id_kelas", filter)
+    .order("jam_mulai", { ascending: true });
 
   if (error || !jadwal) {
     Swal.fire({
