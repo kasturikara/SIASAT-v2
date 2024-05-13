@@ -55,7 +55,20 @@ function EditGuru({ idEdit, setEdit, getDataGuru }) {
 
   const handleGuru = (event) => {
     event.preventDefault();
-    if (guru) {
+    if (event.target.id === "tanggal_lahir") {
+      const birthDate = new Date(event.target.value);
+      const now = new Date();
+      let age = now.getFullYear() - birthDate.getFullYear();
+      const m = now.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      setGuru({
+        ...guru,
+        [event.target.id]: event.target.value,
+        umur: age,
+      });
+    } else {
       setGuru({
         ...guru,
         [event.target.id]: event.target.value,
