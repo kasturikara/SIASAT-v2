@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Sidebar } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiFillDashboard, AiOutlineDashboard } from "react-icons/ai";
@@ -22,13 +23,22 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import { HiOutlineUserGroup, HiOutlineUsers } from "react-icons/hi";
+import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 
-function SidebarUI() {
+function SidebarUI({ isOpen, setIsOpen }) {
   const location = useLocation();
 
-  return (
-    <Sidebar className="fixed top-0 left-0 z-40 w-56 h-screen -translate-x-full border-r border-gray-200 md:translate-x-0 pt-14">
+  return isOpen ? (
+    <Sidebar className="fixed top-0 left-0 z-40 w-56 h-screen transition-all duration-200 ease-in-out -translate-x-full border-r border-gray-200 md:translate-x-0">
       <Sidebar.Items>
+        <Sidebar.ItemGroup>
+          <Sidebar.Item
+            className="text-gray-900 d hover:text-teal-500 hover:bg-gray-50 hover:cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          >
+            <PiCaretLeft className="ml-auto text-2xl " />
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
           <Sidebar.Item
             as={Link}
@@ -192,7 +202,25 @@ function SidebarUI() {
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
+  ) : (
+    <Sidebar className="fixed top-0 left-0 z-40 w-12 h-screen transition-all duration-200 ease-in-out -translate-x-full border-r border-gray-200 md:translate-x-0">
+      <Sidebar.Items>
+        <Sidebar.ItemGroup>
+          <Sidebar.Item
+            className="text-gray-900 d hover:text-teal-500 hover:bg-gray-50 hover:cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
+            <PiCaretRight className="text-2xl" />
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+    </Sidebar>
   );
 }
+
+SidebarUI.propTypes = {
+  isOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func,
+};
 
 export default SidebarUI;

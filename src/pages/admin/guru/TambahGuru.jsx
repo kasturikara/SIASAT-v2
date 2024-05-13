@@ -180,10 +180,15 @@ function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
               className="block mb-2"
             />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown label={newGuru.mapel} inline className="w-64">
+              <Dropdown
+                label={newGuru.mapel}
+                inline
+                className="w-64 overflow-y-scroll max-h-64"
+              >
                 {mapel.map((data) => {
                   return (
                     <DropdownItem
+                      className="text-left"
                       key={data.id}
                       onClick={() => {
                         setNewGuru({

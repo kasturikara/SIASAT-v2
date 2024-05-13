@@ -11,7 +11,6 @@ import {
   PiSquaresFour,
   PiSquaresFourFill,
   PiUserCircle,
-  PiUsers,
   PiUserCircleFill,
   PiCalendar,
   PiCalendarFill,

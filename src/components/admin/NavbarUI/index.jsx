@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import {
   Avatar,
   Dropdown,
@@ -11,11 +12,15 @@ import {
 
 import { Link } from "react-router-dom";
 
-function index() {
+function NavbarUI({ isOpen }) {
   const user = JSON.parse(localStorage.getItem("login"));
 
   return (
-    <Navbar className="fixed top-0 left-0 right-0 z-50 bg-teal-500">
+    <Navbar
+      className={`fixed top-0 transition-all duration-200 ease-in-out right-0 z-50 bg-teal-500 ${
+        isOpen ? "left-56" : "left-12"
+      }`}
+    >
       <NavbarBrand as={Link} to="/">
         <img
           src="logo_siasat.png"
@@ -60,4 +65,8 @@ function index() {
   );
 }
 
-export default index;
+NavbarUI.propTypes = {
+  isOpen: PropTypes.bool,
+};
+
+export default NavbarUI;
