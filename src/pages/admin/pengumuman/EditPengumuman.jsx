@@ -3,7 +3,7 @@ import { Label, Modal, TextInput } from "flowbite-react";
 import { getPengumumanById, updatePengumuman } from "../../../api/supabase";
 import { useEffect, useState } from "react";
 
-function EditPengumuman({ idEdit, setOpenEdit, getDataPengumuman }) {
+function EditPengumuman({ idEdit, setEdit, getDataPengumuman }) {
   const [pengumuman, setPengumuman] = useState({});
 
   async function getData() {
@@ -25,7 +25,7 @@ function EditPengumuman({ idEdit, setOpenEdit, getDataPengumuman }) {
   };
 
   async function handleSubmit() {
-    setOpenEdit(false);
+    setEdit(false);
     setPengumuman({
       ...pengumuman,
       judul: pengumuman.judul,
@@ -90,9 +90,9 @@ function EditPengumuman({ idEdit, setOpenEdit, getDataPengumuman }) {
           Update
         </button>
         <button
-          className="w-24 px-4 py-2 text-sm text-white bg-green-500 rounded hover:bg-green-800"
+          className="w-24 px-4 py-2 text-sm border rounded border-slate-300 hover:border-red-500 hover:text-red-500 hover:bg-red-50"
           onClick={() => {
-            setOpenEdit(false);
+            setEdit(false);
           }}
         >
           Batal
@@ -104,7 +104,7 @@ function EditPengumuman({ idEdit, setOpenEdit, getDataPengumuman }) {
 
 EditPengumuman.propTypes = {
   idEdit: PropTypes.number,
-  setOpenEdit: PropTypes.func,
+  setEdit: PropTypes.func,
   getDataPengumuman: PropTypes.func,
 };
 

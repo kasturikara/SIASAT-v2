@@ -5,7 +5,7 @@ import { postNewPengumuman } from "../../../api/supabase";
 function TambahPengumuman({
   newPengumuman,
   setNewPengumuman,
-  setOpenTambah,
+  setTambah,
   getDataPengumuman,
 }) {
   const handleNewPengumuman = async (event) => {
@@ -19,7 +19,7 @@ function TambahPengumuman({
   };
 
   async function handleSubmit() {
-    setOpenTambah(false);
+    setTambah(false);
     setNewPengumuman({
       ...newPengumuman,
       judul: newPengumuman.judul,
@@ -97,7 +97,7 @@ function TambahPengumuman({
         <button
           className="w-24 px-4 py-2 text-sm border rounded border-slate-300 hover:border-red-500 hover:text-red-500 hover:bg-red-50"
           onClick={() => {
-            setOpenTambah(false);
+            setTambah(false);
             setNewPengumuman({
               ...newPengumuman,
               judul: "",
@@ -116,7 +116,7 @@ function TambahPengumuman({
 TambahPengumuman.propTypes = {
   newPengumuman: PropTypes.object,
   setNewPengumuman: PropTypes.func,
-  setOpenTambah: PropTypes.func,
+  setTambah: PropTypes.func,
   getDataPengumuman: PropTypes.func,
 };
 
