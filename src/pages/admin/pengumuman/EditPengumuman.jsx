@@ -1,7 +1,12 @@
+// //? lib
 import PropTypes from "prop-types";
-import { Label, Modal, TextInput } from "flowbite-react";
-import { getPengumumanById, updatePengumuman } from "../../../api/supabase";
 import { useEffect, useState } from "react";
+
+// //? api
+import { getPengumumanById, updatePengumuman } from "../../../api/supabase";
+
+// //? component
+import { Label, Modal, TextInput } from "flowbite-react";
 
 function EditPengumuman({ idEdit, setEdit, getDataPengumuman }) {
   const [pengumuman, setPengumuman] = useState({});

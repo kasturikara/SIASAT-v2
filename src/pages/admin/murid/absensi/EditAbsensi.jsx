@@ -1,10 +1,17 @@
+// //? prop types
 import PropTypes from "prop-types";
+
+// //? lib
 import { useEffect, useState } from "react";
+
+// //? api supabase
 import {
   getAbsensiById,
   getMurid,
   updateAbsensi,
 } from "../../../../api/supabase";
+
+// //? flowbite
 import {
   Dropdown,
   DropdownItem,

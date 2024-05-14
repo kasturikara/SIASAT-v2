@@ -1,3 +1,18 @@
+// //? prop types
+import PropTypes from "prop-types";
+
+// //? lib
+import { useEffect, useState } from "react";
+
+// //? api supabase
+import {
+  getGuru,
+  getMapel,
+  getMateriById,
+  updateMateri,
+} from "../../../../api/supabase";
+
+// //? flowbite
 import {
   Dropdown,
   DropdownItem,
@@ -5,14 +20,6 @@ import {
   Modal,
   TextInput,
 } from "flowbite-react";
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import {
-  getGuru,
-  getMapel,
-  getMateriById,
-  updateMateri,
-} from "../../../../api/supabase";
 
 function EditMateri({ idEdit, setEdit, getDataMateri }) {
   const [materi, setMateri] = useState({});

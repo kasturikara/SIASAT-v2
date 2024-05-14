@@ -1,6 +1,11 @@
+// //? prop types
 import PropTypes from "prop-types";
-import { Label, Modal, TextInput } from "flowbite-react";
+
+// //? api supabase
 import { postNewPengumuman } from "../../../api/supabase";
+
+// //? flowbite
+import { Label, Modal, TextInput } from "flowbite-react";
 
 function TambahPengumuman({
   newPengumuman,

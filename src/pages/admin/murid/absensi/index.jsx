@@ -1,3 +1,11 @@
+// //? lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api supabase
+import { getAbsensiByFilter, hapusAbsensi } from "../../../../api/supabase";
+
+// //? flowbite
 import {
   Button,
   Modal,
@@ -10,10 +18,11 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// //? icons
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getAbsensiByFilter, hapusAbsensi } from "../../../../api/supabase";
-import Swal from "sweetalert2";
+
+// //? modals
 import TambahAbsensi from "./TambahAbsensi";
 import EditAbsensi from "./EditAbsensi";
 

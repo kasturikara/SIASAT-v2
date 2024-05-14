@@ -1,7 +1,14 @@
-import { Label, Modal, TextInput } from "flowbite-react";
+// //? prop types
 import PropTypes from "prop-types";
+
+// //? lib
 import { useEffect, useState } from "react";
+
+// //? api supabase
 import { getKelasById, updateKelas } from "../../../api/supabase";
+
+// //? flowbite
+import { Label, Modal, TextInput } from "flowbite-react";
 
 function EditKelas({ idEdit, setEdit, getDataKelas }) {
   const [kelas, setKelas] = useState({});

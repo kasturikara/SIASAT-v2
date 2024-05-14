@@ -1,3 +1,11 @@
+// //? lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api supabase
+import { getPengumuman, hapusPengumuman } from "../../../api/supabase";
+
+// //? flowbite
 import {
   Button,
   Modal,
@@ -10,12 +18,13 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
+
+// //? icons
 import { AiFillEdit, AiFillDelete, AiOutlineSearch } from "react-icons/ai";
-import { getPengumuman, hapusPengumuman } from "../../../api/supabase";
-import { useEffect, useState } from "react";
+
+// //? modals
 import TambahPengumuman from "./TambahPengumuman";
 import EditPengumuman from "./EditPengumuman";
-import Swal from "sweetalert2";
 
 function PengumumanPage() {
   const [pengumuman, setPengumuman] = useState([]);
@@ -34,6 +43,7 @@ function PengumumanPage() {
   }, []);
 
   async function getDataPengumuman() {
+    setLoading(true);
     const data = await getPengumuman();
     setPengumuman(data);
     setLoading(false);
@@ -53,13 +63,19 @@ function PengumumanPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusPengumuman(id);
-          Swal.fire("Terhapus!", "Data telah dihapus.", "success");
+          await hapusPengumuman(id);
+          await getDataPengumuman();
+          Swal.fire({
+            title: "Terhapus!",
+            text: "Data telah dihapus.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       });
-      getDataPengumuman();
     } catch (error) {
       console.error("handleHapus: hapusPengumuman", error);
     }

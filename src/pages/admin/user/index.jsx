@@ -1,6 +1,11 @@
+// //? lib
 import { useEffect, useState } from "react";
-import { getUserByRole, hapusUser } from "../../../api/supabase";
 import Swal from "sweetalert2";
+
+// //? api
+import { getUserByRole, hapusUser } from "../../../api/supabase";
+
+// //? component
 import {
   Button,
   Dropdown,
@@ -15,6 +20,8 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
+
+// //? icons
 import {
   AiFillDelete,
   AiFillEdit,
@@ -22,6 +29,8 @@ import {
   AiFillEyeInvisible,
   AiOutlineSearch,
 } from "react-icons/ai";
+
+// //? modals
 import TambahUser from "./TambahUser";
 import EditUser from "./EditUser";
 
@@ -66,9 +75,10 @@ function UserPage() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
         cancelButtonText: "Batal",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusUser(id);
+          await hapusUser(id);
+          await getDataUser();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -78,7 +88,6 @@ function UserPage() {
           });
         }
       });
-      getDataUser();
     } catch (error) {
       console.error("handleHapus: hapusUser", error);
     }

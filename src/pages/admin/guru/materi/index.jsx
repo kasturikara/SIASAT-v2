@@ -1,3 +1,11 @@
+// //?  lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api supabase
+import { getMateri, hapusMateri } from "../../../../api/supabase";
+
+// //? flowbite
 import {
   Button,
   Modal,
@@ -10,12 +18,13 @@ import {
   TextInput,
   Spinner,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// //? icons
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getMateri, hapusMateri } from "../../../../api/supabase";
+
+// //? modal
 import TambahMateri from "./TambahMateri";
 import EditMateri from "./EditMateri";
-import Swal from "sweetalert2";
 
 function MateriPage() {
   const [materi, setMateri] = useState([]);

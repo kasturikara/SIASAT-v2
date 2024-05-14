@@ -1,6 +1,11 @@
-import { Label, Modal, TextInput } from "flowbite-react";
+// //? prop types
 import PropTypes from "prop-types";
+
+// //? api supabase
 import { postNewKelas } from "../../../api/supabase";
+
+// //? flowbite
+import { Label, Modal, TextInput } from "flowbite-react";
 
 function TambahKelas({ newKelas, setNewKelas, setTambah, getDataKelas }) {
   const handleNewKelas = async (event) => {

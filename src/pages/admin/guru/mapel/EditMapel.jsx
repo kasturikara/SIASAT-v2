@@ -1,6 +1,13 @@
+// //? prop types
 import PropTypes from "prop-types";
+
+//  //? lib
 import { useEffect, useState } from "react";
+
+// //? api supabase
 import { getMapelById, updateMapel } from "../../../../api/supabase";
+
+// //? flowbite
 import { Label, Modal, TextInput } from "flowbite-react";
 
 function EditMapel({ idEdit, setEdit, getDataMapel }) {

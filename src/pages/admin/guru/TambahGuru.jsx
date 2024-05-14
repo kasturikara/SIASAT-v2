@@ -1,4 +1,13 @@
+// //? prop types
 import PropTypes from "prop-types";
+
+// //? lib
+import { useEffect, useState } from "react";
+
+// //? api supabase
+import { getMapel, getUserByRole, postNewGuru } from "../../../api/supabase";
+
+// //? flowbite
 import {
   Dropdown,
   DropdownItem,
@@ -6,8 +15,6 @@ import {
   Modal,
   TextInput,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { getMapel, getUserByRole, postNewGuru } from "../../../api/supabase";
 
 function TambahGuru({ newGuru, setNewGuru, setTambah, getDataGuru }) {
   const [mapel, setMapel] = useState([]);

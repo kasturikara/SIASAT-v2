@@ -1,3 +1,11 @@
+// lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// api supabase
+import { getGuru, hapusGuru } from "../../../api/supabase";
+
+// flowbite
 import {
   Button,
   Modal,
@@ -10,10 +18,11 @@ import {
   TextInput,
   Spinner,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// icon
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getGuru, hapusGuru } from "../../../api/supabase";
-import Swal from "sweetalert2";
+
+// modal
 import TambahGuru from "./TambahGuru";
 import EditGuru from "./EditGuru";
 
@@ -60,9 +69,10 @@ function GuruPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusGuru(id);
+          await hapusGuru(id);
+          await getDataGuru();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -72,7 +82,6 @@ function GuruPage() {
           });
         }
       });
-      getDataGuru();
     } catch (error) {
       console.error("handleHapus: hapusPengumuman", error);
     }

@@ -2,9 +2,8 @@ import { Spinner } from "flowbite-react";
 
 function LoadingPage() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <Spinner  />
-      <p className="text-3xl">Loading...</p>
+    <div className="flex items-center justify-center w-full max-h-screen my-24">
+      <Spinner />
     </div>
   );
 }

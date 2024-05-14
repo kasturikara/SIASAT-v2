@@ -1,3 +1,18 @@
+// //? prop types
+import PropTypes from "prop-types";
+
+// //? lib
+import { useEffect, useState } from "react";
+
+// //? api supabase
+import {
+  getGuru,
+  getJadwalById,
+  getKelas,
+  updateJadwal,
+} from "../../../api/supabase";
+
+// //? flowbite
 import {
   Dropdown,
   DropdownItem,
@@ -5,14 +20,6 @@ import {
   Modal,
   TextInput,
 } from "flowbite-react";
-import PropTypes from "prop-types";
-import {
-  getGuru,
-  getJadwalById,
-  getKelas,
-  updateJadwal,
-} from "../../../api/supabase";
-import { useEffect, useState } from "react";
 
 function EditJadwal({ idEdit, setEdit, getDataJadwal }) {
   const [jadwal, setJadwal] = useState({});

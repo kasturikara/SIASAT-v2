@@ -1,3 +1,11 @@
+// //? lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api supabase
+import { getKelas, hapusKelas } from "../../../api/supabase";
+
+// //? flowbite
 import {
   Button,
   Modal,
@@ -10,12 +18,13 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// //? icons
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getKelas, hapusKelas } from "../../../api/supabase";
+
+// //? modals
 import TambahKelas from "./TambahKelas";
 import EditKelas from "./EditKelas";
-import Swal from "sweetalert2";
 
 function KelasPage() {
   const [kelas, setKelas] = useState([]);

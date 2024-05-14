@@ -1,3 +1,15 @@
+// //? lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api supabase
+import {
+  getMurid,
+  getNilaiByMurid,
+  hapusNilai,
+} from "../../../../api/supabase";
+
+// //? flowbite
 import {
   Button,
   Dropdown,
@@ -12,14 +24,11 @@ import {
   TextInput,
   Spinner,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// //? icons
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import {
-  getMurid,
-  getNilaiByMurid,
-  hapusNilai,
-} from "../../../../api/supabase";
-import Swal from "sweetalert2";
+
+// //? modals
 import TambahNilai from "./TambahNilai";
 import EditNilai from "./EditNilai";
 

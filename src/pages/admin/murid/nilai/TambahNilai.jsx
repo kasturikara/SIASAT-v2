@@ -1,6 +1,13 @@
+// //? prop types
 import PropTypes from "prop-types";
+
+// //? lib
 import { useEffect, useState } from "react";
+
+// //? api supabase
 import { getMapel, getMurid, postNewNilai } from "../../../../api/supabase";
+
+// //? flowbite
 import {
   Dropdown,
   DropdownItem,

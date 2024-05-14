@@ -1,3 +1,5 @@
+// //?  prop types
+import PropTypes from "prop-types";
 import {
   Dropdown,
   DropdownItem,
@@ -5,8 +7,11 @@ import {
   Modal,
   TextInput,
 } from "flowbite-react";
-import PropTypes from "prop-types";
+
+// //? lib
 import { useEffect, useState } from "react";
+
+// //? api supabase
 import { getGuru, getMapel, postNewMateri } from "../../../../api/supabase";
 
 function TambahMateri({ newMateri, setNewMateri, setTambah, getDataMateri }) {

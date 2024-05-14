@@ -1,13 +1,20 @@
-import { Card, Spinner } from "flowbite-react";
+// //? lib
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+// //? api supabase
+import { getGuru, getKelas, getMapel, getMurid } from "../../../api/supabase";
+
+// //? flowbite
+import { Card, Spinner } from "flowbite-react";
+
+// //? icon
 import {
   PiBookOpenText,
   PiBuildings,
   PiStudent,
   PiUsersThree,
 } from "react-icons/pi";
-import { useEffect, useState } from "react";
-import { getGuru, getKelas, getMapel, getMurid } from "../../../api/supabase";
 
 const CardUI = () => {
   const [jmlMurid, setJmlMurid] = useState(0);

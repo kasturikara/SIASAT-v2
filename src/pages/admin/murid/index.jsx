@@ -1,3 +1,9 @@
+// //? lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api supabase
+import { getMurid, hapusMurid } from "../../../api/supabase";
 import {
   Button,
   Modal,
@@ -10,10 +16,11 @@ import {
   TextInput,
   Spinner,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// //? icons
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getMurid, hapusMurid } from "../../../api/supabase";
-import Swal from "sweetalert2";
+
+// //? modals
 import TambahMurid from "./TambahMurid";
 import EditMurid from "./EditMurid";
 

@@ -1,3 +1,11 @@
+// //? lib
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api supabase
+import { getMapel, hapusMapel } from "../../../../api/supabase";
+
+// //? flowbite
 import {
   Button,
   Modal,
@@ -10,12 +18,13 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// //? icon
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
-import { getMapel, hapusMapel } from "../../../../api/supabase";
+
+// //? modal
 import TambahMapel from "./TambahMapel";
 import EditMapel from "./EditMapel";
-import Swal from "sweetalert2";
 
 function MapelPage() {
   const [mapel, setMapel] = useState([]);
@@ -91,7 +100,7 @@ function MapelPage() {
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
         {loading && (
           <div className="flex justify-center">
-            <Spinner size="lg" className="mr-4" />
+            <Spinner size="xl" className="my-24" />
           </div>
         )}
         {!loading && (

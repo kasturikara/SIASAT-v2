@@ -1,3 +1,11 @@
+// //? lib
+import PropTypes from "prop-types";
+import { useState } from "react";
+
+// //? api
+import { postNewUser } from "../../../api/supabase";
+
+// //? component
 import {
   Dropdown,
   DropdownItem,
@@ -5,9 +13,8 @@ import {
   Modal,
   TextInput,
 } from "flowbite-react";
-import PropTypes from "prop-types";
-import { postNewUser } from "../../../api/supabase";
-import { useState } from "react";
+
+// //? icons
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function TambahUser({ newUser, setNewUser, setTambah, getDataUser }) {
