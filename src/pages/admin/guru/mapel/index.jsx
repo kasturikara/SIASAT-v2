@@ -60,9 +60,10 @@ function MapelPage() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
         cancelButtonText: "Batal",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusMapel(id);
+          await hapusMapel(id);
+          await getDataMapel();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -72,7 +73,6 @@ function MapelPage() {
           });
         }
       });
-      getDataMapel();
     } catch (error) {
       console.error("handleHapus: hapusMapel", error);
     }

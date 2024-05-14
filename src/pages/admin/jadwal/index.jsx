@@ -79,9 +79,10 @@ function JadwalPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusJadwal(id);
+          await hapusJadwal(id);
+          await getDataJadwal();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -91,7 +92,6 @@ function JadwalPage() {
           });
         }
       });
-      getDataJadwal();
     } catch (error) {
       console.error("handleHapus: hapusJadwal", error);
     }

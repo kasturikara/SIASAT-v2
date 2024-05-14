@@ -78,9 +78,10 @@ function NilaiPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusNilai(id);
+          await hapusNilai(id);
+          await getData();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -90,7 +91,6 @@ function NilaiPage() {
           });
         }
       });
-      getData();
     } catch (error) {
       console.error("handleHapus: hapusNilai", error);
     }

@@ -1,9 +1,9 @@
-import { Button, Label, TextInput } from "flowbite-react";
+// //? lib
 import PropTypes from "prop-types";
 
-/**
- * Komponen LoginPage untuk login ke sistem
- */
+// //? component
+import { Button, Label, TextInput } from "flowbite-react";
+
 function LoginPage({ user, setUser, handleLogin }) {
   const handleSubmit = (event) => {
     event.preventDefault();

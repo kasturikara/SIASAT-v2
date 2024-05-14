@@ -61,9 +61,10 @@ function KelasPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusKelas(id);
+          await hapusKelas(id);
+          await getDataKelas();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -73,7 +74,6 @@ function KelasPage() {
           });
         }
       });
-      getDataKelas();
     } catch (error) {
       console.error("handleHapus: hapusKelas", error);
     }

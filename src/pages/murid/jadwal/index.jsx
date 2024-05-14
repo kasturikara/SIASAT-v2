@@ -1,5 +1,10 @@
+// //? lib
 import { useEffect, useState } from "react";
+
+// //? api
 import { getJadwalByFilter } from "../../../api/supabase";
+
+// //? components
 import {
   Spinner,
   Table,
@@ -10,14 +15,16 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
+
+// //? icons
 import { PiMagnifyingGlassDuotone } from "react-icons/pi";
 
 function JadwalPage() {
   const [jadwal, setJadwal] = useState([]);
   const user = JSON.parse(localStorage.getItem("murid"));
-  const [filter, setFilter] = useState({
+  const filter = {
     idKelas: user?.id_kelas,
-  });
+  };
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

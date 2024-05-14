@@ -64,9 +64,10 @@ function AbsensiPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusAbsensi(id);
+          await hapusAbsensi(id);
+          await getDataAbsensi();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -76,7 +77,6 @@ function AbsensiPage() {
           });
         }
       });
-      getDataAbsensi();
     } catch (error) {
       console.error("handleHapusAbsensi: ", error);
     }

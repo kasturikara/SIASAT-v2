@@ -1,3 +1,12 @@
+// //? lib
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
+
+// //? api
+import { getAbsensiByMurid } from "../../../api/supabase";
+
+// //? components
 import {
   Dropdown,
   DropdownItem,
@@ -11,11 +20,9 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
-import { useEffect, useState } from "react";
+
+// //? icons
 import { PiMagnifyingGlassDuotone } from "react-icons/pi";
-import { getAbsensiByMurid } from "../../../api/supabase";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
 
 function AbsensiPage() {
   const user = JSON.parse(localStorage.getItem("murid"));

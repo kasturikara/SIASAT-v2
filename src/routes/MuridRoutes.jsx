@@ -1,7 +1,7 @@
-// react-router-dom
+// //? lib
 import { Route, Routes } from "react-router-dom";
 
-// pages
+// //? pages
 import DashboardPage from "../pages/murid/dashboard";
 import AbsensiPage from "../pages/murid/absensi";
 import JadwalPage from "../pages/murid/jadwal";

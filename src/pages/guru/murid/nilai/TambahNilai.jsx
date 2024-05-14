@@ -1,3 +1,11 @@
+// //? lib
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+
+// //? api
+import { getMurid, postNewNilai } from "../../../../api/supabase";
+
+// //? components
 import {
   Dropdown,
   DropdownItem,
@@ -5,9 +13,6 @@ import {
   Modal,
   TextInput,
 } from "flowbite-react";
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { getMurid, postNewNilai } from "../../../../api/supabase";
 
 function TambahNilai({ newNilai, setNewNilai, setTambah, getDatas }) {
   const [murid, setMurid] = useState([]);

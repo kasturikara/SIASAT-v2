@@ -64,9 +64,10 @@ function MateriPage() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
         cancelButtonText: "Batal",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusMateri(id);
+          await hapusMateri(id);
+          await getDataMateri();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -75,7 +76,6 @@ function MateriPage() {
             timer: 1500,
           });
         }
-        getDataMateri();
       });
     } catch (error) {
       console.error("handleHapus: hapusMateri", error);

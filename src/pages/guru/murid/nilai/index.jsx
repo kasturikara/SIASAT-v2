@@ -1,10 +1,15 @@
+// //? lib
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api
 import {
   getMurid,
   getNilaiByMuridAndMapel,
   hapusNilai,
 } from "../../../../api/supabase";
-import Swal from "sweetalert2";
+
+// //? components
 import {
   Button,
   Dropdown,
@@ -20,11 +25,15 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
+
+// //? icons
 import {
   PiMagnifyingGlassDuotone,
   PiNotePencilDuotone,
   PiTrashDuotone,
 } from "react-icons/pi";
+
+// //? modals
 import TambahNilai from "./TambahNilai";
 import EditNilai from "./EditNilai";
 
@@ -78,9 +87,10 @@ function NilaiPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusNilai(id);
+          await hapusNilai(id);
+          await getDatas();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -90,7 +100,6 @@ function NilaiPage() {
           });
         }
       });
-      getDatas();
     } catch (error) {
       console.error("handleHapusNilai: hapusNilai", error);
     }

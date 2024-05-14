@@ -1,3 +1,4 @@
+// //? components
 import SlidePengumuman from "../../../components/UI/SlidePengumuman";
 
 function DashboardPage() {

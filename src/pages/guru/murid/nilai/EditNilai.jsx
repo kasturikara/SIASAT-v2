@@ -1,6 +1,11 @@
+// //? lib
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+
+// //? api
 import { getNilaiById, updateNilai } from "../../../../api/supabase";
+
+// //? components
 import {
   Dropdown,
   DropdownItem,

@@ -64,9 +64,10 @@ function MuridPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusMurid(id);
+          await hapusMurid(id);
+          await getDataMurid();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -76,7 +77,6 @@ function MuridPage() {
           });
         }
       });
-      getDataMurid();
     } catch (error) {
       console.error("handleHapus: hapusMurid", error);
     }

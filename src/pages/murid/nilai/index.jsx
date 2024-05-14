@@ -1,5 +1,10 @@
+// //? lib
 import { useEffect, useState } from "react";
+
+// //? api
 import { getNilaiForRapor } from "../../../api/supabase";
+
+// //? components
 import {
   Spinner,
   Table,
@@ -10,6 +15,8 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
+
+// //? icons
 import { PiMagnifyingGlassDuotone } from "react-icons/pi";
 
 function NilaiPage() {

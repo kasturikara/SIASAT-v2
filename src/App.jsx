@@ -1,25 +1,23 @@
-// react
+// //? lib
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-//layout
-import AdminLayout from "./layout/admin";
-import GuruLayout from "./layout/guru";
-
-// routes
-import AdminRoutes from "./routes/AdminRoutes";
-import GuruRoutes from "./routes/GuruRoutes";
-
-// pages
-import LoginPage from "./pages/auth";
-import LoadingPage from "./pages/loading";
-
-// api
+// //? api
 import { findUserByEmail, findUserByUsername } from "./api/supabase";
 
-// dependencies
-import Swal from "sweetalert2";
+// //? layout
+import AdminLayout from "./layout/admin";
+import GuruLayout from "./layout/guru";
 import MuridLayout from "./layout/murid";
+
+// //? routes
+import AdminRoutes from "./routes/AdminRoutes";
+import GuruRoutes from "./routes/GuruRoutes";
 import MuridRoutes from "./routes/MuridRoutes";
+
+// //? pages
+import LoginPage from "./pages/auth";
+import LoadingPage from "./pages/loading";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);

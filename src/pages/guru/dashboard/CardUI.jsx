@@ -1,6 +1,13 @@
+// //? lib
 import { useEffect, useState } from "react";
+
+// //? api
 import { getKelas, getMurid } from "../../../api/supabase";
+
+// //? components
 import { Card, Spinner } from "flowbite-react";
+
+// //? icons
 import { PiBuildings, PiStudent } from "react-icons/pi";
 
 const CardUI = () => {

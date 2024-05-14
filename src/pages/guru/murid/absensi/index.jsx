@@ -1,14 +1,15 @@
+// //? lib
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+
+// //? api
 import {
   getAbsensiByFilter,
   getKelas,
   hapusAbsensi,
 } from "../../../../api/supabase";
-import {
-  PiMagnifyingGlassDuotone,
-  PiNotePencilDuotone,
-  PiTrashDuotone,
-} from "react-icons/pi";
+
+// //? components
 import {
   Button,
   Dropdown,
@@ -24,9 +25,17 @@ import {
   TableRow,
   TextInput,
 } from "flowbite-react";
+
+// //? icons
+import {
+  PiMagnifyingGlassDuotone,
+  PiNotePencilDuotone,
+  PiTrashDuotone,
+} from "react-icons/pi";
+
+// //? modals
 import TambahAbsensi from "./TambahAbsensi";
 import EditAbsensi from "./EditAbsensi";
-import Swal from "sweetalert2";
 
 function AbsensiPage() {
   const [absensi, setAbsensi] = useState([]);
@@ -69,9 +78,10 @@ function AbsensiPage() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Ya, hapus!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          hapusAbsensi(id);
+          await hapusAbsensi(id);
+          await getDatas();
           Swal.fire({
             title: "Terhapus!",
             text: "Data telah dihapus.",
@@ -81,7 +91,6 @@ function AbsensiPage() {
           });
         }
       });
-      getDatas();
     } catch (error) {
       console.error("handleHapusAbsensi: ", error);
     }
