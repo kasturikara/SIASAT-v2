@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { getPengumuman } from "../../../api/supabase";
 
-const SlidePengumuman = ({ bg }) => {
+const SlidePengumuman = () => {
   const [pengumuman, setPengumuman] = useState([]);
 
   async function getDatas() {
@@ -17,7 +17,7 @@ const SlidePengumuman = ({ bg }) => {
   }, []);
 
   return (
-    <div className={`p-4 rounded-lg h-46 sm:h-56 xl:h-64 2xl:h-80 ${bg}`}>
+    <div className="h-64 p-4 rounded-lg sm:h-56 xl:h-64 2xl:h-80 bg-gradient-to-t from-sky-400 to-sky-900">
       <Carousel
         pauseOnHover
         leftControl={
@@ -32,10 +32,12 @@ const SlidePengumuman = ({ bg }) => {
           return (
             <div
               key={data.id}
-              className="flex flex-col items-center justify-center h-full space-y-4"
+              className="flex flex-col items-center justify-center h-full px-16 space-y-4 text-white"
             >
               <h1 className="text-3xl font-bold uppercase ">{data.judul}</h1>
-              <h6 className="text-lg text-gray-800">{data.isi}</h6>
+              <h6 className="mt-6 text-lg text-justify text-gray-200">
+                {data.isi}
+              </h6>
             </div>
           );
         })}

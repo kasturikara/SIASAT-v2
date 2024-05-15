@@ -11,10 +11,8 @@ import { Card, Spinner } from "flowbite-react";
 import { PiBuildings, PiStudent } from "react-icons/pi";
 
 const CardUI = () => {
-  const [jml, setJml] = useState({
-    murid: 0,
-    kelas: 0,
-  });
+  const [jmlMurid, setJmlMurid] = useState(0);
+  const [jmlKelas, setJmlKelas] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,17 +22,12 @@ const CardUI = () => {
   async function getDatas() {
     setLoading(true);
     const dataMurid = await getMurid();
-    setJml({
-      ...jml,
-      murid: dataMurid.length,
-    });
+    setJmlMurid(Math.floor(dataMurid.length));
     const dataKelas = await getKelas();
-    setJml({
-      ...jml,
-      kelas: dataKelas.length,
-    });
+    setJmlKelas(Math.floor(dataKelas.length));
     setLoading(false);
   }
+
   return (
     <div className="grid h-full grid-cols-1 gap-4 mt-4 md:grid-cols-3 lg:grid-cols-4">
       {loading ? (
@@ -51,10 +44,11 @@ const CardUI = () => {
                 <h5 className="mb-2 font-medium text-center text-md">
                   Jumlah Murid
                 </h5>
-                <h3 className="text-3xl font-bold">{jml.murid}</h3>
+                <h3 className="text-3xl font-bold">{jmlMurid}</h3>
               </div>
             </div>
           </Card>
+
           {/* //* Kelas */}
           <Card className="h-32 text-gray-800 transition-all bg-sky-400 hover:bg-sky-600 hover:text-gray-200 hover:cursor-pointer hover:scale-105">
             <div className="flex items-center justify-center mx-2">
@@ -63,7 +57,7 @@ const CardUI = () => {
                 <h5 className="mb-2 font-medium text-center text-md">
                   Jumlah Kelas
                 </h5>
-                <h3 className="text-3xl font-bold">{jml.kelas}</h3>
+                <h3 className="text-3xl font-bold">{jmlKelas}</h3>
               </div>
             </div>
           </Card>

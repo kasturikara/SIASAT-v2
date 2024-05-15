@@ -84,7 +84,12 @@ function TambahAbsensi({
           />
           <Label htmlFor="murid" value="Pilih Murid" className="block mb-2" />
           <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-            <Dropdown id="murid" label={labelMurid} inline className="w-3/4">
+            <Dropdown
+              id="murid"
+              label={labelMurid}
+              inline
+              className="w-3/4 overflow-y-auto max-h-64"
+            >
               {murid.map((data) => {
                 return (
                   <DropdownItem

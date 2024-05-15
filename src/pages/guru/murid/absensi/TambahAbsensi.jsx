@@ -119,7 +119,7 @@ function TambahAbsensi({
                 id="kelas"
                 inline
                 label={filter.namaKelas}
-                className="w-24"
+                className="w-24 overflow-y-auto max-h-64"
               >
                 {kelas.map((data, index) => {
                   return (
@@ -141,7 +141,7 @@ function TambahAbsensi({
             </div>
           </div>
         </div>
-        <Table className="text-center" striped>
+        <Table className="max-h-full overflow-y-auto text-center" striped>
           <TableHead>
             <TableHeadCell className="text-left">Nama Murid</TableHeadCell>
             <TableHeadCell className="">Hadir</TableHeadCell>

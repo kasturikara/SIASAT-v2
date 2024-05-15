@@ -5,7 +5,7 @@ function DashboardPage() {
   return (
     <div>
       <div>
-        <SlidePengumuman bg="bg-gradient-to-r from-teal-500 to-sky-400" />
+        <SlidePengumuman />
       </div>
     </div>
   );
