@@ -29,12 +29,13 @@ function JadwalPage() {
 
   useEffect(() => {
     getDatas();
-  }, [filter]);
+  }, []);
 
   async function getDatas() {
     setLoading(true);
     const jadwal = await getJadwalByFilter(filter.idKelas);
     setJadwal(jadwal);
+    console.log("jadwal: ", jadwal[0]?.jam_mulai);
     setLoading(false);
   }
 
@@ -72,12 +73,16 @@ function JadwalPage() {
                 {jadwal.map(
                   (item) =>
                     item.hari === "Senin" && (
-                      <TableRow key={item.id} className="even:bg-slate-200">
+                      <TableRow
+                        key={item.id}
+                        className="even:bg-slate-200 odd:bg-teal-50"
+                      >
                         <TableCell className="font-semibold ">
                           {item?.guru.mapel.nama}
                         </TableCell>
                         <TableCell className="">
-                          {item?.jam_mulai} - {item?.jam_selesai}
+                          {item?.jam_mulai.slice(0, 5)} -{" "}
+                          {item?.jam_selesai.slice(0, 5)}
                         </TableCell>
                       </TableRow>
                     )
@@ -99,12 +104,16 @@ function JadwalPage() {
                 {jadwal.map(
                   (item) =>
                     item.hari === "Selasa" && (
-                      <TableRow key={item.id} className="even:bg-slate-200">
+                      <TableRow
+                        key={item.id}
+                        className="even:bg-slate-200 odd:bg-teal-50"
+                      >
                         <TableCell className="font-semibold ">
                           {item?.guru.mapel.nama}
                         </TableCell>
                         <TableCell className="">
-                          {item?.jam_mulai} - {item?.jam_selesai}
+                          {item?.jam_mulai.slice(0, 5)} -{" "}
+                          {item?.jam_selesai.slice(0, 5)}{" "}
                         </TableCell>
                       </TableRow>
                     )
@@ -126,12 +135,16 @@ function JadwalPage() {
                 {jadwal.map(
                   (item) =>
                     item.hari === "Rabu" && (
-                      <TableRow key={item.id} className="even:bg-slate-200">
+                      <TableRow
+                        key={item.id}
+                        className="even:bg-slate-200 odd:bg-teal-50"
+                      >
                         <TableCell className="font-semibold ">
                           {item?.guru.mapel.nama}
                         </TableCell>
                         <TableCell className="">
-                          {item?.jam_mulai} - {item?.jam_selesai}
+                          {item?.jam_mulai.slice(0, 5)} -{" "}
+                          {item?.jam_selesai.slice(0, 5)}{" "}
                         </TableCell>
                       </TableRow>
                     )
@@ -153,12 +166,16 @@ function JadwalPage() {
                 {jadwal.map(
                   (item) =>
                     item.hari === "Kamis" && (
-                      <TableRow key={item.id} className="even:bg-slate-200">
+                      <TableRow
+                        key={item.id}
+                        className="even:bg-slate-200 odd:bg-teal-50"
+                      >
                         <TableCell className="font-semibold ">
                           {item?.guru.mapel.nama}
                         </TableCell>
                         <TableCell className="">
-                          {item?.jam_mulai} - {item?.jam_selesai}
+                          {item?.jam_mulai.slice(0, 5)} -{" "}
+                          {item?.jam_selesai.slice(0, 5)}
                         </TableCell>
                       </TableRow>
                     )
@@ -180,12 +197,16 @@ function JadwalPage() {
                 {jadwal.map(
                   (item) =>
                     item.hari === "Jumat" && (
-                      <TableRow key={item.id} className="even:bg-slate-200">
+                      <TableRow
+                        key={item.id}
+                        className="even:bg-slate-200 odd:bg-teal-50"
+                      >
                         <TableCell className="font-semibold ">
                           {item?.guru.mapel.nama}
                         </TableCell>
                         <TableCell className="">
-                          {item?.jam_mulai} - {item?.jam_selesai}
+                          {item?.jam_mulai.slice(0, 5)} -{" "}
+                          {item?.jam_selesai.slice(0, 5)}
                         </TableCell>
                       </TableRow>
                     )

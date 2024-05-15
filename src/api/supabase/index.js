@@ -414,13 +414,24 @@ export async function getMuridByUser(user) {
   const { id } = user;
   const { data, error } = await supabase
     .from("murid")
-    .select("*, kelas (nama)")
+    .select("*, kelas (nama), user(username, email, password)")
     .eq("id_user", id)
     .single();
   if (error) {
     console.error("getMuridByUser: ", error);
   }
   return data;
+}
+export async function updateMuridProfile(murid) {
+  const { id, nama, jenis_kelamin, tanggal_lahir, umur, alamat } = murid;
+  const { error } = await supabase
+    .from("murid")
+    .update({ nama, jenis_kelamin, tanggal_lahir, umur, alamat })
+    .eq("id", id);
+  if (error) {
+    console.error("updateMuridProfile: ", error);
+    return;
+  }
 }
 
 // ------------------jadwal------------------

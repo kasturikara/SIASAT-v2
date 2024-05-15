@@ -1,5 +1,7 @@
-// //? icons
+// //? components
 import { Label } from "flowbite-react";
+
+// //? icons
 import { PiNotePencilBold } from "react-icons/pi";
 
 function ProfilePage() {
