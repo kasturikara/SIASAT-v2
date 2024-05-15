@@ -179,7 +179,12 @@ function TambahMurid({ newMurid, setNewMurid, setTambah, getDataMurid }) {
           <div>
             <Label htmlFor="kelas" value="Kelas" className="block mb-2" />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown id="kelas" label={labelKelas} inline className="w-64">
+              <Dropdown
+                id="kelas"
+                label={labelKelas}
+                inline
+                className="w-64 overflow-y-auto max-h-64"
+              >
                 {kelas.map((data) => {
                   return (
                     <DropdownItem
@@ -203,7 +208,12 @@ function TambahMurid({ newMurid, setNewMurid, setTambah, getDataMurid }) {
           <div>
             <Label htmlFor="user" value="Username" className="block mb-2" />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown id="user" label={labelUser} inline className="w-64">
+              <Dropdown
+                id="user"
+                label={labelUser}
+                inline
+                className="w-64 overflow-y-auto max-h-64"
+              >
                 {user.map((data) => {
                   return (
                     <DropdownItem
