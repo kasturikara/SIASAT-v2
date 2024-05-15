@@ -875,7 +875,7 @@ export async function getGuruByUser(user) {
   const { id } = user;
   const { data, error } = await supabase
     .from("guru")
-    .select("*, mapel (nama, materi (deskripsi))")
+    .select("*, mapel (nama, materi (deskripsi)), user (username, email)")
     .eq("id_user", id)
     .single();
   if (error) {

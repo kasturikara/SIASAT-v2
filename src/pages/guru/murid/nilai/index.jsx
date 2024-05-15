@@ -42,7 +42,7 @@ function NilaiPage() {
   const [nilai, setNilai] = useState([]);
   const [murid, setMurid] = useState([]);
   const [filter, setFilter] = useState({
-    id: 2201,
+    id: 2,
     nama: "Aditya Ramadhan",
   });
   const [tambah, setTambah] = useState(false);
