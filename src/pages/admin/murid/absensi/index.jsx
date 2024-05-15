@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 // //? api supabase
-import { getAbsensiByFilter, hapusAbsensi } from "../../../../api/supabase";
+import { getAbsensiByDate, hapusAbsensi } from "../../../../api/supabase";
 
 // //? flowbite
 import {
@@ -45,7 +45,7 @@ function AbsensiPage() {
 
   async function getDataAbsensi() {
     setLoading(true);
-    const dataJadwal = await getAbsensiByFilter(filter);
+    const dataJadwal = await getAbsensiByDate(filter);
     setAbsensi(dataJadwal);
     setLoading(false);
   }

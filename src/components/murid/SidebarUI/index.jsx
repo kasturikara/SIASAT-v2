@@ -99,11 +99,6 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
             Profile
           </Sidebar.Item>
         </Sidebar.ItemGroup>
-        <Sidebar.ItemGroup className="fixed bottom-0">
-          <Sidebar.Item className="mx-auto text-sm text-center text-gray-500">
-            Created by kelompok 2
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
   ) : (

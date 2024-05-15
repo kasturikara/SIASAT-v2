@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 // //? api supabase
-import { getMurid, hapusMurid } from "../../../api/supabase";
+import { getKelas, getMuridByKelas, hapusMurid } from "../../../api/supabase";
 import {
   Button,
   Modal,
@@ -14,8 +14,11 @@ import {
   TableHeadCell,
   TableRow,
   TextInput,
-  Spinner,
+  Label,
+  Dropdown,
+  DropdownItem,
 } from "flowbite-react";
+import LoadingPage from "../../loading";
 
 // //? icons
 import { AiFillDelete, AiFillEdit, AiOutlineSearch } from "react-icons/ai";
@@ -36,17 +39,25 @@ function MuridPage() {
     kelas: "",
     user: "",
   });
+  const [filter, setFilter] = useState({
+    idKelas: 1,
+    namaKelas: "10 - A",
+  });
+  const [kelas, setKelas] = useState([]);
   const [edit, setEdit] = useState(false);
   const [idEdit, setIdEdit] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getDataMurid();
-  }, []);
+  }, [filter]);
 
   async function getDataMurid() {
-    const data = await getMurid();
-    setMurid(data);
+    setLoading(true);
+    const murid = await getMuridByKelas(filter.idKelas);
+    setMurid(murid);
+    const kelas = await getKelas();
+    setKelas(kelas);
     setLoading(false);
   }
 
@@ -102,10 +113,30 @@ function MuridPage() {
       </div>
 
       <div className="px-4 py-8 overflow-x-auto rounded-lg bg-slate-50">
-        {loading ? (
-          <div className="flex justify-center my-20">
-            <Spinner />
+        <div className="flex items-center mb-8">
+          <Label value="Pilih Kelas:" className="mr-4" />
+          <div className="flex items-center h-10 px-2 py-1 text-sm border rounded-lg border-slate-300">
+            <Dropdown inline label={filter.namaKelas} outline>
+              {kelas.map((item) => (
+                <DropdownItem
+                  key={item.id}
+                  className="flex items-center justify-center w-32 px-1 py-2"
+                  onClick={() =>
+                    setFilter({
+                      ...filter,
+                      idKelas: item.id,
+                      namaKelas: item.kelas,
+                    })
+                  }
+                >
+                  {item.kelas}
+                </DropdownItem>
+              ))}
+            </Dropdown>
           </div>
+        </div>
+        {loading ? (
+          <LoadingPage />
         ) : (
           <Table striped key={murid}>
             <TableHead className="text-center">
@@ -126,9 +157,6 @@ function MuridPage() {
               </TableHeadCell>
               <TableHeadCell className="text-white bg-teal-500">
                 Alamat
-              </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
-                Kelas
               </TableHeadCell>
               <TableHeadCell className="text-white bg-teal-500">
                 Username / Email
@@ -152,7 +180,6 @@ function MuridPage() {
                     <TableCell>{data.tanggal_lahir}</TableCell>
                     <TableCell>{data.umur}</TableCell>
                     <TableCell>{data.alamat}</TableCell>
-                    <TableCell>{data.kelas.nama}</TableCell>
                     <TableCell>
                       {data.user.username} / {data.user.email}
                     </TableCell>
@@ -166,14 +193,14 @@ function MuridPage() {
                             setIdEdit(data.id);
                           }}
                         >
-                          <AiFillEdit className="" />
+                          <AiFillEdit className="mr-2" /> Edit
                         </Button>
                         <Button
                           size="xs"
                           color="failure"
                           onClick={() => handleHapus(data.id)}
                         >
-                          <AiFillDelete className="" />
+                          <AiFillDelete className="mr-2" /> Hapus
                         </Button>
                       </div>
                     </TableCell>

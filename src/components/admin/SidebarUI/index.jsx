@@ -47,9 +47,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
               location.pathname !== "/" ? AiOutlineDashboard : AiFillDashboard
             }
             active={location.pathname === "/"}
-            className={`hover:bg-slate-200 hover:text-gray-500 ${
+            className={`hover:bg-teal-200 hover:text-gray-500 ${
               location.pathname === "/" &&
-              "bg-slate-300 text-gray-700 font-medium"
+              "bg-teal-200 text-gray-700 font-medium"
             } `}
           >
             Dashboard
@@ -60,9 +60,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
               to="/guru"
               icon={location.pathname !== "/guru" ? FaRegIdBadge : FaIdBadge}
               active={location.pathname === "/guru"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
+              className={`hover:bg-teal-200 hover:text-gray-500 ${
                 location.pathname === "/guru" &&
-                "bg-slate-300 text-gray-700 font-medium"
+                "bg-teal-200 text-gray-700 font-medium"
               } `}
             >
               Guru
@@ -72,9 +72,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
               to="/mapel"
               icon={location.pathname !== "/mapel" ? FaRegFileAlt : FaFileAlt}
               active={location.pathname === "/mapel"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
+              className={`hover:bg-teal-200 hover:text-gray-500 ${
                 location.pathname === "/mapel" &&
-                "bg-slate-300 text-gray-700 font-medium"
+                "bg-teal-200 text-gray-700 font-medium"
               } `}
             >
               Mapel
@@ -86,9 +86,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
                 location.pathname !== "/materi" ? FaRegFolderOpen : FaFolderOpen
               }
               active={location.pathname === "/materi"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
+              className={`hover:bg-teal-200 hover:text-gray-500 ${
                 location.pathname === "/materi" &&
-                "bg-slate-300 text-gray-700 font-medium"
+                "bg-teal-200 text-gray-700 font-medium"
               } `}
             >
               Materi
@@ -97,7 +97,7 @@ function SidebarUI({ isOpen, setIsOpen }) {
           <Sidebar.Collapse
             icon={HiOutlineUsers}
             label="Murid"
-            className="hover:bg-slate-200 hover:text-gray-500"
+            className="hover:bg-teal-200 hover:text-gray-500"
           >
             <Sidebar.Item
               as={Link}
@@ -106,9 +106,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
                 location.pathname !== "/murid" ? FaRegUserCircle : FaUserCircle
               }
               active={location.pathname === "/murid"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
+              className={`hover:bg-teal-200 hover:text-gray-500 ${
                 location.pathname === "/murid" &&
-                "bg-slate-300 text-gray-700 font-medium"
+                "bg-teal-200 text-gray-700 font-medium"
               } `}
             >
               Murid
@@ -122,9 +122,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
                   : FaCalendarCheck
               }
               active={location.pathname === "/absensi"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
+              className={`hover:bg-teal-200 hover:text-gray-500 ${
                 location.pathname === "/absensi" &&
-                "bg-slate-300 text-gray-700 font-medium"
+                "bg-teal-200 text-gray-700 font-medium"
               } `}
             >
               Absensi
@@ -134,9 +134,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
               to="/nilai"
               icon={location.pathname !== "/nilai" ? FaRegChartBar : FaChartBar}
               active={location.pathname === "/nilai"}
-              className={`hover:bg-slate-200 hover:text-gray-500 ${
+              className={`hover:bg-teal-200 hover:text-gray-500 ${
                 location.pathname === "/nilai" &&
-                "bg-slate-300 text-gray-700 font-medium"
+                "bg-teal-200 text-gray-700 font-medium"
               } `}
             >
               Nilai
@@ -151,9 +151,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
                 : FaCalendarCheck
             }
             active={location.pathname === "/jadwal"}
-            className={`hover:bg-slate-200 hover:text-gray-500 ${
+            className={`hover:bg-teal-200 hover:text-gray-500 ${
               location.pathname === "/jadwal" &&
-              "bg-slate-300 text-gray-700 font-medium"
+              "bg-teal-200 text-gray-700 font-medium"
             } `}
           >
             Jadwal
@@ -163,9 +163,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
             to="/kelas"
             icon={location.pathname !== "/kelas" ? FaRegBuilding : FaBuilding}
             active={location.pathname === "/kelas"}
-            className={` hover:bg-slate-200 hover:text-gray-500 ${
+            className={` hover:bg-teal-200 hover:text-gray-500 ${
               location.pathname === "/kelas" &&
-              "bg-slate-300 text-gray-700 font-medium"
+              "bg-teal-200 text-gray-700 font-medium"
             } `}
           >
             Kelas
@@ -175,9 +175,9 @@ function SidebarUI({ isOpen, setIsOpen }) {
             to="/pengumuman"
             icon={location.pathname !== "/pengumuman" ? FaRegBell : FaBell}
             active={location.pathname === "/pengumuman"}
-            className={`hover:bg-slate-200 hover:text-gray-500 ${
+            className={`hover:bg-teal-200 hover:text-gray-500 ${
               location.pathname === "/pengumuman" &&
-              "bg-slate-300 text-gray-700 font-medium"
+              "bg-teal-200 text-gray-700 font-medium"
             } `}
           >
             Pengumuman
@@ -187,17 +187,12 @@ function SidebarUI({ isOpen, setIsOpen }) {
             to="/user"
             icon={location.pathname !== "/user" ? FaRegUser : FaUser}
             active={location.pathname === "/user"}
-            className={` hover:bg-slate-200 hover:text-gray-500 ${
+            className={` hover:bg-teal-200 hover:text-gray-500 ${
               location.pathname === "/user" &&
-              "bg-slate-300 text-gray-700 font-medium"
+              "bg-teal-200 text-gray-700 font-medium"
             } `}
           >
             User
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
-        <Sidebar.ItemGroup className="fixed bottom-0">
-          <Sidebar.Item className="mx-auto text-sm text-center text-gray-500">
-            Created by kelompok 2
           </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>

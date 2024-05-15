@@ -2,10 +2,27 @@ import PropTypes from "prop-types";
 
 import NavbarUI from "../../components/admin/NavbarUI";
 import SidebarUI from "../../components/admin/SidebarUI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAdminByUser } from "../../api/supabase";
 
 function AdminLayout({ children }) {
   const [isOpen, setIsOpen] = useState(true);
+  const user = JSON.parse(localStorage.getItem("login"));
+
+  useEffect(() => {
+    if (localStorage.getItem("admin") === null) {
+      getDatas();
+    }
+  }, []);
+
+  async function getDatas() {
+    try {
+      const data = await getAdminByUser(user?.user);
+      localStorage.setItem("admin", JSON.stringify(data));
+    } catch (error) {
+      console.error("Layout: ", error);
+    }
+  }
 
   return (
     <div className="antialiased bg-gray-50">

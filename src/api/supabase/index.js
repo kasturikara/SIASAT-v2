@@ -122,6 +122,21 @@ export async function hapusUser(id) {
 }
 
 // ------------------pengumuman------------------
+export async function getAdminByUser(user) {
+  const { id: userId } = user;
+  const { data, error } = await supabase
+    .from("admin")
+    .select("*")
+    .eq("id_user", userId)
+    .single();
+  if (error || !data) {
+    console.error("getAdminByUser: ", error);
+    return;
+  }
+  return data;
+}
+
+// ------------------pengumuman------------------
 export async function getPengumuman() {
   const { data, error } = await supabase
     .from("pengumuman")
@@ -280,7 +295,7 @@ export async function getMurid() {
   const { data: murid, error } = await supabase
     .from("murid")
     .select("*, kelas (nama), user (username, email)")
-    .order("nama", { ascending: true });
+    .order("kelas (nama)", { ascending: true });
 
   if (error || !murid) {
     Swal.fire({
@@ -386,8 +401,9 @@ export async function hapusMurid(id) {
 export async function getMuridByKelas(kelas) {
   const { data: murid, error } = await supabase
     .from("murid")
-    .select("*, kelas (nama), user (username)")
-    .eq("id_kelas", kelas);
+    .select("*, kelas (nama), user (username, email)")
+    .eq("id_kelas", kelas)
+    .order("kelas (nama)", { ascending: true });
   if (error || !murid) {
     console.error("getMuridByKelas: ", error);
     return;
@@ -504,6 +520,18 @@ export async function hapusJadwal(id) {
 }
 
 // ------------------absensi------------------
+export async function getAbsensiByDate(date) {
+  const { data: absensi, error } = await supabase
+    .from("absensi")
+    .select("*, murid (nama)")
+    .eq("tanggal", date)
+    .order("murid (nama)", { ascending: true });
+  if (error) {
+    console.error("getAbsensiByDate: ", error);
+    return;
+  }
+  return absensi;
+}
 export async function getAbsensiByFilter(filter) {
   const { idKelas, tanggal } = filter;
   const { data: muridData, error: muridError } = await supabase
