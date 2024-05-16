@@ -49,7 +49,6 @@ function TambahMateri({ newMateri, setNewMateri, setTambah, getDataMateri }) {
     });
 
     try {
-      console.log("handleNewMateri: ", newMateri);
       await postNewMateri(newMateri);
     } catch (error) {
       console.error("handleNewMateri: ", error);

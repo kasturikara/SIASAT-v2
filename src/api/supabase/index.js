@@ -886,7 +886,9 @@ export async function getGuruByUser(user) {
   const { id } = user;
   const { data, error } = await supabase
     .from("guru")
-    .select("*, mapel (nama, materi (deskripsi)), user (username, email)")
+    .select(
+      "*, mapel (nama, materi (deskripsi)), user (username, email, password)"
+    )
     .eq("id_user", id)
     .single();
   if (error) {
@@ -1054,6 +1056,15 @@ export async function hapusMateri(id) {
     return;
   }
 }
-export async function getMateriByGuru(guru) {
-  console.log("getMateriBy: ", guru);
+export async function getMateriByGuru(idGuru) {
+  const { data, error } = await supabase
+    .from("materi")
+    .select("*")
+    .eq("id_guru", idGuru)
+    .order("deskripsi", { ascending: true });
+  if (error) {
+    console.error("getMateriByGuru: ", error);
+    return;
+  }
+  return data;
 }

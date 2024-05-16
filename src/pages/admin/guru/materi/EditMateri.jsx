@@ -1,10 +1,8 @@
-// //? prop types
-import PropTypes from "prop-types";
-
 // //? lib
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-// //? api supabase
+// //? api
 import {
   getGuru,
   getMapel,
@@ -12,7 +10,7 @@ import {
   updateMateri,
 } from "../../../../api/supabase";
 
-// //? flowbite
+// //? components
 import {
   Dropdown,
   DropdownItem,

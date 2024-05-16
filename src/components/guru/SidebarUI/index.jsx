@@ -13,6 +13,8 @@ import {
   PiUserCircle,
   PiUsers,
   PiUserCircleFill,
+  PiBookOpenText,
+  PiBookOpenTextFill,
 } from "react-icons/pi";
 
 const SidebarUI = ({ isOpen, setIsOpen }) => {
@@ -41,6 +43,22 @@ const SidebarUI = ({ isOpen, setIsOpen }) => {
             }`}
           >
             Dashboard
+          </Sidebar.Item>
+          <Sidebar.Item
+            as={Link}
+            to="/materi"
+            icon={
+              location.pathname !== "/materi"
+                ? PiBookOpenText
+                : PiBookOpenTextFill
+            }
+            active={location.pathname === "/materi"}
+            className={`hover:bg-slate-200 hover:text-gray-500 ${
+              location.pathname === "/materi" &&
+              "bg-amber-200 text-gray-700 font-medium"
+            }`}
+          >
+            Materi
           </Sidebar.Item>
 
           <Sidebar.Collapse icon={PiUsers} label="Murid">
