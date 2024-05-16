@@ -896,6 +896,17 @@ export async function getGuruByUser(user) {
   }
   return data;
 }
+export async function updateGuruProfile(data) {
+  const { id, nama, jenis_kelamin, tanggal_lahir, umur, alamat } = data;
+  const { error } = await supabase
+    .from("guru")
+    .update({ nama, jenis_kelamin, tanggal_lahir, umur, alamat })
+    .eq("id", id);
+  if (error) {
+    console.error("updateGuruProfile: ", error);
+    return;
+  }
+}
 
 // ------------------mapel------------------
 export async function getMapel() {

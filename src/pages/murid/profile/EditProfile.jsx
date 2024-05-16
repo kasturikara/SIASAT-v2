@@ -1,15 +1,15 @@
 // //? lib
 import PropTypes from "prop-types";
+import Swal from "sweetalert2";
 
 // //? api
 import { updateMuridProfile } from "../../../api/supabase";
 
 // //? components
 import { Label, Modal, TextInput } from "flowbite-react";
-import Swal from "sweetalert2";
 
 function EditProfile({ setEdit, murid, setMurid }) {
-  const hanldeChange = (event) => {
+  const handleChange = (event) => {
     event.preventDefault();
     if (event.target.id === "tanggal_lahir") {
       const birthDate = new Date(event.target.value);
@@ -63,7 +63,7 @@ function EditProfile({ setEdit, murid, setMurid }) {
             <TextInput
               id="nama"
               value={murid?.nama}
-              onChange={(event) => hanldeChange(event)}
+              onChange={(event) => handleChange(event)}
               type="text"
             />
           </div>
@@ -76,7 +76,7 @@ function EditProfile({ setEdit, murid, setMurid }) {
             <TextInput
               id="jenis_kelamin"
               value={murid?.jenis_kelamin}
-              onChange={(event) => hanldeChange(event)}
+              onChange={(event) => handleChange(event)}
               type="text"
             />
           </div>
@@ -85,7 +85,7 @@ function EditProfile({ setEdit, murid, setMurid }) {
             <TextInput
               id="alamat"
               value={murid?.alamat}
-              onChange={(event) => hanldeChange(event)}
+              onChange={(event) => handleChange(event)}
               type="text"
             />
           </div>
@@ -98,7 +98,7 @@ function EditProfile({ setEdit, murid, setMurid }) {
             <TextInput
               id="tanggal_lahir"
               value={murid?.tanggal_lahir}
-              onChange={(event) => hanldeChange(event)}
+              onChange={(event) => handleChange(event)}
               type="date"
               pattern="\d{4}-\d{2}-\d{2}"
             />
@@ -108,7 +108,7 @@ function EditProfile({ setEdit, murid, setMurid }) {
             <TextInput
               id="umur"
               value={murid?.umur}
-              onChange={(event) => hanldeChange(event)}
+              onChange={(event) => handleChange(event)}
               type="number"
               readOnly
             />

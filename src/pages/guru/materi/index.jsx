@@ -120,7 +120,7 @@ function MateriPage() {
               {materi.map((materi, index) => (
                 <TableRow
                   key={index}
-                  className="text-slate-600 hover:bg-amber-50 even-bg-slate-200"
+                  className="text-slate-600 hover:bg-amber-50 even:bg-slate-200"
                 >
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{materi.deskripsi}</TableCell>
