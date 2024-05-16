@@ -2,17 +2,19 @@
 import { useEffect, useState } from "react";
 
 // //? api
-import { getKelas, getMurid } from "../../../api/supabase";
+import { getKelas, getMateriByGuru, getMurid } from "../../../api/supabase";
 
 // //? components
 import { Card, Spinner } from "flowbite-react";
 
 // //? icons
-import { PiBuildings, PiStudent } from "react-icons/pi";
+import { PiBookOpenText, PiBuildings, PiStudent } from "react-icons/pi";
 
 const CardUI = () => {
+  const guru = JSON.parse(localStorage.getItem("guru"));
   const [jmlMurid, setJmlMurid] = useState(0);
   const [jmlKelas, setJmlKelas] = useState(0);
+  const [jmlMateri, setJmlMateri] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,6 +27,8 @@ const CardUI = () => {
     setJmlMurid(Math.floor(dataMurid.length));
     const dataKelas = await getKelas();
     setJmlKelas(Math.floor(dataKelas.length));
+    const dataMateri = await getMateriByGuru(guru?.id);
+    setJmlMateri(Math.floor(dataMateri.length));
     setLoading(false);
   }
 
@@ -58,6 +62,19 @@ const CardUI = () => {
                   Jumlah Kelas
                 </h5>
                 <h3 className="text-3xl font-bold">{jmlKelas}</h3>
+              </div>
+            </div>
+          </Card>
+
+          {/* //* Materi */}
+          <Card className="h-32 text-gray-800 transition-all bg-emerald-400 hover:bg-emerald-600 hover:text-gray-200 hover:cursor-pointer hover:scale-105">
+            <div className="flex items-center justify-center mx-2">
+              <PiBookOpenText className="text-5xl" />
+              <div className="flex-col items-center justify-center ml-6 sm:flex">
+                <h5 className="mb-2 font-medium text-center text-md">
+                  Jumlah Materi
+                </h5>
+                <h3 className="text-3xl font-bold">{jmlMateri}</h3>
               </div>
             </div>
           </Card>
