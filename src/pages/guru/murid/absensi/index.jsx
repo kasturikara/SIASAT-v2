@@ -40,7 +40,7 @@ import EditAbsensi from "./EditAbsensi";
 function AbsensiPage() {
   const [absensi, setAbsensi] = useState([]);
   const [filter, setFilter] = useState({
-    namaKelas: "10-1",
+    namaKelas: "10 - A",
     idKelas: 1,
     tanggal: "2024-04-01",
   });
