@@ -55,7 +55,7 @@ function JadwalPage() {
 
   useEffect(() => {
     getDataJadwal();
-  }, []);
+  }, [filterJadwal.id]);
 
   async function getDataJadwal() {
     const dataJadwal = await getJadwalByFilter(filterJadwal.id);
