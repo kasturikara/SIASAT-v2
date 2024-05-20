@@ -37,7 +37,7 @@ function JadwalPage() {
   const [kelas, setKelas] = useState([]);
   const [filterJadwal, setFilterJadwal] = useState({
     id: 1,
-    kelas: "10-1",
+    kelas: "10-A",
   });
   const [tambah, setTambah] = useState(false);
   const [newJadwal, setNewJadwal] = useState({
