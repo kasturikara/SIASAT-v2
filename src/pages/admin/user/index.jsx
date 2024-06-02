@@ -113,7 +113,12 @@ function UserPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Dropdown label={filter} outline size="sm" className="float-right">
+        <Dropdown
+          label={filter.toUpperCase()}
+          outline
+          size="sm"
+          className="float-right"
+        >
           {["admin", "guru", "murid", "wali"].map((data, index) => {
             return (
               <DropdownItem
@@ -121,7 +126,7 @@ function UserPage() {
                 className="flex items-center justify-center px-1 py-2 bg-slate-50 hover:bg-slate-500"
                 onClick={() => setFilter(data)}
               >
-                {data}
+                {data.toUpperCase()}
               </DropdownItem>
             );
           })}
@@ -133,68 +138,74 @@ function UserPage() {
         ) : (
           <Table striped key={user} className="mt-4">
             <TableHead className="text-center">
-              <TableHeadCell className="w-16 text-white bg-teal-500">
+              <TableHeadCell className="w-16 text-white bg-sky-500">
                 No.
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Username
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Email
               </TableHeadCell>
-              <TableHeadCell className="relative text-white bg-teal-500">
+              <TableHeadCell className="relative text-white bg-sky-500">
                 Password
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute inset-y-0 right-0 px-4 py-2 text-sm font-medium text-white hover:text-teal-300"
+                  className="absolute inset-y-0 right-0 px-4 py-2 text-sm font-medium text-white hover:text-sky-300"
                 >
                   {showPass ? <AiFillEyeInvisible /> : <AiFillEye />}
                 </button>
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Action
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {user.map((data, index) => {
-                return (
-                  <TableRow
-                    key={index}
-                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                  >
-                    <TableCell className="whitespace-nowrap">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell>{data.username}</TableCell>
-                    <TableCell>{data.email}</TableCell>
-                    <TableCell>
-                      {showPass ? data.password : "**********"}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center gap-4">
-                        <Button
-                          size="xs"
-                          color="success"
-                          onClick={() => {
-                            setEdit(true);
-                            setIdEdit(data.id);
-                          }}
-                        >
-                          <AiFillEdit className="mr-2" /> Edit
-                        </Button>
-                        <Button
-                          size="xs"
-                          color="failure"
-                          onClick={() => handleHapus(data.id)}
-                        >
-                          <AiFillDelete className="mr-2" /> Hapus
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {user.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5}>Tidak ada data</TableCell>
+                </TableRow>
+              ) : (
+                user.map((data, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      className="text-slate-600 hover:bg-sky-50 odd:bg-slate-200"
+                    >
+                      <TableCell className="whitespace-nowrap">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell>{data.username}</TableCell>
+                      <TableCell>{data.email}</TableCell>
+                      <TableCell>
+                        {showPass ? data.password : "**********"}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex justify-center gap-4">
+                          <Button
+                            size="xs"
+                            color="success"
+                            onClick={() => {
+                              setEdit(true);
+                              setIdEdit(data.id);
+                            }}
+                          >
+                            <AiFillEdit className="mr-2" /> Edit
+                          </Button>
+                          <Button
+                            size="xs"
+                            color="failure"
+                            onClick={() => handleHapus(data.id)}
+                          >
+                            <AiFillDelete className="mr-2" /> Hapus
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         )}

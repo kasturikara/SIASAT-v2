@@ -36,7 +36,7 @@ function NilaiPage() {
   const [nilai, setNilai] = useState([]);
   const [murid, setMurid] = useState([]);
   const [filterNilai, setFilterNilai] = useState({
-    id: 2201,
+    id: 1,
     nama: "Aditya Ramadhan",
   });
   const [tambah, setTambah] = useState(false);
@@ -120,7 +120,7 @@ function NilaiPage() {
           label={filterNilai.nama}
           outline
           size="sm"
-          className="float-right"
+          className="float-right overflow-y-auto max-h-64"
         >
           {murid.map((data) => {
             return (
@@ -147,59 +147,65 @@ function NilaiPage() {
         ) : (
           <Table striped key={nilai} className="mt-4">
             <TableHead className="text-center">
-              <TableHeadCell className="w-16 text-white bg-teal-500">
+              <TableHeadCell className="w-16 text-white bg-sky-500">
                 No.
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Mapel
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Jenis
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Nilai
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Tanggal
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500 ">
+              <TableHeadCell className="text-white bg-sky-500 ">
                 Action
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {nilai.map((item, index) => (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                >
-                  <TableCell className="w-16">{index + 1}</TableCell>
-                  <TableCell>{item.mapel.nama}</TableCell>
-                  <TableCell>{item.jenis}</TableCell>
-                  <TableCell>{item.nilai}</TableCell>
-                  <TableCell>{item.tanggal}</TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(item.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(item.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
+              {nilai.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6}>Tidak ada data</TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                nilai.map((item, index) => (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-sky-50 odd:bg-slate-200"
+                  >
+                    <TableCell className="w-16">{index + 1}</TableCell>
+                    <TableCell>{item.mapel.nama}</TableCell>
+                    <TableCell>{item.jenis}</TableCell>
+                    <TableCell>{item.nilai}</TableCell>
+                    <TableCell>{item.tanggal}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(item.id);
+                          }}
+                        >
+                          <AiFillEdit className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(item.id)}
+                        >
+                          <AiFillDelete className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         )}

@@ -140,73 +140,79 @@ function MuridPage() {
         ) : (
           <Table striped key={murid}>
             <TableHead className="text-center">
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 No.
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Nama
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Jenis Kelamin
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Tanggal Lahir
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500 ">
+              <TableHeadCell className="text-white bg-sky-500 ">
                 Umur
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Alamat
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Username / Email
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Action
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {murid.map((data, index) => {
-                return (
-                  <TableRow
-                    key={index}
-                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                  >
-                    <TableCell className="whitespace-nowrap">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell>{data.nama}</TableCell>
-                    <TableCell>{data.jenis_kelamin}</TableCell>
-                    <TableCell>{data.tanggal_lahir}</TableCell>
-                    <TableCell>{data.umur}</TableCell>
-                    <TableCell>{data.alamat}</TableCell>
-                    <TableCell>
-                      {data.user.username} / {data.user.email}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center gap-2">
-                        <Button
-                          size="xs"
-                          color="success"
-                          onClick={() => {
-                            setEdit(true);
-                            setIdEdit(data.id);
-                          }}
-                        >
-                          <AiFillEdit className="mr-2" /> Edit
-                        </Button>
-                        <Button
-                          size="xs"
-                          color="failure"
-                          onClick={() => handleHapus(data.id)}
-                        >
-                          <AiFillDelete className="mr-2" /> Hapus
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {murid.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8}>Tidak ada data</TableCell>
+                </TableRow>
+              ) : (
+                murid.map((data, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      className="text-slate-600 hover:bg-sky-50 odd:bg-slate-200"
+                    >
+                      <TableCell className="whitespace-nowrap">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell>{data.nama}</TableCell>
+                      <TableCell>{data.jenis_kelamin}</TableCell>
+                      <TableCell>{data.tanggal_lahir}</TableCell>
+                      <TableCell>{data.umur}</TableCell>
+                      <TableCell>{data.alamat}</TableCell>
+                      <TableCell>
+                        {data.user.username} / {data.user.email}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex justify-center gap-2">
+                          <Button
+                            size="xs"
+                            color="success"
+                            onClick={() => {
+                              setEdit(true);
+                              setIdEdit(data.id);
+                            }}
+                          >
+                            <AiFillEdit className="mr-2" /> Edit
+                          </Button>
+                          <Button
+                            size="xs"
+                            color="failure"
+                            onClick={() => handleHapus(data.id)}
+                          >
+                            <AiFillDelete className="mr-2" /> Hapus
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         )}

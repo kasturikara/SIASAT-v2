@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 // //? api supabase
-import { getMapelById, updateMapel } from "../../../../api/supabase";
+import { getMapelById, updateMapel } from "../../../api/supabase";
 
 // //? flowbite
 import { Label, Modal, TextInput } from "flowbite-react";

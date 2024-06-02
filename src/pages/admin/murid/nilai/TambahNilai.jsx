@@ -77,7 +77,12 @@ function TambahNilai({ newNilai, setNewNilai, setTambah, getData }) {
           <div>
             <Label htmlFor="murid" value="Nama Murid" className="block mb-2" />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown id="murid" label={labelMurid} inline className="w-64">
+              <Dropdown
+                id="murid"
+                label={labelMurid}
+                inline
+                className="w-64 overflow-y-auto max-h-80"
+              >
                 {murid.map((data) => {
                   return (
                     <DropdownItem
@@ -100,7 +105,12 @@ function TambahNilai({ newNilai, setNewNilai, setTambah, getData }) {
           <div>
             <Label htmlFor="mapel" value="Nama Mapel" className="block mb-2" />
             <div className="flex items-center w-full h-10 p-3 text-sm border rounded-md text-slate-500 border-slate-400">
-              <Dropdown id="mapel" label={labelMapel} inline className="w-64">
+              <Dropdown
+                id="mapel"
+                label={labelMapel}
+                inline
+                className="overflow-y-auto w-80 max-h-96"
+              >
                 {mapel.map((data) => {
                   return (
                     <DropdownItem

@@ -106,53 +106,59 @@ function KelasPage() {
         ) : (
           <Table striped key={kelas}>
             <TableHead className="text-center">
-              <TableHeadCell className="w-16 text-white bg-teal-500">
+              <TableHeadCell className="w-16 text-white bg-sky-500">
                 No.
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Nama Kelas
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Jumlah Murid
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500 ">
+              <TableHeadCell className="text-white bg-sky-500 ">
                 Action
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {kelas.map((data, index) => {
-                return (
-                  <TableRow
-                    key={index}
-                    className=" text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                  >
-                    <TableCell className="w-16">{index + 1}</TableCell>
-                    <TableCell>{data.kelas}</TableCell>
-                    <TableCell>{data.jml_murid}</TableCell>
-                    <TableCell className="w-1/3">
-                      <div className="flex justify-center gap-4">
-                        <Button
-                          size="xs"
-                          color="success"
-                          onClick={() => {
-                            setEdit(true);
-                            setIdEdit(data.id);
-                          }}
-                        >
-                          <AiFillEdit className="mr-2" /> Edit
-                        </Button>
-                        <Button
-                          size="xs"
-                          color="failure"
-                          onClick={() => handleHapus(data.id)}
-                        >
-                          <AiFillDelete className="mr-2" /> Hapus
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {kelas.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4}>Tidak ada data</TableCell>
+                </TableRow>
+              ) : (
+                kelas.map((data, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      className=" text-slate-600 hover:bg-sky-50 odd:bg-slate-200"
+                    >
+                      <TableCell className="w-16">{index + 1}</TableCell>
+                      <TableCell>{data.kelas}</TableCell>
+                      <TableCell>{data.jml_murid}</TableCell>
+                      <TableCell className="w-1/3">
+                        <div className="flex justify-center gap-4">
+                          <Button
+                            size="xs"
+                            color="success"
+                            onClick={() => {
+                              setEdit(true);
+                              setIdEdit(data.id);
+                            }}
+                          >
+                            <AiFillEdit className="mr-2" /> Edit
+                          </Button>
+                          <Button
+                            size="xs"
+                            color="failure"
+                            onClick={() => handleHapus(data.id)}
+                          >
+                            <AiFillDelete className="mr-2" /> Hapus
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         )}

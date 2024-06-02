@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 // //? api supabase
-import { getMapel, hapusMapel } from "../../../../api/supabase";
+import { getMapel, hapusMapel } from "../../../api/supabase";
 
 // //? flowbite
 import {

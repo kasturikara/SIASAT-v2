@@ -114,75 +114,81 @@ function GuruPage() {
         ) : (
           <Table key={guru} striped>
             <TableHead className="text-center">
-              <TableHeadCell className="text-white bg-teal-500 ">
+              <TableHeadCell className="text-white bg-sky-500 ">
                 No.
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Nama
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Jenis Kelamin
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Tanggal Lahir
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500 ">
+              <TableHeadCell className="text-white bg-sky-500 ">
                 Umur
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Alamat
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Mapel
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Username / Email
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Action
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {guru.map((item, index) => {
-                return (
-                  <TableRow
-                    key={index}
-                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
-                  >
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{item.nama}</TableCell>
-                    <TableCell>{item.jenis_kelamin}</TableCell>
-                    <TableCell>{item.tanggal_lahir}</TableCell>
-                    <TableCell>{item.umur}</TableCell>
-                    <TableCell>{item.alamat}</TableCell>
-                    <TableCell>{item.mapel.nama}</TableCell>
-                    <TableCell>
-                      {item.user.username} / {item.user.email}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center gap-4">
-                        <Button
-                          size="xs"
-                          color="success"
-                          onClick={() => {
-                            setEdit(true);
-                            setIdEdit(item.id);
-                          }}
-                        >
-                          <AiFillEdit />
-                        </Button>
-                        <Button
-                          size="xs"
-                          color="failure"
-                          onClick={() => handleHapus(item.id)}
-                        >
-                          <AiFillDelete />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {guru.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={9}>Tidak ada data</TableCell>
+                </TableRow>
+              ) : (
+                guru.map((item, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      className="text-slate-600 hover:bg-sky-50 odd:bg-slate-200"
+                    >
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{item.nama}</TableCell>
+                      <TableCell>{item.jenis_kelamin}</TableCell>
+                      <TableCell>{item.tanggal_lahir}</TableCell>
+                      <TableCell>{item.umur}</TableCell>
+                      <TableCell>{item.alamat}</TableCell>
+                      <TableCell>{item.mapel.nama}</TableCell>
+                      <TableCell>
+                        {item.user.username} / {item.user.email}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex justify-center gap-4">
+                          <Button
+                            size="xs"
+                            color="success"
+                            onClick={() => {
+                              setEdit(true);
+                              setIdEdit(item.id);
+                            }}
+                          >
+                            <AiFillEdit />
+                          </Button>
+                          <Button
+                            size="xs"
+                            color="failure"
+                            onClick={() => handleHapus(item.id)}
+                          >
+                            <AiFillDelete />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         )}
