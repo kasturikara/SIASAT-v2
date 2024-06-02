@@ -10,6 +10,7 @@ import {
   Button,
   Dropdown,
   DropdownItem,
+  Label,
   Modal,
   Spinner,
   Table,
@@ -113,24 +114,24 @@ function UserPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Dropdown
-          label={filter.toUpperCase()}
-          outline
-          size="sm"
-          className="float-right"
-        >
-          {["admin", "guru", "murid", "wali"].map((data, index) => {
-            return (
-              <DropdownItem
-                key={index}
-                className="flex items-center justify-center px-1 py-2 bg-slate-50 hover:bg-slate-500"
-                onClick={() => setFilter(data)}
-              >
-                {data.toUpperCase()}
-              </DropdownItem>
-            );
-          })}
-        </Dropdown>
+        <div className="flex items-center mb-8">
+          <Label value="Pilih Role:" className="mr-4" />
+          <div className="flex items-center h-10 px-2 py-1 text-sm border rounded-lg border-slate-300">
+            <Dropdown label={filter.toUpperCase()} inline outline>
+              {["admin", "guru", "murid", "wali"].map((data, index) => {
+                return (
+                  <DropdownItem
+                    key={index}
+                    className="flex items-center justify-center w-32 px-1 py-2"
+                    onClick={() => setFilter(data)}
+                  >
+                    {data.toUpperCase()}
+                  </DropdownItem>
+                );
+              })}
+            </Dropdown>
+          </div>
+        </div>
         {loading ? (
           <div className="flex justify-center my-20">
             <Spinner />

@@ -103,7 +103,7 @@ function AbsensiPage() {
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
         <div className="flex items-center justify-start gap-6 p-4 mb-4 rounded align-center">
-          <p className="text-md">Filter by date: </p>
+          <p className="text-md">Pilih Tanggal: </p>
           <input
             type="date"
             className="w-1/4 h-10 p-4 text-sm font-medium rounded-lg border-slate-300 text-slate-600"

@@ -23,6 +23,7 @@ import {
   TableRow,
   TextInput,
   Spinner,
+  Label,
 } from "flowbite-react";
 
 // //? icons
@@ -116,30 +117,35 @@ function NilaiPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Dropdown
-          label={filterNilai.nama}
-          outline
-          size="sm"
-          className="float-right overflow-y-auto max-h-64"
-        >
-          {murid.map((data) => {
-            return (
-              <DropdownItem
-                key={data.id}
-                className="flex items-center justify-center px-1 py-2 bg-slate-50 hover:bg-slate-500"
-                onClick={() =>
-                  setFilterNilai({
-                    ...filterNilai,
-                    id: data.id,
-                    nama: data.nama,
-                  })
-                }
-              >
-                {data.nama}
-              </DropdownItem>
-            );
-          })}
-        </Dropdown>
+        <div className="flex items-center mb-8">
+          <Label value="Pilih Murid:" className="mr-4" />
+          <div className="flex items-center h-10 px-2 py-1 text-sm border rounded-lg border-slate-300">
+            <Dropdown
+              label={filterNilai.nama}
+              inline
+              outline
+              className="float-right overflow-y-auto max-h-64"
+            >
+              {murid.map((data) => {
+                return (
+                  <DropdownItem
+                    key={data.id}
+                    className="flex items-center justify-center w-64 px-1 py-2"
+                    onClick={() =>
+                      setFilterNilai({
+                        ...filterNilai,
+                        id: data.id,
+                        nama: data.nama,
+                      })
+                    }
+                  >
+                    {data.nama}
+                  </DropdownItem>
+                );
+              })}
+            </Dropdown>
+          </div>
+        </div>
         {loading ? (
           <div className="flex justify-center my-20">
             <Spinner />

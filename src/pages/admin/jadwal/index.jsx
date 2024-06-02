@@ -14,6 +14,7 @@ import {
   Button,
   Dropdown,
   DropdownItem,
+  Label,
   Modal,
   Spinner,
   Table,
@@ -117,30 +118,36 @@ function JadwalPage() {
       </div>
 
       <div className="p-8 overflow-x-auto rounded-lg bg-slate-50">
-        <Dropdown
-          label={filterJadwal.kelas}
-          outline
-          size="sm"
-          className="mb-4 text-center bg-slate-50"
-        >
-          {kelas.map((data) => {
-            return (
-              <DropdownItem
-                key={data.id}
-                className="flex items-center justify-center px-1 py-2 bg-slate-50 hover:bg-slate-500"
-                onClick={() =>
-                  setFilterJadwal({
-                    ...filterJadwal,
-                    id: data.id,
-                    kelas: data.kelas,
-                  })
-                }
-              >
-                {data.kelas}
-              </DropdownItem>
-            );
-          })}
-        </Dropdown>
+        <div className="flex items-center mb-8">
+          <Label value="Pilih Kelas:" className="mr-4" />
+          <div className="flex items-center h-10 px-2 py-1 text-sm border rounded-lg border-slate-300">
+            <Dropdown
+              label={filterJadwal.kelas}
+              inline
+              outline
+              className="flex items-center justify-center w-32 px-1 py-2"
+            >
+              {kelas.map((data) => {
+                return (
+                  <DropdownItem
+                    key={data.id}
+                    className="flex items-center justify-center px-1 py-2 bg-slate-50 hover:bg-slate-500"
+                    onClick={() =>
+                      setFilterJadwal({
+                        ...filterJadwal,
+                        id: data.id,
+                        kelas: data.kelas,
+                      })
+                    }
+                  >
+                    {data.kelas}
+                  </DropdownItem>
+                );
+              })}
+            </Dropdown>
+          </div>
+        </div>
+
         {loading ? (
           <div className="flex justify-center my-20">
             <Spinner />

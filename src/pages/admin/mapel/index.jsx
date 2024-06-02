@@ -106,13 +106,13 @@ function MapelPage() {
         {!loading && (
           <Table key={mapel} striped>
             <TableHead className="text-center">
-              <TableHeadCell className="w-16 text-white bg-teal-500">
+              <TableHeadCell className="w-16 text-white bg-sky-500">
                 No.
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Nama Mapel
               </TableHeadCell>
-              <TableHeadCell className="text-white bg-teal-500">
+              <TableHeadCell className="text-white bg-sky-500">
                 Action
               </TableHeadCell>
             </TableHead>
@@ -121,7 +121,7 @@ function MapelPage() {
                 return (
                   <TableRow
                     key={index}
-                    className="text-slate-600 hover:bg-teal-50 odd:bg-slate-200"
+                    className="text-slate-600 hover:bg-sky-50 odd:bg-slate-200"
                   >
                     <TableCell className="whitespace-nowrap">
                       {index + 1}
