@@ -117,36 +117,42 @@ function MateriPage() {
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {materi.map((materi, index) => (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-amber-50 even:bg-slate-200"
-                >
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{materi.deskripsi}</TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(materi.id);
-                        }}
-                      >
-                        <AiFillEdit className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(materi.id)}
-                      >
-                        <AiFillDelete className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
+              {materi.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={3}>Tidak ada data</TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                materi.map((materi, index) => (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-amber-50 even:bg-slate-200"
+                  >
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{materi.deskripsi}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(materi.id);
+                          }}
+                        >
+                          <AiFillEdit className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(materi.id)}
+                        >
+                          <AiFillDelete className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         )}

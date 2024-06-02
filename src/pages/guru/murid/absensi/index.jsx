@@ -132,12 +132,13 @@ function AbsensiPage() {
                 id="kelas"
                 inline
                 label={filter.namaKelas}
-                className="w-20"
+                className="w-32 overflow-y-auto text-center max-h-64"
               >
                 {kelas.map((data, index) => {
                   return (
                     <DropdownItem
                       key={index}
+                      className="flex justify-center w-32"
                       onClick={() =>
                         setFilter({
                           ...filter,
@@ -175,41 +176,48 @@ function AbsensiPage() {
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {absensi.map((absen, index) => {
-                return (
-                  <TableRow
-                    key={index}
-                    className="text-slate-600 hover:bg-amber-50 hover:font-semibold odd:bg-slate-200 "
-                  >
-                    <TableCell className="w-16 font-bold">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell>{absen.murid.nama}</TableCell>
-                    <TableCell>{absen.status}</TableCell>
-                    <TableCell className="w-1/3">
-                      <div className="flex justify-center gap-4">
-                        <Button
-                          size="xs"
-                          color="success"
-                          onClick={() => {
-                            setEdit(true);
-                            setIdEdit(absen.id);
-                          }}
-                        >
-                          <PiNotePencilDuotone className="mr-2 text-sm" /> Edit
-                        </Button>
-                        <Button
-                          size="xs"
-                          color="failure"
-                          onClick={() => handleHapus(absen.id)}
-                        >
-                          <PiTrashDuotone className="mr-2 text-sm" /> Hapus
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {absensi.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4}>Tidak ada data</TableCell>
+                </TableRow>
+              ) : (
+                absensi.map((absen, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      className="text-slate-600 hover:bg-amber-50 hover:font-semibold odd:bg-slate-200 "
+                    >
+                      <TableCell className="w-16 font-bold">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell>{absen.murid.nama}</TableCell>
+                      <TableCell>{absen.status}</TableCell>
+                      <TableCell className="w-1/3">
+                        <div className="flex justify-center gap-4">
+                          <Button
+                            size="xs"
+                            color="success"
+                            onClick={() => {
+                              setEdit(true);
+                              setIdEdit(absen.id);
+                            }}
+                          >
+                            <PiNotePencilDuotone className="mr-2 text-sm" />{" "}
+                            Edit
+                          </Button>
+                          <Button
+                            size="xs"
+                            color="failure"
+                            onClick={() => handleHapus(absen.id)}
+                          >
+                            <PiTrashDuotone className="mr-2 text-sm" /> Hapus
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         )}

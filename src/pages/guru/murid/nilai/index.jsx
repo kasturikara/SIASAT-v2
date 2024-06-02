@@ -132,7 +132,7 @@ function NilaiPage() {
               label={filter.nama}
               outline
               size="sm"
-              className="float-right"
+              className="float-right w-64 overflow-y-auto max-h-64"
               inline
             >
               {murid.map((data) => {
@@ -182,39 +182,45 @@ function NilaiPage() {
               </TableHeadCell>
             </TableHead>
             <TableBody className="text-center divide-y">
-              {nilai.map((item, index) => (
-                <TableRow
-                  key={index}
-                  className="text-slate-600 hover:bg-amber-50 hover:font-semibold odd:bg-slate-200"
-                >
-                  <TableCell className="w-16">{index + 1}</TableCell>
-                  <TableCell>{item.mapel.nama}</TableCell>
-                  <TableCell>{item.jenis}</TableCell>
-                  <TableCell>{item.nilai}</TableCell>
-                  <TableCell>{item.tanggal}</TableCell>
-                  <TableCell>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        size="xs"
-                        color="success"
-                        onClick={() => {
-                          setEdit(true);
-                          setIdEdit(item.id);
-                        }}
-                      >
-                        <PiNotePencilDuotone className="mr-2" /> Edit
-                      </Button>
-                      <Button
-                        size="xs"
-                        color="failure"
-                        onClick={() => handleHapus(item.id)}
-                      >
-                        <PiTrashDuotone className="mr-2" /> Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
+              {nilai.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6}>Tidak ada data</TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                nilai.map((item, index) => (
+                  <TableRow
+                    key={index}
+                    className="text-slate-600 hover:bg-amber-50 hover:font-semibold odd:bg-slate-200"
+                  >
+                    <TableCell className="w-16">{index + 1}</TableCell>
+                    <TableCell>{item.mapel.nama}</TableCell>
+                    <TableCell>{item.jenis}</TableCell>
+                    <TableCell>{item.nilai}</TableCell>
+                    <TableCell>{item.tanggal}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-4">
+                        <Button
+                          size="xs"
+                          color="success"
+                          onClick={() => {
+                            setEdit(true);
+                            setIdEdit(item.id);
+                          }}
+                        >
+                          <PiNotePencilDuotone className="mr-2" /> Edit
+                        </Button>
+                        <Button
+                          size="xs"
+                          color="failure"
+                          onClick={() => handleHapus(item.id)}
+                        >
+                          <PiTrashDuotone className="mr-2" /> Hapus
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         )}
