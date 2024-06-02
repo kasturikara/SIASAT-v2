@@ -48,9 +48,6 @@ function NavbarUI({ isOpen }) {
               {user.user.email}
             </span>
           </DropdownHeader>
-          <DropdownItem as={Link} to="/profile">
-            Profile
-          </DropdownItem>
           <DropdownDivider />
           <DropdownItem
             onClick={() => {
