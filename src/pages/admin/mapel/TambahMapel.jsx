@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 
 // //? api supabase
-import { postNewMapel } from "../../../../api/supabase";
+import { postNewMapel } from "../../../api/supabase";
 
 // //? flowbite
 import { Label, Modal, TextInput } from "flowbite-react";
