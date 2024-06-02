@@ -17,7 +17,7 @@ function NavbarUI({ isOpen }) {
 
   return (
     <Navbar
-      className={`fixed top-0 transition-all duration-200 ease-in-out right-0 z-50 bg-teal-500 ${
+      className={`fixed top-0 transition-all duration-200 ease-in-out right-0 z-50 bg-sky-500 ${
         isOpen ? "left-56" : "left-12"
       }`}
     >
