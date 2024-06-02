@@ -156,24 +156,32 @@ function AbsensiPage() {
               </TableHeadCell>
             </TableHead>
             <TableBody className="divide-y">
-              {absensi.map((absen) => {
-                return (
-                  <TableRow
-                    key={absen.id}
-                    className="text-slate-600 hover:bg-teal-50 hover:font-semibold even:bg-slate-200"
-                  >
-                    <TableCell className="w-3/12 font-semibold">
-                      {format(new Date(absen.tanggal), "dd - MMMM - yyyy", {
-                        locale: id,
-                      })}
-                    </TableCell>
-                    <TableCell className="w-2/12 ">
-                      {format(new Date(absen.tanggal), "EEEE", { locale: id })}
-                    </TableCell>
-                    <TableCell>{absen.status}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {absensi.length <= 0 ? (
+                <TableRow>
+                  <TableCell colSpan={3}>Tidak ada data</TableCell>
+                </TableRow>
+              ) : (
+                absensi.map((absen) => {
+                  return (
+                    <TableRow
+                      key={absen.id}
+                      className="text-slate-600 hover:bg-teal-50 hover:font-semibold even:bg-slate-200"
+                    >
+                      <TableCell className="w-3/12 font-semibold">
+                        {format(new Date(absen.tanggal), "dd - MMMM - yyyy", {
+                          locale: id,
+                        })}
+                      </TableCell>
+                      <TableCell className="w-2/12 ">
+                        {format(new Date(absen.tanggal), "EEEE", {
+                          locale: id,
+                        })}
+                      </TableCell>
+                      <TableCell>{absen.status}</TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         )}
